@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Selection Experiment</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 20px; }
+        #hotel-list { list-style-type: none; padding: 0; }
+        #hotel-list li { margin-bottom: 10px; }
+        .tab { display: none; padding: 20px; border: 1px solid #ccc; }
+        .tab-active { display: block; }
+        .tab-bar { display: flex; margin-bottom: 20px; }
+        .tab-button { padding: 10px; background: #f0f0f0; border: 1px solid #ccc; border-bottom: none; cursor: pointer; }
+        .tab-button-active { background: white; }
+        button { margin-top: 20px; }
+        .back-link { display: inline-block; margin-top: 20px; color: blue; text-decoration: underline; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div id="tab-bar" class="tab-bar">
+        <div class="tab-button tab-button-active" data-tab="main-page">Hotel List</div>
+    </div>
+
+    <div id="main-page" class="tab tab-active">
+        <h1>Select a Hotel</h1>
+        <ul id="hotel-list"></ul>
+        <button id="confirm-selection" style="display: none;">Confirm Selection</button>
+    </div>
+    
+    <script>
+        const hotels = [
+            { name: "Sunset Beach Resort", description: "Luxurious beachfront property with stunning ocean views." },
+            { name: "Mountain View Lodge", description: "Cozy retreat nestled in the beautiful mountains." },
+            { name: "City Center Hotel", description: "Modern hotel in the heart of downtown, close to all attractions." },
+        ];
+
+        let selectedHotel = null;
+        const condition = Math.random() < 0.5 ? 'newPage' : 'newTab';
+        let openTabs = ['main-page'];
+
+        function displayHotels() {
+            const hotelList = document.getElementById('hotel-list');
+            hotels.forEach((hotel, index) => {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.textContent = hotel.name;
+                a.href = '#';
+                a.onclick = (e) => {
+                    e.preventDefault();
+                    selectHotel(index);
+                };
+                li.appendChild(a);
+                hotelList.appendChild(li);
+            });
+        }
+
+        function selectHotel(index) {
+            selectedHotel = hotels[index];
+            if (condition === 'newTab' || openTabs.length === 1) {
+                createNewTab(selectedHotel);
+            } else {
+                const existingTabId = openTabs.find(id => id !== 'main-page');
+                if (existingTabId) {
+                    updateTabContent(existingTabId, selectedHotel);
+                    switchTab(existingTabId);
+                } else {
+                    createNewTab(selectedHotel);
+                }
+            }
+            document.getElementById('confirm-selection').style.display = 'block';
+        }
+
+        function createNewTab(hotel) {
+            const tabId = `hotel-${openTabs.length}`;
+            const tabContent = document.createElement('div');
+            tabContent.id = tabId;
+            tabContent.className = 'tab';
+            document.body.appendChild(tabContent);
+            
+            updateTabContent(tabId, hotel);
+            
+            const tabButton = document.createElement('div');
+            tabButton.className = 'tab-button';
+            tabButton.textContent = hotel.name;
+            tabButton.onclick = () => switchTab(tabId);
+            tabButton.dataset.tab = tabId;
+            document.getElementById('tab-bar').appendChild(tabButton);
+            
+            openTabs.push(tabId);
+            switchTab(tabId);
+        }
+
+        function updateTabContent(tabId, hotel) {
+            const tabContent = document.getElementById(tabId);
+            if (tabContent) {
+                tabContent.innerHTML = `
+                    <h2>${hotel.name}</h2>
+                    <p>${hotel.description}</p>
+                    <a class="back-link" onclick="switchTab('main-page')">Back to Main Page</a>
+                `;
+            } else {
+                console.error(`Tab with id ${tabId} not found`);
+            }
+        }
+
+        function switchTab(tabId) {
+            openTabs.forEach(id => {
+                const tab = document.getElementById(id);
+                const button = document.querySelector(`.tab-button[data-tab="${id}"]`);
+                if (tab) tab.classList.remove('tab-active');
+                if (button) button.classList.remove('tab-button-active');
+            });
+            const activeTab = document.getElementById(tabId);
+            const activeButton = document.querySelector(`.tab-button[data-tab="${tabId}"]`);
+            if (activeTab) activeTab.classList.add('tab-active');
+            if (activeButton) activeButton.classList.add('tab-button-active');
+        }
+
+        document.getElementById('confirm-selection').onclick = () => {
+            if (selectedHotel) {
+                alert(`You have selected ${selectedHotel.name}. Experiment complete!`);
+            } else {
+                alert('Please select a hotel before confirming.');
+            }
+        };
+
+        // Event listener for the main page tab
+        document.querySelector('.tab-button[data-tab="main-page"]').onclick = () => switchTab('main-page');
+
+        displayHotels();
+    </script>
+</body>
+</html>

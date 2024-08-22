@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Selection Experiment</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 20px; }
+        #hotel-list { list-style-type: none; padding: 0; }
+        #hotel-list li { margin-bottom: 10px; }
+        #hotel-details { display: none; }
+        button { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div id="main-page">
+        <h1>Select a Hotel</h1>
+        <ul id="hotel-list"></ul>
+        <button id="confirm-selection" style="display: none;">Confirm Selection</button>
+    </div>
+    
+    <div id="hotel-details">
+        <h2 id="hotel-name"></h2>
+        <p id="hotel-description"></p>
+        <button id="back-to-list">Back to List</button>
+    </div>
+
+    <script>
+        const hotels = [
+            { name: "Sunset Beach Resort", description: "Luxurious beachfront property with stunning ocean views." },
+            { name: "Mountain View Lodge", description: "Cozy retreat nestled in the beautiful mountains." },
+            { name: "City Center Hotel", description: "Modern hotel in the heart of downtown, close to all attractions." },
+        ];
+
+        let selectedHotel = null;
+        const condition = Math.random() < 0.5 ? 'newPage' : 'newTab';
+
+        function displayHotels() {
+            const hotelList = document.getElementById('hotel-list');
+            hotels.forEach((hotel, index) => {
+                const li = document.createElement('li');
+                const a = document.createElement('a');
+                a.textContent = hotel.name;
+                a.href = '#';
+                a.onclick = (e) => {
+                    e.preventDefault();
+                    selectHotel(index);
+                };
+                li.appendChild(a);
+                hotelList.appendChild(li);
+            });
+        }
+
+        function selectHotel(index) {
+            selectedHotel = hotels[index];
+            if (condition === 'newTab') {
+                const newTab = window.open('', '_blank');
+                newTab.document.write(`
+                    <h2>${selectedHotel.name}</h2>
+                    <p>${selectedHotel.description}</p>
+                    <button onclick="window.close()">Close</button>
+                `);
+            } else {
+                document.getElementById('main-page').style.display = 'none';
+                document.getElementById('hotel-details').style.display = 'block';
+                document.getElementById('hotel-name').textContent = selectedHotel.name;
+                document.getElementById('hotel-description').textContent = selectedHotel.description;
+            }
+            document.getElementById('confirm-selection').style.display = 'block';
+        }
+
+        document.getElementById('back-to-list').onclick = () => {
+            document.getElementById('main-page').style.display = 'block';
+            document.getElementById('hotel-details').style.display = 'none';
+        };
+
+        document.getElementById('confirm-selection').onclick = () => {
+            if (selectedHotel) {
+                alert(`You have selected ${selectedHotel.name}. Experiment complete!`);
+            } else {
+                alert('Please select a hotel before confirming.');
+            }
+        };
+
+        displayHotels();
+    </script>
+</body>
+</html>
