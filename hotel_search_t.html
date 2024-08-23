@@ -11,10 +11,14 @@
         .tab { display: none; padding: 20px; border: 1px solid #ccc; }
         .tab-active { display: block; }
         .tab-bar { display: flex; margin-bottom: 20px; }
-        .tab-button { padding: 10px; background: #f0f0f0; border: 1px solid #ccc; border-bottom: none; cursor: pointer; }
+        .tab-button { padding: 10px; background: #f0f0f0; border: 1px solid #ccc; border-bottom: none; cursor: pointer; display: flex; align-items: center; }
         .tab-button-active { background: white; }
         button { margin-top: 20px; }
         .back-link { display: inline-block; margin-top: 20px; color: blue; text-decoration: underline; cursor: pointer; }
+        .close-tab { margin-left: 10px; cursor: pointer; font-weight: bold; }
+        .more-details { margin-left: 10px; color: blue; text-decoration: underline; cursor: pointer; }
+        .hotel-radio { margin-right: 10px; }
+        .hotel-image { max-width: 100%; height: auto; margin-bottom: 20px; }
     </style>
 </head>
 <body>
@@ -30,49 +34,83 @@
     
     <script>
         const hotels = [
-            { name: "Sunset Beach Resort", description: "Luxurious beachfront property with stunning ocean views." },
-            { name: "Mountain View Lodge", description: "Cozy retreat nestled in the beautiful mountains." },
-            { name: "City Center Hotel", description: "Modern hotel in the heart of downtown, close to all attractions." },
+            { 
+                name: "Adira Resid Marseille Vieux Port", 
+                imageUrl: "https://drive.google.com/file/d/1x-XIOQyaeoxAFgiApFfdlOfdI5GcKqEM/view?usp=sharing" // Replace with actual image URL
+            },
+            { 
+                name: "Grand Hotel Beauvau Marseille Vieux Port", 
+                imageUrl: "https://drive.google.com/file/d/19bVx7M6K1PMh5nePIl0nbUunZgCOuIpn/view?usp=sharing" // Replace with actual image URL
+            },
+            { 
+                name: "Hotel la Residence du Vieux Port", 
+                imageUrl: "https://drive.google.com/file/d/1tpsBoc5GOpTNh2lNrnpwDHf9nOBiXOHi/view?usp=sharing" // Replace with actual image URL
+            },
         ];
 
         let selectedHotel = null;
-        const condition = Math.random() < 0.5 ? 'newPage' : 'newTab';
         let openTabs = ['main-page'];
+
+        // Configuration
+        const redirectURL = "https://your-qualtrics-survey-url.com"; // Replace with your actual Qualtrics survey URL
+        const embeddedDataName = "selectedHotel"; // Replace with your Qualtrics embedded data variable name
 
         function displayHotels() {
             const hotelList = document.getElementById('hotel-list');
             hotels.forEach((hotel, index) => {
                 const li = document.createElement('li');
-                const a = document.createElement('a');
-                a.textContent = hotel.name;
-                a.href = '#';
-                a.onclick = (e) => {
+                
+                const radio = document.createElement('input');
+                radio.type = 'radio';
+                radio.name = 'hotel';
+                radio.value = index;
+                radio.id = `hotel-${index}`;
+                radio.className = 'hotel-radio';
+                radio.onchange = () => selectHotel(index);
+                
+                const label = document.createElement('label');
+                label.htmlFor = `hotel-${index}`;
+                label.textContent = hotel.name;
+                
+                const moreDetailsLink = document.createElement('a');
+                moreDetailsLink.textContent = "More Details";
+                moreDetailsLink.className = "more-details";
+                moreDetailsLink.href = "#";
+                moreDetailsLink.onclick = (e) => {
                     e.preventDefault();
-                    selectHotel(index);
+                    openHotelDetails(index);
                 };
-                li.appendChild(a);
+                
+                li.appendChild(radio);
+                li.appendChild(label);
+                li.appendChild(moreDetailsLink);
                 hotelList.appendChild(li);
             });
         }
 
         function selectHotel(index) {
             selectedHotel = hotels[index];
-            if (condition === 'newTab' || openTabs.length === 1) {
-                createNewTab(selectedHotel);
-            } else {
-                const existingTabId = openTabs.find(id => id !== 'main-page');
-                if (existingTabId) {
-                    updateTabContent(existingTabId, selectedHotel);
-                    switchTab(existingTabId);
-                } else {
-                    createNewTab(selectedHotel);
-                }
-            }
             document.getElementById('confirm-selection').style.display = 'block';
         }
 
-        function createNewTab(hotel) {
-            const tabId = `hotel-${openTabs.length}`;
+        function openHotelDetails(index) {
+            selectedHotel = hotels[index];
+            document.getElementById(`hotel-${index}`).checked = true;
+            document.getElementById('confirm-selection').style.display = 'block';
+
+            const tabId = `hotel-tab-${index}`;
+            const existingTab = document.getElementById(tabId);
+
+            if (existingTab) {
+                updateTabContent(tabId, selectedHotel);
+                switchTab(tabId);
+            } else {
+                createNewTab(selectedHotel, index);
+            }
+        }
+
+        function createNewTab(hotel, index) {
+            const tabId = `hotel-tab-${index}`;
             const tabContent = document.createElement('div');
             tabContent.id = tabId;
             tabContent.className = 'tab';
@@ -82,12 +120,24 @@
             
             const tabButton = document.createElement('div');
             tabButton.className = 'tab-button';
-            tabButton.textContent = hotel.name;
-            tabButton.onclick = () => switchTab(tabId);
+            tabButton.innerHTML = `${hotel.name}<span class="close-tab" data-tab="${tabId}">&times;</span>`;
+            tabButton.onclick = (e) => {
+                if (!e.target.classList.contains('close-tab')) {
+                    switchTab(tabId);
+                }
+            };
             tabButton.dataset.tab = tabId;
             document.getElementById('tab-bar').appendChild(tabButton);
             
-            openTabs.push(tabId);
+            const closeButton = tabButton.querySelector('.close-tab');
+            closeButton.onclick = (e) => {
+                e.stopPropagation();
+                closeTab(tabId);
+            };
+            
+            if (!openTabs.includes(tabId)) {
+                openTabs.push(tabId);
+            }
             switchTab(tabId);
         }
 
@@ -96,6 +146,7 @@
             if (tabContent) {
                 tabContent.innerHTML = `
                     <h2>${hotel.name}</h2>
+                    <img src="${hotel.imageUrl}" alt="${hotel.name}" class="hotel-image">
                     <p>${hotel.description}</p>
                     <a class="back-link" onclick="switchTab('main-page')">Back to Main Page</a>
                 `;
@@ -117,9 +168,26 @@
             if (activeButton) activeButton.classList.add('tab-button-active');
         }
 
+        function closeTab(tabId) {
+            const tabContent = document.getElementById(tabId);
+            const tabButton = document.querySelector(`.tab-button[data-tab="${tabId}"]`);
+            
+            if (tabContent && tabButton) {
+                tabContent.remove();
+                tabButton.remove();
+                openTabs = openTabs.filter(id => id !== tabId);
+                
+                if (openTabs.length > 0) {
+                    switchTab(openTabs[openTabs.length - 1]);
+                }
+            }
+        }
+
         document.getElementById('confirm-selection').onclick = () => {
             if (selectedHotel) {
-                alert(`You have selected ${selectedHotel.name}. Experiment complete!`);
+                const encodedHotelName = encodeURIComponent(selectedHotel.name);
+                const finalURL = `${redirectURL}?${embeddedDataName}=${encodedHotelName}`;
+                window.location.href = finalURL;
             } else {
                 alert('Please select a hotel before confirming.');
             }
