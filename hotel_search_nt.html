@@ -94,19 +94,22 @@
         };
 
         document.getElementById('confirm-selection').onclick = () => {
-            if (selectedHotel) {
-                if (returnUrl) {
-                    // Ensure the returnUrl is fully encoded before appending the hotel selection
-                    const encodedReturnUrl = encodeURIComponent(returnUrl);
-                    const redirectTo = `${encodedReturnUrl}&selectedHotel=${encodeURIComponent(selectedHotel.name)}`;
-                    window.location.href = redirectTo;
-                } else {
-                    alert('Return URL not found. Please try again.');
-                }
+        if (selectedHotel) {
+            if (returnUrl) {
+                // Split the returnUrl into base URL and query string
+                const baseUrl = returnUrl.split('?')[0];
+                const queryString = returnUrl.split('?')[1];
+    
+                // Append the selectedHotel to the base URL with the original query string
+                const redirectTo = `${baseUrl}?${queryString}&selectedHotel=${encodeURIComponent(selectedHotel.name)}`;
+                window.location.href = redirectTo;
             } else {
-                alert('Please select a hotel before confirming.');
+                alert('Return URL not found. Please try again.');
             }
-        };
+        } else {
+            alert('Please select a hotel before confirming.');
+        }
+    };
 
         displayHotels();
     </script>
