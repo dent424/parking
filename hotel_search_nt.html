@@ -95,10 +95,9 @@
 
         document.getElementById('confirm-selection').onclick = () => {
             if (selectedHotel) {
-                // Redirect back to Qualtrics with the selected hotel
+                // Redirect back to Qualtrics with the original return URL
                 if (returnUrl) {
-                    const redirectTo = `${returnUrl}&selectedHotel=${encodeURIComponent(selectedHotel.name)}`;
-                    window.location.href = redirectTo;
+                    window.location.href = returnUrl;
                 } else {
                     alert('Return URL not found. Please try again.');
                 }
