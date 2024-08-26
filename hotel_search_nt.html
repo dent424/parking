@@ -94,22 +94,22 @@
         };
 
         document.getElementById('confirm-selection').onclick = () => {
-        if (selectedHotel) {
-            if (returnUrl) {
-                // Split the returnUrl into base URL and query string
-                const baseUrl = returnUrl.split('?')[0];
-                const queryString = returnUrl.split('?')[1];
-    
-                // Append the selectedHotel to the base URL with the original query string
-                const redirectTo = `${baseUrl}?${queryString}&selectedHotel=${encodeURIComponent(selectedHotel.name)}`;
-                window.location.href = redirectTo;
+            if (selectedHotel) {
+                // Keep the returnUrl intact and separately append the selected hotel to the redirect URL
+                if (returnUrl) {
+                    const baseUrl = returnUrl.split('?')[0];
+                    const queryString = returnUrl.split('?')[1];
+
+                    // Append the selectedHotel parameter to the base URL
+                    const redirectTo = `${baseUrl}?${queryString}&selectedHotel=${encodeURIComponent(selectedHotel.name)}`;
+                    window.location.href = redirectTo;
+                } else {
+                    alert('Return URL not found. Please try again.');
+                }
             } else {
-                alert('Return URL not found. Please try again.');
+                alert('Please select a hotel before confirming.');
             }
-        } else {
-            alert('Please select a hotel before confirming.');
-        }
-    };
+        };
 
         displayHotels();
     </script>
