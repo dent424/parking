@@ -10,6 +10,8 @@
         #hotel-list li { margin-bottom: 10px; }
         #hotel-details { display: none; }
         button { margin-top: 20px; }
+        .more-details { margin-left: 10px; color: blue; text-decoration: underline; cursor: pointer; }
+        .hotel-radio { margin-right: 10px; }
     </style>
 </head>
 <body>
@@ -33,40 +35,57 @@
         ];
 
         let selectedHotel = null;
-        const condition = Math.random() < 0.5 ? 'newPage' : 'newTab';
+
+        // Capture the returnUrl from the URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const returnUrl = urlParams.get('returnUrl');
 
         function displayHotels() {
             const hotelList = document.getElementById('hotel-list');
             hotels.forEach((hotel, index) => {
                 const li = document.createElement('li');
-                const a = document.createElement('a');
-                a.textContent = hotel.name;
-                a.href = '#';
-                a.onclick = (e) => {
+
+                // Add radio button for hotel selection
+                const radio = document.createElement('input');
+                radio.type = 'radio';
+                radio.name = 'hotel';
+                radio.value = index;
+                radio.id = `hotel-${index}`;
+                radio.className = 'hotel-radio';
+                radio.onchange = () => selectHotel(index);
+                
+                const label = document.createElement('label');
+                label.htmlFor = `hotel-${index}`;
+                label.textContent = hotel.name;
+
+                // Add "More Details" link
+                const moreDetailsLink = document.createElement('a');
+                moreDetailsLink.textContent = "More Details";
+                moreDetailsLink.className = "more-details";
+                moreDetailsLink.href = "#";
+                moreDetailsLink.onclick = (e) => {
                     e.preventDefault();
-                    selectHotel(index);
+                    showHotelDetails(index);
                 };
-                li.appendChild(a);
+
+                li.appendChild(radio);
+                li.appendChild(label);
+                li.appendChild(moreDetailsLink);
                 hotelList.appendChild(li);
             });
         }
 
         function selectHotel(index) {
             selectedHotel = hotels[index];
-            if (condition === 'newTab') {
-                const newTab = window.open('', '_blank');
-                newTab.document.write(`
-                    <h2>${selectedHotel.name}</h2>
-                    <p>${selectedHotel.description}</p>
-                    <button onclick="window.close()">Close</button>
-                `);
-            } else {
-                document.getElementById('main-page').style.display = 'none';
-                document.getElementById('hotel-details').style.display = 'block';
-                document.getElementById('hotel-name').textContent = selectedHotel.name;
-                document.getElementById('hotel-description').textContent = selectedHotel.description;
-            }
             document.getElementById('confirm-selection').style.display = 'block';
+        }
+
+        function showHotelDetails(index) {
+            selectedHotel = hotels[index];
+            document.getElementById('hotel-name').textContent = selectedHotel.name;
+            document.getElementById('hotel-description').textContent = selectedHotel.description;
+            document.getElementById('main-page').style.display = 'none';
+            document.getElementById('hotel-details').style.display = 'block';
         }
 
         document.getElementById('back-to-list').onclick = () => {
@@ -76,7 +95,13 @@
 
         document.getElementById('confirm-selection').onclick = () => {
             if (selectedHotel) {
-                alert(`You have selected ${selectedHotel.name}. Experiment complete!`);
+                // Redirect back to Qualtrics with the selected hotel
+                if (returnUrl) {
+                    const redirectTo = `${returnUrl}&selectedHotel=${encodeURIComponent(selectedHotel.name)}`;
+                    window.location.href = redirectTo;
+                } else {
+                    alert('Return URL not found. Please try again.');
+                }
             } else {
                 alert('Please select a hotel before confirming.');
             }
