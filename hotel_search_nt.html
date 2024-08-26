@@ -95,11 +95,12 @@
 
         document.getElementById('confirm-selection').onclick = () => {
             if (selectedHotel) {
-                // Redirect back to Qualtrics with the selected hotel included as a query parameter
+                // Store the selected hotel in localStorage
+                localStorage.setItem('selectedHotel', selectedHotel.name);
+                
+                // Redirect back to Qualtrics without modifying the URL
                 if (returnUrl) {
-                    const separator = returnUrl.includes('?') ? '&' : '?';
-                    const redirectTo = `${returnUrl}${separator}selectedHotel=${encodeURIComponent(selectedHotel.name)}`;
-                    window.location.href = redirectTo;
+                    window.location.href = returnUrl;
                 } else {
                     alert('Return URL not found. Please try again.');
                 }
