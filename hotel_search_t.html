@@ -36,52 +36,52 @@
         const hotels = [
             { 
                 name: "Adira Resid Marseille Vieux Port", 
-                imageUrl: "https://via.placeholder.com/800x400.png?text=Sunset+Beach+Resort" // Replace with actual image URL
+                imageUrl: "https://via.placeholder.com/800x400.png?text=Adira+Resid+Marseille+Vieux+Port"
             },
             { 
                 name: "Grand Hotel Beauvau Marseille Vieux Port", 
-                imageUrl: "https://via.placeholder.com/800x400.png?text=Sunset+Beach+Resort" // Replace with actual image URL
+                imageUrl: "https://via.placeholder.com/800x400.png?text=Grand+Hotel+Beauvau+Marseille+Vieux+Port"
             },
             { 
                 name: "Hotel la Residence du Vieux Port", 
-                imageUrl: "https://via.placeholder.com/800x400.png?text=Sunset+Beach+Resort" // Replace with actual image URL
+                imageUrl: "https://via.placeholder.com/800x400.png?text=Hotel+la+Residence+du+Vieux+Port"
             },
             { 
-                name: "Hotel la Residence du Vieux Port", 
-                imageUrl: "https://via.placeholder.com/800x400.png?text=Sunset+Beach+Resort" // Replace with actual image URL
+                name: "Newhotel Vieux Port", 
+                imageUrl: "https://via.placeholder.com/800x400.png?text=Newhotel+Vieux+Port"
             },
             { 
-                name: "Hotel la Residence du Vieux Port", 
-                imageUrl: "https://via.placeholder.com/800x400.png?text=Sunset+Beach+Resort" // Replace with actual image URL
+                name: "Escale Oceania Marseille Vieux Port", 
+                imageUrl: "https://via.placeholder.com/800x400.png?text=Escale+Oceania+Marseille+Vieux+Port"
             },
             { 
-                name: "Hotel la Residence du Vieux Port", 
-                imageUrl: "https://via.placeholder.com/800x400.png?text=Sunset+Beach+Resort" // Replace with actual image URL
+                name: "Hermes Hotel", 
+                imageUrl: "https://via.placeholder.com/800x400.png?text=Hermes+Hotel"
             },
             { 
-                name: "Hotel la Residence du Vieux Port", 
-                imageUrl: "https://via.placeholder.com/800x400.png?text=Sunset+Beach+Resort" // Replace with actual image URL
+                name: "Ibis Marseille Centre Vieux Port", 
+                imageUrl: "https://via.placeholder.com/800x400.png?text=Ibis+Marseille+Centre+Vieux+Port"
             },
             { 
-                name: "Hotel la Residence du Vieux Port", 
-                imageUrl: "https://via.placeholder.com/800x400.png?text=Sunset+Beach+Resort" // Replace with actual image URL
+                name: "Mercure Marseille Centre Vieux Port", 
+                imageUrl: "https://via.placeholder.com/800x400.png?text=Mercure+Marseille+Centre+Vieux+Port"
             },
             { 
-                name: "Hotel la Residence du Vieux Port", 
-                imageUrl: "https://via.placeholder.com/800x400.png?text=Sunset+Beach+Resort" // Replace with actual image URL
+                name: "Novotel Marseille Vieux Port", 
+                imageUrl: "https://via.placeholder.com/800x400.png?text=Novotel+Marseille+Vieux+Port"
             },
             { 
-                name: "Hotel la Residence du Vieux Port", 
-                imageUrl: "https://via.placeholder.com/800x400.png?text=Sunset+Beach+Resort" // Replace with actual image URL
+                name: "Sofitel Marseille Vieux Port", 
+                imageUrl: "https://via.placeholder.com/800x400.png?text=Sofitel+Marseille+Vieux+Port"
             }
         ];
 
         let selectedHotel = null;
         let openTabs = ['main-page'];
 
-        // Configuration
-        const redirectURL = "https://your-qualtrics-survey-url.com"; // Replace with your actual Qualtrics survey URL
-        const embeddedDataName = "selectedHotel"; // Replace with your Qualtrics embedded data variable name
+        // Capture the returnUrl from the URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const returnUrl = urlParams.get('returnUrl');
 
         function displayHotels() {
             const hotelList = document.getElementById('hotel-list');
@@ -175,7 +175,7 @@
                 tabContent.innerHTML = `
                     <h2>${hotel.name}</h2>
                     <img src="${hotel.imageUrl}" alt="${hotel.name}" class="hotel-image">
-                    <p>${hotel.description}</p>
+                    <p>${hotel.description || 'Description not available.'}</p>
                     <a class="back-link" onclick="switchTab('main-page')">Back to Main Page</a>
                 `;
             } else {
@@ -213,9 +213,13 @@
 
         document.getElementById('confirm-selection').onclick = () => {
             if (selectedHotel) {
-                const encodedHotelName = encodeURIComponent(selectedHotel.name);
-                const finalURL = `${redirectURL}?${embeddedDataName}=${encodedHotelName}`;
-                window.location.href = finalURL;
+                if (returnUrl) {
+                    const separator = returnUrl.includes('?') ? '&' : '?';
+                    const redirectTo = `${returnUrl}${separator}selectedHotel=${encodeURIComponent(selectedHotel.name)}`;
+                    window.location.href = redirectTo;
+                } else {
+                    alert('Return URL not found. Please try again.');
+                }
             } else {
                 alert('Please select a hotel before confirming.');
             }
