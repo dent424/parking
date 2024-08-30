@@ -214,7 +214,7 @@
             if (selectedHotel) {
                 if (returnUrl) {
                     const separator = returnUrl.includes('?') ? '&' : '?';
-                    const redirectTo = `${returnUrl}${separator}selectedHotel=${encodeURIComponent(selectedHotel.name)}`;
+                    let redirectTo = `${returnUrl}${separator}selectedHotel=${encodeURIComponent(selectedHotel.name)}`;
                     const taskCondition = 'Tabs';
                     redirectTo += `&TaskCondition=${encodeURIComponent(taskCondition)}`;
                     window.location.href = redirectTo;
