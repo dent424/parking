@@ -25,7 +25,6 @@
     <div id="hotel-details">
         <h2 id="hotel-name"></h2>
         <img id="hotel-image" class="hotel-image" alt="Hotel Image">
-        <p id="hotel-description"></p>
         <button id="back-to-list">Back to List</button>
     </div>
 
@@ -124,7 +123,6 @@
             document.getElementById('hotel-name').textContent = selectedHotel.name;
             document.getElementById('hotel-image').src = selectedHotel.imageUrl;
             document.getElementById('hotel-image').alt = selectedHotel.name;
-            document.getElementById('hotel-description').textContent = selectedHotel.description;
             document.getElementById('main-page').style.display = 'none';
             document.getElementById('hotel-details').style.display = 'block';
         }
