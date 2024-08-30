@@ -12,6 +12,7 @@
         button { margin-top: 20px; }
         .more-details { margin-left: 10px; color: blue; text-decoration: underline; cursor: pointer; }
         .hotel-radio { margin-right: 10px; }
+        .hotel-image { max-width: 100%; height: auto; margin-bottom: 20px; }
     </style>
 </head>
 <body>
@@ -23,15 +24,53 @@
     
     <div id="hotel-details">
         <h2 id="hotel-name"></h2>
+        <img id="hotel-image" class="hotel-image" alt="Hotel Image">
         <p id="hotel-description"></p>
         <button id="back-to-list">Back to List</button>
     </div>
 
     <script>
         const hotels = [
-            { name: "Sunset Beach Resort", description: "Luxurious beachfront property with stunning ocean views." },
-            { name: "Mountain View Lodge", description: "Cozy retreat nestled in the beautiful mountains." },
-            { name: "City Center Hotel", description: "Modern hotel in the heart of downtown, close to all attractions." },
+            { 
+                name: "Radisson Blu Hotel, Marseille Vieux Port", 
+                imageUrl: "https://live.staticflickr.com/65535/53958757296_a76e40482a_b.jpg"
+            },
+            { 
+                name: "Odalys City Marseille Prado Castellane", 
+                imageUrl: "https://live.staticflickr.com/65535/53958757261_67b1721972_b.jpg"
+            },
+            { 
+                name: "NH Collection Marseille", 
+                imageUrl: "https://live.staticflickr.com/65535/53958757291_9af5e65298_b.jpg"
+            },
+            { 
+                name: "New Hotel Le Quai - Vieux Port", 
+                imageUrl: "https://live.staticflickr.com/65535/53957861847_0bb5b81c93_b.jpg"
+            },
+            { 
+                name: "Maisons du Monde Hôtel & Suites - Marseille Vieux Port", 
+                imageUrl: "https://live.staticflickr.com/65535/53957861852_0cb5f4a449_b.jpg"
+            },
+            { 
+                name: "Les Jardins de Cassis", 
+                imageUrl: "https://live.staticflickr.com/65535/53959078024_e854e86399_b.jpg"
+            },
+            { 
+                name: "Le Devem de Mirapier", 
+                imageUrl: "https://live.staticflickr.com/65535/53959209905_d490dec6c0_b.jpg"
+            },
+            { 
+                name: "Hôtel la Résidence du Vieux Port", 
+                imageUrl: "https://live.staticflickr.com/65535/53957861802_27ba51894e_b.jpg"
+            },
+            { 
+                name: "Grand Hotel Beauvau Marseille Vieux-Port – MGallery", 
+                imageUrl: "https://live.staticflickr.com/65535/53959077944_8ab417c5a3_b.jpg"
+            },
+            { 
+                name: "Adira Résid'Marseille Vieux-Port", 
+                imageUrl: "https://live.staticflickr.com/65535/53959209785_a4c41c2b2a_b.jpg"
+            }
         ];
 
         let selectedHotel = null;
@@ -83,6 +122,8 @@
         function showHotelDetails(index) {
             selectedHotel = hotels[index];
             document.getElementById('hotel-name').textContent = selectedHotel.name;
+            document.getElementById('hotel-image').src = selectedHotel.imageUrl;
+            document.getElementById('hotel-image').alt = selectedHotel.name;
             document.getElementById('hotel-description').textContent = selectedHotel.description;
             document.getElementById('main-page').style.display = 'none';
             document.getElementById('hotel-details').style.display = 'block';
