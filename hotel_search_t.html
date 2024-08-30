@@ -14,7 +14,7 @@
         .tab-button { padding: 10px; background: #f0f0f0; border: 1px solid #ccc; border-bottom: none; cursor: pointer; display: flex; align-items: center; }
         .tab-button-active { background: white; }
         button { margin-top: 20px; }
-        .back-link { display: inline-block; margin-top: 20px; color: blue; text-decoration: underline; cursor: pointer; }
+        .back-link { display: inline-block; margin-bottom: 20px; color: blue; text-decoration: underline; cursor: pointer; }
         .close-tab { margin-left: 10px; cursor: pointer; font-weight: bold; }
         .more-details { margin-left: 10px; color: blue; text-decoration: underline; cursor: pointer; }
         .hotel-radio { margin-right: 10px; }
@@ -174,9 +174,8 @@
             if (tabContent) {
                 tabContent.innerHTML = `
                     <h2>${hotel.name}</h2>
-                    <img src="${hotel.imageUrl}" alt="${hotel.name}" class="hotel-image">
-                    <p>${hotel.description || 'Description not available.'}</p>
                     <a class="back-link" onclick="switchTab('main-page')">Back to Main Page</a>
+                    <img src="${hotel.imageUrl}" alt="${hotel.name}" class="hotel-image">
                 `;
             } else {
                 console.error(`Tab with id ${tabId} not found`);
