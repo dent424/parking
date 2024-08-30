@@ -13,6 +13,7 @@
         .more-details { margin-left: 10px; color: blue; text-decoration: underline; cursor: pointer; }
         .hotel-radio { margin-right: 10px; }
         .hotel-image { max-width: 100%; height: auto; margin-bottom: 20px; }
+        .back-link { display: inline-block; margin-bottom: 20px; color: blue; text-decoration: underline; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -24,8 +25,8 @@
     
     <div id="hotel-details">
         <h2 id="hotel-name"></h2>
+        <a id="back-to-main" class="back-link">Back to Main Page</a>
         <img id="hotel-image" class="hotel-image" alt="Hotel Image">
-        <button id="back-to-list">Back to List</button>
     </div>
 
     <script>
@@ -127,7 +128,7 @@
             document.getElementById('hotel-details').style.display = 'block';
         }
 
-        document.getElementById('back-to-list').onclick = () => {
+        document.getElementById('back-to-main').onclick = () => {
             document.getElementById('main-page').style.display = 'block';
             document.getElementById('hotel-details').style.display = 'none';
         };
