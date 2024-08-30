@@ -139,6 +139,8 @@
                 if (returnUrl) {
                     const separator = returnUrl.includes('?') ? '&' : '?';
                     const redirectTo = `${returnUrl}${separator}selectedHotel=${encodeURIComponent(selectedHotel.name)}`;
+                    const taskCondition = 'NoTabs';
+                    redirectTo += `&TaskCondition=${encodeURIComponent(taskCondition)}`;
                     window.location.href = redirectTo;
                 } else {
                     alert('Return URL not found. Please try again.');
