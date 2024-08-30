@@ -138,7 +138,7 @@
                 // Redirect back to Qualtrics with the selected hotel included as a query parameter
                 if (returnUrl) {
                     const separator = returnUrl.includes('?') ? '&' : '?';
-                    const redirectTo = `${returnUrl}${separator}selectedHotel=${encodeURIComponent(selectedHotel.name)}`;
+                    let redirectTo = `${returnUrl}${separator}selectedHotel=${encodeURIComponent(selectedHotel.name)}`;
                     const taskCondition = 'NoTabs';
                     redirectTo += `&TaskCondition=${encodeURIComponent(taskCondition)}`;
                     window.location.href = redirectTo;
