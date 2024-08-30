@@ -173,8 +173,8 @@
             const tabContent = document.getElementById(tabId);
             if (tabContent) {
                 tabContent.innerHTML = `
-                    <h2>${hotel.name}</h2>
                     <a class="back-link" onclick="switchTab('main-page')">Back to Main Page</a>
+                    <h2>${hotel.name}</h2>
                     <img src="${hotel.imageUrl}" alt="${hotel.name}" class="hotel-image">
                 `;
             } else {
