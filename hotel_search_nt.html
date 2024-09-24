@@ -79,8 +79,7 @@
         let totalClicks = 0;
         const uniqueClicks = new Set();
 
-        // Initialize variables for new tracking
-        let maxTabsOpen = 1;  // Starts with 'main-page' open
+        // Initialize variable for TaskDuration
         const taskStartTime = Date.now();  // Record the start time
 
         // Capture the returnUrl from the URL parameters
@@ -116,7 +115,7 @@
                     totalClicks++;
                     // Add to unique clicks
                     uniqueClicks.add(index);
-                    openHotelDetails(index);
+                    showHotelDetails(index);
                 };
 
                 li.appendChild(radio);
@@ -160,9 +159,6 @@
                     redirectTo += `&TotalClicks=${encodeURIComponent(totalClicks)}`;
                     redirectTo += `&UniqueClicks=${encodeURIComponent(uniqueClicks.size)}`;
                     
-                    // Append maximum tabs open (For this simplified version, it's always 1 since there are no tabs)
-                    redirectTo += `&MaxTabsOpen=${encodeURIComponent(maxTabsOpen)}`;
-
                     // Calculate task duration in seconds
                     const taskEndTime = Date.now();
                     const taskDuration = Math.floor((taskEndTime - taskStartTime) / 1000);  // duration in seconds
