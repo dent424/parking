@@ -32,6 +32,8 @@
         <button id="confirm-selection" style="display: none;">Confirm Selection</button>
     </div>
     
+    <!-- Hotel Detail Tabs will be dynamically added here -->
+    
     <script>
         const hotels = [
             { 
@@ -79,6 +81,10 @@
         let selectedHotel = null;
         let openTabs = ['main-page'];
 
+        // Initialize counters
+        let totalClicks = 0;
+        const uniqueClicks = new Set();
+
         // Capture the returnUrl from the URL parameters
         const urlParams = new URLSearchParams(window.location.search);
         const returnUrl = urlParams.get('returnUrl');
@@ -106,6 +112,10 @@
                 moreDetailsLink.href = "#";
                 moreDetailsLink.onclick = (e) => {
                     e.preventDefault();
+                    // Increment total clicks
+                    totalClicks++;
+                    // Add to unique clicks
+                    uniqueClicks.add(index);
                     openHotelDetails(index);
                 };
                 
@@ -217,6 +227,11 @@
                     let redirectTo = `${returnUrl}${separator}selectedHotel=${encodeURIComponent(selectedHotel.name)}`;
                     const taskCondition = 'Tabs';
                     redirectTo += `&TaskCondition=${encodeURIComponent(taskCondition)}`;
+                    
+                    // Append click data
+                    redirectTo += `&TotalClicks=${encodeURIComponent(totalClicks)}`;
+                    redirectTo += `&UniqueClicks=${encodeURIComponent(uniqueClicks.size)}`;
+                    
                     window.location.href = redirectTo;
                 } else {
                     alert('Return URL not found. Please try again.');
