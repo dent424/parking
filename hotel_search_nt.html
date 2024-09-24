@@ -83,6 +83,9 @@
         const urlParams = new URLSearchParams(window.location.search);
         const returnUrl = urlParams.get('returnUrl');
 
+        // Record the start time when the page loads
+        const startTime = Date.now();
+
         function displayHotels() {
             const hotelList = document.getElementById('hotel-list');
             hotels.forEach((hotel, index) => {
@@ -143,6 +146,11 @@
 
         document.getElementById('confirm-selection').onclick = () => {
             if (selectedHotel) {
+                // Calculate task duration in seconds
+                const endTime = Date.now();
+                const durationMs = endTime - startTime;
+                const durationSeconds = Math.round(durationMs / 1000);
+
                 // Redirect back to Qualtrics with the selected hotel and click data included as query parameters
                 if (returnUrl) {
                     const separator = returnUrl.includes('?') ? '&' : '?';
@@ -155,6 +163,14 @@
                     // Append click data
                     redirectTo += `&TotalClicks=${encodeURIComponent(totalClicks)}`;
                     redirectTo += `&UniqueClicks=${encodeURIComponent(uniqueClicks.size)}`;
+                    
+                    // Append task duration
+                    redirectTo += `&TaskDuration=${encodeURIComponent(durationSeconds)}`;
+                    
+                    // If you have a second variable to add, include it here
+                    // Example:
+                    // const secondVariable = 'YourValue';
+                    // redirectTo += `&SecondVariable=${encodeURIComponent(secondVariable)}`;
                     
                     window.location.href = redirectTo;
                 } else {
