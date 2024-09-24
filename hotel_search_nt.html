@@ -93,12 +93,12 @@
                 radio.type = 'radio';
                 radio.name = 'hotel';
                 radio.value = index;
-                radio.id = hotel-${index};
+                radio.id = `hotel-${index}`;
                 radio.className = 'hotel-radio';
                 radio.onchange = () => selectHotel(index);
                 
                 const label = document.createElement('label');
-                label.htmlFor = hotel-${index};
+                label.htmlFor = `hotel-${index}`;
                 label.textContent = hotel.name;
 
                 // Add "More Details" link
@@ -146,15 +146,15 @@
                 // Redirect back to Qualtrics with the selected hotel and click data included as query parameters
                 if (returnUrl) {
                     const separator = returnUrl.includes('?') ? '&' : '?';
-                    let redirectTo = ${returnUrl}${separator}selectedHotel=${encodeURIComponent(selectedHotel.name)};
+                    let redirectTo = `${returnUrl}${separator}selectedHotel=${encodeURIComponent(selectedHotel.name)}`;
                     
                     // Append TaskCondition if it exists
                     const taskCondition = 'NoTabs'; // Assuming this is a constant; modify if dynamic
-                    redirectTo += &TaskCondition=${encodeURIComponent(taskCondition)};
+                    redirectTo += `&TaskCondition=${encodeURIComponent(taskCondition)}`;
                     
                     // Append click data
-                    redirectTo += &TotalClicks=${encodeURIComponent(totalClicks)};
-                    redirectTo += &UniqueClicks=${encodeURIComponent(uniqueClicks.size)};
+                    redirectTo += `&TotalClicks=${encodeURIComponent(totalClicks)}`;
+                    redirectTo += `&UniqueClicks=${encodeURIComponent(uniqueClicks.size)}`;
                     
                     window.location.href = redirectTo;
                 } else {
