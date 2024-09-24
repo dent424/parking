@@ -79,6 +79,10 @@
         let totalClicks = 0;
         const uniqueClicks = new Set();
 
+        // Initialize variables for new tracking
+        let maxTabsOpen = 1;  // Starts with 'main-page' open
+        const taskStartTime = Date.now();  // Record the start time
+
         // Capture the returnUrl from the URL parameters
         const urlParams = new URLSearchParams(window.location.search);
         const returnUrl = urlParams.get('returnUrl');
@@ -112,7 +116,7 @@
                     totalClicks++;
                     // Add to unique clicks
                     uniqueClicks.add(index);
-                    showHotelDetails(index);
+                    openHotelDetails(index);
                 };
 
                 li.appendChild(radio);
@@ -155,6 +159,14 @@
                     // Append click data
                     redirectTo += `&TotalClicks=${encodeURIComponent(totalClicks)}`;
                     redirectTo += `&UniqueClicks=${encodeURIComponent(uniqueClicks.size)}`;
+                    
+                    // Append maximum tabs open (For this simplified version, it's always 1 since there are no tabs)
+                    redirectTo += `&MaxTabsOpen=${encodeURIComponent(maxTabsOpen)}`;
+
+                    // Calculate task duration in seconds
+                    const taskEndTime = Date.now();
+                    const taskDuration = Math.floor((taskEndTime - taskStartTime) / 1000);  // duration in seconds
+                    redirectTo += `&TaskDuration=${encodeURIComponent(taskDuration)}`;
                     
                     window.location.href = redirectTo;
                 } else {
