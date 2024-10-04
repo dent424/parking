@@ -33,28 +33,44 @@
     </div>
     
     <!-- Hotel Detail Tabs will be dynamically added here -->
-    
-        <script>
+
+    <script>
+        const hotels = [
+            {
+                name: "Grand Plaza Hotel",
+                imageUrl: "https://example.com/images/grand-plaza.jpg"
+            },
+            {
+                name: "Oceanview Resort",
+                imageUrl: "https://example.com/images/oceanview.jpg"
+            },
+            {
+                name: "Mountain Retreat",
+                imageUrl: "https://example.com/images/mountain-retreat.jpg"
+            },
+            // Add more hotels as needed
+        ];
+
         let selectedHotel = null;
         let openTabs = ['main-page'];
-    
+
         // Initialize tracking variables
         let totalClicks = 0;               // Equivalent to total views
         const uniqueClicks = new Set();     // Equivalent to unique tabs viewed
         const clickedHotelsOrder = [];      // Equivalent to tab view order
-    
+
         // Initialize variables for new tracking
         let maxTabsOpen = 1;  // Starts with 'main-page' open
         const taskStartTime = Date.now();  // Record the start time
-    
+
         // Track the main page initially
         uniqueClicks.add('main-page');   // Main page is considered a unique tab
         clickedHotelsOrder.push('Main Page');  // Record main-page in order
-    
+
         // Capture the returnUrl from the URL parameters
         const urlParams = new URLSearchParams(window.location.search);
         const returnUrl = urlParams.get('returnUrl');
-    
+
         function shuffleHotels(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -65,10 +81,15 @@
           
         function displayHotels() {
             const hotelList = document.getElementById('hotel-list');
-    
+
+            if (!Array.isArray(hotels) || hotels.length === 0) {
+                hotelList.innerHTML = "<li>No hotels available at the moment.</li>";
+                return;
+            }
+
             // Shuffle the hotels array
             const shuffledHotels = shuffleHotels([...hotels]); // Create a shuffled copy of the hotels array
-    
+
             shuffledHotels.forEach((hotel, index) => {
                 const li = document.createElement('li');
                 
@@ -102,20 +123,20 @@
                 hotelList.appendChild(li);
             });
         }
-    
+
         function selectHotel(index) {
             selectedHotel = hotels[index];
             document.getElementById('confirm-selection').style.display = 'block';
         }
-    
+
         function openHotelDetails(index) {
             selectedHotel = hotels[index];
             document.getElementById(`hotel-${index}`).checked = true;
             document.getElementById('confirm-selection').style.display = 'block';
-    
+
             const tabId = `hotel-tab-${index}`;
             const existingTab = document.getElementById(tabId);
-    
+
             if (existingTab) {
                 updateTabContent(tabId, selectedHotel);
                 switchTab(tabId);
@@ -123,7 +144,7 @@
                 createNewTab(selectedHotel, index);
             }
         }
-    
+
         function createNewTab(hotel, index) {
             const tabId = `hotel-tab-${index}`;
             const tabContent = document.createElement('div');
@@ -158,7 +179,7 @@
             }
             switchTab(tabId);
         }
-    
+
         function updateTabContent(tabId, hotel) {
             const tabContent = document.getElementById(tabId);
             if (tabContent) {
@@ -171,22 +192,22 @@
                 console.error(`Tab with id ${tabId} not found`);
             }
         }
-    
+
         function switchTab(tabId) {
             totalClicks++;   // Increment total views (clicks)
-    
+
             // Track unique tabs clicked
             if (!uniqueClicks.has(tabId)) {
                 uniqueClicks.add(tabId);
             }
-    
+
             // Track the order of tab clicks (views)
             if (!tabId.includes('main-page')) {
                 clickedHotelsOrder.push(hotels[parseInt(tabId.split('-')[2])].name); // Record hotel name in order
             } else {
                 clickedHotelsOrder.push('Main Page');
             }
-    
+
             openTabs.forEach(id => {
                 const tab = document.getElementById(id);
                 const button = document.querySelector(`.tab-button[data-tab="${id}"]`);
@@ -198,7 +219,7 @@
             if (activeTab) activeTab.classList.add('tab-active');
             if (activeButton) activeButton.classList.add('tab-button-active');
         }
-    
+
         function closeTab(tabId) {
             const tabContent = document.getElementById(tabId);
             const tabButton = document.querySelector(`.tab-button[data-tab="${tabId}"]`);
@@ -212,7 +233,7 @@
                 }
             }
         }
-    
+
         document.getElementById('confirm-selection').onclick = () => {
             if (selectedHotel) {
                 if (returnUrl) {
@@ -241,13 +262,11 @@
                 alert('Please select a hotel before confirming.');
             }
         };
-    
+
         // Event listener for the main page tab
         document.querySelector('.tab-button[data-tab="main-page"]').onclick = () => switchTab('main-page');
-    
+
         displayHotels();
     </script>
-
-
 </body>
 </html>
