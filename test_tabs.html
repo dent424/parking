@@ -35,64 +35,26 @@
     <!-- Hotel Detail Tabs will be dynamically added here -->
     
     <script>
-        const hotels = [
-            { 
-                name: "Radisson Blu Hotel, Marseille Vieux Port", 
-                imageUrl: "https://live.staticflickr.com/65535/53958757296_a76e40482a_b.jpg"
-            },
-            { 
-                name: "Odalys City Marseille Prado Castellane", 
-                imageUrl: "https://live.staticflickr.com/65535/53958757261_67b1721972_b.jpg"
-            },
-            { 
-                name: "NH Collection Marseille", 
-                imageUrl: "https://live.staticflickr.com/65535/53958757291_9af5e65298_b.jpg"
-            },
-            { 
-                name: "New Hotel Le Quai - Vieux Port", 
-                imageUrl: "https://live.staticflickr.com/65535/53957861847_0bb5b81c93_b.jpg"
-            },
-            { 
-                name: "Maisons du Monde Hôtel & Suites - Marseille Vieux Port", 
-                imageUrl: "https://live.staticflickr.com/65535/53957861852_0cb5f4a449_b.jpg"
-            },
-            { 
-                name: "Les Jardins de Cassis", 
-                imageUrl: "https://live.staticflickr.com/65535/53959078024_e854e86399_b.jpg"
-            },
-            { 
-                name: "Le Devem de Mirapier", 
-                imageUrl: "https://live.staticflickr.com/65535/53959209905_d490dec6c0_b.jpg"
-            },
-            { 
-                name: "Hôtel la Résidence du Vieux Port", 
-                imageUrl: "https://live.staticflickr.com/65535/53957861802_27ba51894e_b.jpg"
-            },
-            { 
-                name: "Grand Hotel Beauvau Marseille Vieux-Port – MGallery", 
-                imageUrl: "https://live.staticflickr.com/65535/53959077944_8ab417c5a3_b.jpg"
-            },
-            { 
-                name: "Adira Résid'Marseille Vieux-Port", 
-                imageUrl: "https://live.staticflickr.com/65535/53959209785_a4c41c2b2a_b.jpg"
-            }
-        ];
-
         let selectedHotel = null;
         let openTabs = ['main-page'];
-
-        // Initialize counters
-        let totalClicks = 0;
-        const uniqueClicks = new Set();
-
+    
+        // Initialize tracking variables
+        let totalClicks = 0;               // Equivalent to total views
+        const uniqueClicks = new Set();     // Equivalent to unique tabs viewed
+        const clickedHotelsOrder = [];      // Equivalent to tab view order
+    
         // Initialize variables for new tracking
         let maxTabsOpen = 1;  // Starts with 'main-page' open
         const taskStartTime = Date.now();  // Record the start time
-
+    
+        // Track the main page initially
+        uniqueClicks.add('main-page');   // Main page is considered a unique tab
+        clickedHotelsOrder.push('main-page');  // Record main-page in order
+    
         // Capture the returnUrl from the URL parameters
         const urlParams = new URLSearchParams(window.location.search);
         const returnUrl = urlParams.get('returnUrl');
-
+    
         function shuffleHotels(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -128,10 +90,9 @@
                 moreDetailsLink.href = "#";
                 moreDetailsLink.onclick = (e) => {
                     e.preventDefault();
-                    // Increment total clicks
-                    totalClicks++;
-                    // Add to unique clicks
-                    uniqueClicks.add(index);
+                    totalClicks++;    // Increment total clicks (views)
+                    uniqueClicks.add(index);  // Add the hotel to unique tabs viewed
+                    clickedHotelsOrder.push(hotel.name);  // Record the order of tab views
                     openHotelDetails(index);
                 };
                 
@@ -141,20 +102,20 @@
                 hotelList.appendChild(li);
             });
         }
-
+    
         function selectHotel(index) {
             selectedHotel = hotels[index];
             document.getElementById('confirm-selection').style.display = 'block';
         }
-
+    
         function openHotelDetails(index) {
             selectedHotel = hotels[index];
             document.getElementById(`hotel-${index}`).checked = true;
             document.getElementById('confirm-selection').style.display = 'block';
-
+    
             const tabId = `hotel-tab-${index}`;
             const existingTab = document.getElementById(tabId);
-
+    
             if (existingTab) {
                 updateTabContent(tabId, selectedHotel);
                 switchTab(tabId);
@@ -162,7 +123,7 @@
                 createNewTab(selectedHotel, index);
             }
         }
-
+    
         function createNewTab(hotel, index) {
             const tabId = `hotel-tab-${index}`;
             const tabContent = document.createElement('div');
@@ -191,14 +152,13 @@
             
             if (!openTabs.includes(tabId)) {
                 openTabs.push(tabId);
-                // Update maxTabsOpen if current openTabs.length exceeds it
                 if (openTabs.length > maxTabsOpen) {
                     maxTabsOpen = openTabs.length;
                 }
             }
             switchTab(tabId);
         }
-
+    
         function updateTabContent(tabId, hotel) {
             const tabContent = document.getElementById(tabId);
             if (tabContent) {
@@ -211,8 +171,18 @@
                 console.error(`Tab with id ${tabId} not found`);
             }
         }
-
+    
         function switchTab(tabId) {
+            totalClicks++;   // Increment total views (clicks)
+    
+            // Track unique tabs clicked
+            if (!uniqueClicks.has(tabId)) {
+                uniqueClicks.add(tabId);
+            }
+    
+            // Track the order of tab clicks (views)
+            clickedHotelsOrder.push(tabId);
+    
             openTabs.forEach(id => {
                 const tab = document.getElementById(id);
                 const button = document.querySelector(`.tab-button[data-tab="${id}"]`);
@@ -224,7 +194,7 @@
             if (activeTab) activeTab.classList.add('tab-active');
             if (activeButton) activeButton.classList.add('tab-button-active');
         }
-
+    
         function closeTab(tabId) {
             const tabContent = document.getElementById(tabId);
             const tabButton = document.querySelector(`.tab-button[data-tab="${tabId}"]`);
@@ -233,13 +203,12 @@
                 tabContent.remove();
                 tabButton.remove();
                 openTabs = openTabs.filter(id => id !== tabId);
-                // No need to update maxTabsOpen since it tracks the maximum ever
                 if (openTabs.length > 0) {
                     switchTab(openTabs[openTabs.length - 1]);
                 }
             }
         }
-
+    
         document.getElementById('confirm-selection').onclick = () => {
             if (selectedHotel) {
                 if (returnUrl) {
@@ -252,8 +221,8 @@
                     redirectTo += `&TotalClicks=${encodeURIComponent(totalClicks)}`;
                     redirectTo += `&UniqueClicks=${encodeURIComponent(uniqueClicks.size)}`;
                     
-                    // Append maximum tabs open
-                    redirectTo += `&MaxTabsOpen=${encodeURIComponent(maxTabsOpen)}`;
+                    // Append clicked hotel order (or tab view order)
+                    redirectTo += `&ClickedHotelsOrder=${encodeURIComponent(clickedHotelsOrder.join(' > '))}`;
                     
                     // Calculate task duration in seconds
                     const taskEndTime = Date.now();
@@ -268,11 +237,12 @@
                 alert('Please select a hotel before confirming.');
             }
         };
-
+    
         // Event listener for the main page tab
         document.querySelector('.tab-button[data-tab="main-page"]').onclick = () => switchTab('main-page');
-
+    
         displayHotels();
     </script>
+
 </body>
 </html>
