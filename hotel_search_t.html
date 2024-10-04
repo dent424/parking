@@ -89,6 +89,9 @@
         let maxTabsOpen = 1;  // Starts with 'main-page' open
         const taskStartTime = Date.now();  // Record the start time
 
+        // Initialize the clickedHotelsOrder tracking array
+        let clickedHotelsOrderList = []; // This array will store the order of clicked hotels
+
         // Capture the returnUrl from the URL parameters
         const urlParams = new URLSearchParams(window.location.search);
         const returnUrl = urlParams.get('returnUrl');
@@ -132,6 +135,8 @@
                     totalClicks++;
                     // Add to unique clicks
                     uniqueClicks.add(index);
+                    // Track the order of clicked hotels
+                    clickedHotelsOrderList.push(hotel.name); // Append the hotel name to the tracking array
                     openHotelDetails(index);
                 };
                 
@@ -259,6 +264,10 @@
                     const taskEndTime = Date.now();
                     const taskDuration = Math.floor((taskEndTime - taskStartTime) / 1000);  // duration in seconds
                     redirectTo += `&TaskDuration=${encodeURIComponent(taskDuration)}`;
+                    
+                    // Append the clickedHotelsOrder parameter
+                    const clickedHotelsOrderString = clickedHotelsOrderList.join(' > ');
+                    redirectTo += `&clickedHotelsOrder=${encodeURIComponent(clickedHotelsOrderString)}`;
                     
                     window.location.href = redirectTo;
                 } else {
