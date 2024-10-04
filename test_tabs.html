@@ -34,7 +34,7 @@
     
     <!-- Hotel Detail Tabs will be dynamically added here -->
     
-    <script>
+        <script>
         let selectedHotel = null;
         let openTabs = ['main-page'];
     
@@ -49,7 +49,7 @@
     
         // Track the main page initially
         uniqueClicks.add('main-page');   // Main page is considered a unique tab
-        clickedHotelsOrder.push('main-page');  // Record main-page in order
+        clickedHotelsOrder.push('Main Page');  // Record main-page in order
     
         // Capture the returnUrl from the URL parameters
         const urlParams = new URLSearchParams(window.location.search);
@@ -91,8 +91,8 @@
                 moreDetailsLink.onclick = (e) => {
                     e.preventDefault();
                     totalClicks++;    // Increment total clicks (views)
-                    uniqueClicks.add(index);  // Add the hotel to unique tabs viewed
-                    clickedHotelsOrder.push(hotel.name);  // Record the order of tab views
+                    uniqueClicks.add(hotel.name);  // Add the hotel to unique tabs viewed by name
+                    clickedHotelsOrder.push(hotel.name);  // Record the order of tab views by hotel name
                     openHotelDetails(index);
                 };
                 
@@ -181,7 +181,11 @@
             }
     
             // Track the order of tab clicks (views)
-            clickedHotelsOrder.push(tabId);
+            if (!tabId.includes('main-page')) {
+                clickedHotelsOrder.push(hotels[parseInt(tabId.split('-')[2])].name); // Record hotel name in order
+            } else {
+                clickedHotelsOrder.push('Main Page');
+            }
     
             openTabs.forEach(id => {
                 const tab = document.getElementById(id);
@@ -243,6 +247,7 @@
     
         displayHotels();
     </script>
+
 
 </body>
 </html>
