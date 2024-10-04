@@ -89,7 +89,7 @@
 
         // Tracking Variables
         let totalClicks = 0;               // Total views/clicks
-        const uniqueClicks = new Set();    // Unique tabs viewed
+        const uniqueClicks = new Set();    // Unique hotels viewed
         const clickedHotelsOrder = [];     // Order of tab views
 
         let maxTabsOpen = 1;                // Maximum number of tabs opened simultaneously
@@ -274,15 +274,21 @@
             totalClicks++;
 
             // Track unique tabs clicked
-            if (tabId !== 'main-page' && !uniqueClicks.has(tabId)) {
-                uniqueClicks.add(tabId);
-                const hotelIndex = parseInt(tabId.split('-')[2]);
-                if (!isNaN(hotelIndex) && hotels[hotelIndex]) {
-                    clickedHotelsOrder.push(hotels[hotelIndex].name);
+            if (tabId !== 'main-page') {
+                // Extract hotel index from tabId
+                const indexMatch = tabId.match(/^hotel-tab-(\d+)$/);
+                if (indexMatch) {
+                    const hotelIndex = parseInt(indexMatch[1], 10);
+                    if (!uniqueClicks.has(hotels[hotelIndex].name)) {
+                        uniqueClicks.add(hotels[hotelIndex].name);
+                        clickedHotelsOrder.push(hotels[hotelIndex].name);
+                    }
                 }
-            } else if (tabId === 'main-page' && !uniqueClicks.has(tabId)) {
-                uniqueClicks.add(tabId);
-                clickedHotelsOrder.push('Main Page');
+            } else {
+                if (!uniqueClicks.has('Main Page')) {
+                    uniqueClicks.add('Main Page');
+                    clickedHotelsOrder.push('Main Page');
+                }
             }
 
             // Update active state for all tabs and buttons
