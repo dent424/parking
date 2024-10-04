@@ -86,11 +86,23 @@
         // Record the start time when the page loads
         const startTime = Date.now();
 
+        function shuffleHotels(array) {
+          for (let i = array.length - 1; i > 0; i--) {
+              const j = Math.floor(Math.random() * (i + 1));
+              [array[i], array[j]] = [array[j], array[i]];
+          }
+          return array;
+        }
+        
         function displayHotels() {
             const hotelList = document.getElementById('hotel-list');
-            hotels.forEach((hotel, index) => {
+            
+            // Shuffle the hotels array
+            const shuffledHotels = shuffleHotels([...hotels]); // Use a copy of the hotels array to avoid mutating the original
+        
+            shuffledHotels.forEach((hotel, index) => {
                 const li = document.createElement('li');
-
+        
                 // Add radio button for hotel selection
                 const radio = document.createElement('input');
                 radio.type = 'radio';
@@ -99,11 +111,11 @@
                 radio.id = `hotel-${index}`;
                 radio.className = 'hotel-radio';
                 radio.onchange = () => selectHotel(index);
-                
+        
                 const label = document.createElement('label');
                 label.htmlFor = `hotel-${index}`;
                 label.textContent = hotel.name;
-
+        
                 // Add "More Details" link
                 const moreDetailsLink = document.createElement('a');
                 moreDetailsLink.textContent = "More Details";
@@ -117,7 +129,7 @@
                     uniqueClicks.add(index);
                     showHotelDetails(index);
                 };
-
+        
                 li.appendChild(radio);
                 li.appendChild(label);
                 li.appendChild(moreDetailsLink);
