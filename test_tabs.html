@@ -33,11 +33,8 @@
     </div>
     
     <!-- Hotel Detail Tabs will be dynamically added here -->
-
+    
     <script>
-        // ============================
-        // Hotel Data Definition
-        // ============================
         const hotels = [
             { 
                 name: "Radisson Blu Hotel, Marseille Vieux Port", 
@@ -81,37 +78,24 @@
             }
         ];
 
-        // ============================
-        // Initialization of Variables
-        // ============================
         let selectedHotel = null;
         let openTabs = ['main-page'];
 
-        // Tracking Variables
-        let totalClicks = 0;               // Total views/clicks
-        const uniqueClicks = new Set();    // Unique hotels viewed
-        const clickedHotelsOrder = [];     // Order of tab views
+        // Initialize counters
+        let totalClicks = 0;
+        const uniqueClicks = new Set();
 
-        let maxTabsOpen = 1;                // Maximum number of tabs opened simultaneously
-        const taskStartTime = Date.now();   // Start time for task duration
+        // Initialize variables for new tracking
+        let maxTabsOpen = 1;  // Starts with 'main-page' open
+        const taskStartTime = Date.now();  // Record the start time
 
-        // Track the main page as initially viewed
-        uniqueClicks.add('main-page');
-        clickedHotelsOrder.push('Main Page');
+        // Initialize the clickedHotelsOrder tracking array
+        let clickedHotelsOrderList = []; // This array will store the order of clicked hotels
 
         // Capture the returnUrl from the URL parameters
         const urlParams = new URLSearchParams(window.location.search);
         const returnUrl = urlParams.get('returnUrl');
 
-        // ============================
-        // Utility Functions
-        // ============================
-
-        /**
-         * Shuffles an array in place using the Fisher-Yates algorithm.
-         * @param {Array} array - The array to shuffle.
-         * @returns {Array} - The shuffled array.
-         */
         function shuffleHotels(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -119,26 +103,16 @@
             }
             return array;
         }
-
-        /**
-         * Displays the list of hotels on the main page.
-         */
+          
         function displayHotels() {
             const hotelList = document.getElementById('hotel-list');
-
-            // Check if hotels array is defined and not empty
-            if (!Array.isArray(hotels) || hotels.length === 0) {
-                hotelList.innerHTML = "<li>No hotels available at the moment.</li>";
-                return;
-            }
-
-            // Shuffle the hotels array to randomize display order
-            const shuffledHotels = shuffleHotels([...hotels]); // Create a shuffled copy
-
+    
+            // Shuffle the hotels array
+            const shuffledHotels = shuffleHotels([...hotels]); // Create a shuffled copy of the hotels array
+    
             shuffledHotels.forEach((hotel, index) => {
                 const li = document.createElement('li');
                 
-                // Create radio button for hotel selection
                 const radio = document.createElement('input');
                 radio.type = 'radio';
                 radio.name = 'hotel';
@@ -147,29 +121,25 @@
                 radio.className = 'hotel-radio';
                 radio.onchange = () => selectHotel(index);
                 
-                // Create label for the radio button
                 const label = document.createElement('label');
                 label.htmlFor = `hotel-${index}`;
                 label.textContent = hotel.name;
                 
-                // Create "More Details" link
                 const moreDetailsLink = document.createElement('a');
                 moreDetailsLink.textContent = "More Details";
                 moreDetailsLink.className = "more-details";
                 moreDetailsLink.href = "#";
                 moreDetailsLink.onclick = (e) => {
                     e.preventDefault();
-                    // Increment total clicks (views)
+                    // Increment total clicks
                     totalClicks++;
-                    // Add to unique clicks (using hotel name for uniqueness)
-                    uniqueClicks.add(hotel.name);
-                    // Record the order of tab views
-                    clickedHotelsOrder.push(hotel.name);
-                    // Open hotel details tab
+                    // Add to unique clicks
+                    uniqueClicks.add(index);
+                    // Track the order of clicked hotels
+                    clickedHotelsOrderList.push(hotel.name); // Append the hotel name to the tracking array
                     openHotelDetails(index);
                 };
                 
-                // Append elements to the list item
                 li.appendChild(radio);
                 li.appendChild(label);
                 li.appendChild(moreDetailsLink);
@@ -177,19 +147,11 @@
             });
         }
 
-        /**
-         * Handles the selection of a hotel via radio button.
-         * @param {number} index - The index of the selected hotel.
-         */
         function selectHotel(index) {
             selectedHotel = hotels[index];
             document.getElementById('confirm-selection').style.display = 'block';
         }
 
-        /**
-         * Opens the details tab for a selected hotel.
-         * @param {number} index - The index of the selected hotel.
-         */
         function openHotelDetails(index) {
             selectedHotel = hotels[index];
             document.getElementById(`hotel-${index}`).checked = true;
@@ -206,11 +168,6 @@
             }
         }
 
-        /**
-         * Creates a new tab for the selected hotel.
-         * @param {Object} hotel - The hotel object.
-         * @param {number} index - The index of the hotel.
-         */
         function createNewTab(hotel, index) {
             const tabId = `hotel-tab-${index}`;
             const tabContent = document.createElement('div');
@@ -247,11 +204,6 @@
             switchTab(tabId);
         }
 
-        /**
-         * Updates the content of a tab with hotel details.
-         * @param {string} tabId - The ID of the tab to update.
-         * @param {Object} hotel - The hotel object.
-         */
         function updateTabContent(tabId, hotel) {
             const tabContent = document.getElementById(tabId);
             if (tabContent) {
@@ -265,51 +217,19 @@
             }
         }
 
-        /**
-         * Switches the active tab to the specified tab.
-         * @param {string} tabId - The ID of the tab to activate.
-         */
         function switchTab(tabId) {
-            // Increment total clicks/views
-            totalClicks++;
-
-            // Track unique tabs clicked
-            if (tabId !== 'main-page') {
-                // Extract hotel index from tabId
-                const indexMatch = tabId.match(/^hotel-tab-(\d+)$/);
-                if (indexMatch) {
-                    const hotelIndex = parseInt(indexMatch[1], 10);
-                    if (!uniqueClicks.has(hotels[hotelIndex].name)) {
-                        uniqueClicks.add(hotels[hotelIndex].name);
-                        clickedHotelsOrder.push(hotels[hotelIndex].name);
-                    }
-                }
-            } else {
-                if (!uniqueClicks.has('Main Page')) {
-                    uniqueClicks.add('Main Page');
-                    clickedHotelsOrder.push('Main Page');
-                }
-            }
-
-            // Update active state for all tabs and buttons
             openTabs.forEach(id => {
                 const tab = document.getElementById(id);
                 const button = document.querySelector(`.tab-button[data-tab="${id}"]`);
                 if (tab) tab.classList.remove('tab-active');
                 if (button) button.classList.remove('tab-button-active');
             });
-
-            // Activate the selected tab and its button
             const activeTab = document.getElementById(tabId);
             const activeButton = document.querySelector(`.tab-button[data-tab="${tabId}"]`);
             if (activeTab) activeTab.classList.add('tab-active');
             if (activeButton) activeButton.classList.add('tab-button-active');
         }
 
-        /**
-         * Closes a specified tab.
-         * @param {string} tabId - The ID of the tab to close.
-         */
         function closeTab(tabId) {
             const tabContent = document.getElementById(tabId);
             const tabButton = document.querySelector(`.tab-button[data-tab="${tabId}"]`);
@@ -325,9 +245,6 @@
             }
         }
 
-        /**
-         * Handles the confirmation of hotel selection and redirects with collected data.
-         */
         document.getElementById('confirm-selection').onclick = () => {
             if (selectedHotel) {
                 if (returnUrl) {
@@ -340,9 +257,6 @@
                     redirectTo += `&TotalClicks=${encodeURIComponent(totalClicks)}`;
                     redirectTo += `&UniqueClicks=${encodeURIComponent(uniqueClicks.size)}`;
                     
-                    // Append clicked hotel order (or tab view order)
-                    redirectTo += `&ClickedHotelsOrder=${encodeURIComponent(clickedHotelsOrder.join(' > '))}`;
-                    
                     // Append maximum tabs open
                     redirectTo += `&MaxTabsOpen=${encodeURIComponent(maxTabsOpen)}`;
                     
@@ -350,6 +264,10 @@
                     const taskEndTime = Date.now();
                     const taskDuration = Math.floor((taskEndTime - taskStartTime) / 1000);  // duration in seconds
                     redirectTo += `&TaskDuration=${encodeURIComponent(taskDuration)}`;
+                    
+                    // Append the clickedHotelsOrder parameter
+                    const clickedHotelsOrderString = clickedHotelsOrderList.join(' > ');
+                    redirectTo += `&clickedHotelsOrder=${encodeURIComponent(clickedHotelsOrderString)}`;
                     
                     window.location.href = redirectTo;
                 } else {
@@ -360,14 +278,9 @@
             }
         };
 
-        /**
-         * Adds an event listener to the main page tab button to switch back to the main page.
-         */
+        // Event listener for the main page tab
         document.querySelector('.tab-button[data-tab="main-page"]').onclick = () => switchTab('main-page');
 
-        // ============================
-        // Initialize the Page
-        // ============================
         displayHotels();
     </script>
 </body>
