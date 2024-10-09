@@ -138,7 +138,7 @@
                 // Track the order of clicks
                 clickedHotelsOrder.push(hotel.name);
                 // Record the vertical position
-                hotelVerticalPositions[hotel.name] = li.getBoundingClientRect().top;
+                hotelVerticalPositions[hotel.name] = index + 1;
                 showHotelDetails(index);
             };
     
