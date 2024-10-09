@@ -227,95 +227,14 @@
             const timeSpent = Math.floor((currentTime - tabVisitStartTime) / 1000); // in seconds
             const currentTabId = openTabs.find(id => document.getElementById(id)?.classList.contains('tab-active'));
             if (currentTabId) {
-                timeSpentOnTabs.push(`${currentTabId}:${timeSpent}s`);
-            }
-
-            tabVisitStartTime = currentTime; // Reset the start time for the new tab
-
-            openTabs.forEach(id => {
-                const tab = document.getElementById(id);
-                const button = document.querySelector(`.tab-button[data-tab="${id}"]`);
-                if (tab) tab.classList.remove('tab-active');
-                if (button) button.classList.remove('tab-button-active');
-            });
-            const activeTab = document.getElementById(tabId);
-            const activeButton = document.querySelector(`.tab-button[data-tab="${tabId}"]`);
-            if (activeTab) activeTab.classList.add('tab-active');
-            if (activeButton) activeButton.classList.add('tab-button-active');
-
-            // Tracking tab visits
-            if (tabId.startsWith('hotel-tab-')) {
-                const index = parseInt(tabId.replace('hotel-tab-', ''), 10);
-                if (!isNaN(index) && hotels[index]) {
-                    clickedHotelsOrderList.push(hotels[index].name); // Append the hotel name to the tracking array
-                }
-            }
-        }
-
-        function closeTab(tabId) {
-            const tabContent = document.getElementById(tabId);
-            const tabButton = document.querySelector(`.tab-button[data-tab="${tabId}"]`);
-            
-            if (tabContent && tabButton) {
-                tabContent.remove();
-                tabButton.remove();
-                openTabs = openTabs.filter(id => id !== tabId);
-                // No need to update maxTabsOpen since it tracks the maximum ever
-                if (openTabs.length > 0) {
-                    switchTab(openTabs[openTabs.length - 1]);
-                }
-            }
-        }
-
-        document.getElementById('confirm-selection').onclick = () => {
-            if (selectedHotel) {
-                // Record the time spent on the current tab before confirming selection
-                const currentTime = Date.now();
-                const timeSpent = Math.floor((currentTime - tabVisitStartTime) / 1000); // in seconds
-                const currentTabId = openTabs.find(id => document.getElementById(id)?.classList.contains('tab-active'));
-                if (currentTabId) {
-                    timeSpentOnTabs.push(`${currentTabId}:${timeSpent}s`);
-                }
-
-                if (returnUrl) {
-                    const separator = returnUrl.includes('?') ? '&' : '?';
-                    let redirectTo = `${returnUrl}${separator}selectedHotel=${encodeURIComponent(selectedHotel.name)}`;
-                    const taskCondition = 'Tabs';
-                    redirectTo += `&TaskCondition=${encodeURIComponent(taskCondition)}`;
-                    
-                    // Append click data
-                    redirectTo += `&TotalClicks=${encodeURIComponent(totalClicks)}`;
-                    redirectTo += `&UniqueClicks=${encodeURIComponent(uniqueClicks.size)}`;
-                    
-                    // Append maximum tabs open
-                    redirectTo += `&MaxTabsOpen=${encodeURIComponent(maxTabsOpen)}`;
-                    
-                    // Calculate task duration in seconds
-                    const taskEndTime = Date.now();
-                    const taskDuration = Math.floor((taskEndTime - taskStartTime) / 1000);  // duration in seconds
-                    redirectTo += `&TaskDuration=${encodeURIComponent(taskDuration)}`;
-                    
-                    // Append the clickedHotelsOrder parameter
-                    const clickedHotelsOrderString = clickedHotelsOrderList.join(' > ');
-                    redirectTo += `&clickedHotelsOrder=${encodeURIComponent(clickedHotelsOrderString)}`;
-                    
-                    // Append the timeSpentOnTabs parameter
-                    const timeSpentOnTabsString = timeSpentOnTabs.join(' > ');
-                    redirectTo += `&timeSpentOnTabs=${encodeURIComponent(timeSpentOnTabsString)}`;
-                    
-                    window.location.href = redirectTo;
-                } else {
-                    alert('Return URL not found. Please try again.');
-                }
-            } else {
-                alert('Please select a hotel before confirming.');
-            }
-        };
-
-        // Event listener for the main page tab
-        document.querySelector('.tab-button[data-tab="main-page"]').onclick = () => switchTab('main-page');
-
-        displayHotels();
+                if (currentTabId.startsWith('hotel-tab-')) {
+    const index = parseInt(currentTabId.replace('hotel-tab-', ''), 10);
+    if (!isNaN(index) && hotels[index]) {
+        timeSpentOnTabs.push(`${hotels[index].name}:${timeSpent}s`);
+    }
+} else {
+    timeSpentOnTabs.push(`${currentTabId}:${timeSpent}s`);
+}
     </script>
 </body>
 </html>
