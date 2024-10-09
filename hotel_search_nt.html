@@ -79,8 +79,6 @@
     let totalClicks = 0;
     const uniqueClicks = new Set();
     const clickedHotelsOrder = []; // New array to store the order of clicked hotels
-    let timeSpentOnTabs = "";
-    let currentPageStartTime = Date.now();
 
     // Capture the returnUrl from the URL parameters
     const urlParams = new URLSearchParams(window.location.search);
@@ -132,8 +130,6 @@
                 uniqueClicks.add(index);
                 // Track the order of clicks
                 clickedHotelsOrder.push(hotel.name);
-                // Track time spent on current page
-                trackTimeSpent("Main Page");
                 showHotelDetails(index);
             };
     
@@ -156,13 +152,11 @@
         document.getElementById('hotel-image').alt = selectedHotel.name;
         document.getElementById('main-page').style.display = 'none';
         document.getElementById('hotel-details').style.display = 'block';
-        trackTimeSpent(hotels[index].name);
     }
 
     document.getElementById('back-to-main').onclick = () => {
         document.getElementById('main-page').style.display = 'block';
         document.getElementById('hotel-details').style.display = 'none';
-        trackTimeSpent("Main Page");
     };
 
     document.getElementById('confirm-selection').onclick = () => {
@@ -191,9 +185,6 @@
                 // Append task duration
                 redirectTo += `&TaskDuration=${encodeURIComponent(durationSeconds)}`;
                 
-                // Append time spent on tabs
-                redirectTo += `&TimeSpentOnTabs=${encodeURIComponent(timeSpentOnTabs)}`;
-                
                 window.location.href = redirectTo;
             } else {
                 alert('Return URL not found. Please try again.');
@@ -202,17 +193,6 @@
             alert('Please select a hotel before confirming.');
         }
     };
-
-    function trackTimeSpent(pageName) {
-        const currentTime = Date.now();
-        const timeSpent = ((currentTime - currentPageStartTime) / 1000).toFixed(1);
-        if (timeSpentOnTabs) {
-            timeSpentOnTabs += ` > ${pageName}:${timeSpent}s`;
-        } else {
-            timeSpentOnTabs = `${pageName}:${timeSpent}s`;
-        }
-        currentPageStartTime = currentTime;
-    }
 
     displayHotels();
 </script>
