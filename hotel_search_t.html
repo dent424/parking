@@ -34,42 +34,6 @@
     
     <!-- Hotel Detail Tabs will be dynamically added here -->
     
-   <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hotel Selection Experiment</title>
-    <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 20px; }
-        #hotel-list { list-style-type: none; padding: 0; }
-        #hotel-list li { margin-bottom: 10px; }
-        .tab { display: none; padding: 20px; border: 1px solid #ccc; }
-        .tab-active { display: block; }
-        .tab-bar { display: flex; margin-bottom: 20px; }
-        .tab-button { padding: 10px; background: #f0f0f0; border: 1px solid #ccc; border-bottom: none; cursor: pointer; display: flex; align-items: center; }
-        .tab-button-active { background: white; }
-        button { margin-top: 20px; }
-        .back-link { display: inline-block; margin-bottom: 20px; color: blue; text-decoration: underline; cursor: pointer; }
-        .close-tab { margin-left: 10px; cursor: pointer; font-weight: bold; }
-        .more-details { margin-left: 10px; color: blue; text-decoration: underline; cursor: pointer; }
-        .hotel-radio { margin-right: 10px; }
-        .hotel-image { max-width: 100%; height: auto; margin-bottom: 20px; }
-    </style>
-</head>
-<body>
-    <div id="tab-bar" class="tab-bar">
-        <div class="tab-button tab-button-active" data-tab="main-page">Hotel List</div>
-    </div>
-
-    <div id="main-page" class="tab tab-active">
-        <h1>Select a Hotel</h1>
-        <ul id="hotel-list"></ul>
-        <button id="confirm-selection" style="display: none;">Confirm Selection</button>
-    </div>
-    
-    <!-- Hotel Detail Tabs will be dynamically added here -->
-    
     <script>
         const hotels = [
             { 
@@ -353,7 +317,5 @@
 
         displayHotels();
     </script>
-</body>
-</html>
 </body>
 </html>
