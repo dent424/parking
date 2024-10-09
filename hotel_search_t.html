@@ -90,7 +90,7 @@
         const taskStartTime = Date.now();  // Record the start time
 
         // Initialize the clickedHotelsOrder tracking array
-        let clickedHotelsOrderList = []; // This array will store the order of clicked hotels
+        let clickedHotelsOrderList = []; // This array will store the order of visited hotel tabs
 
         // Capture the returnUrl from the URL parameters
         const urlParams = new URLSearchParams(window.location.search);
@@ -106,23 +106,24 @@
           
         function displayHotels() {
             const hotelList = document.getElementById('hotel-list');
-    
+
             // Shuffle the hotels array
             const shuffledHotels = shuffleHotels([...hotels]); // Create a shuffled copy of the hotels array
-    
-            shuffledHotels.forEach((hotel, index) => {
+
+            shuffledHotels.forEach((hotel, shuffledIndex) => {
+                const originalIndex = hotels.indexOf(hotel); // Get the original index of the hotel
                 const li = document.createElement('li');
                 
                 const radio = document.createElement('input');
                 radio.type = 'radio';
                 radio.name = 'hotel';
-                radio.value = index;
-                radio.id = `hotel-${index}`;
+                radio.value = originalIndex;
+                radio.id = `hotel-${originalIndex}`;
                 radio.className = 'hotel-radio';
-                radio.onchange = () => selectHotel(index);
+                radio.onchange = () => selectHotel(originalIndex);
                 
                 const label = document.createElement('label');
-                label.htmlFor = `hotel-${index}`;
+                label.htmlFor = `hotel-${originalIndex}`;
                 label.textContent = hotel.name;
                 
                 const moreDetailsLink = document.createElement('a');
@@ -134,10 +135,9 @@
                     // Increment total clicks
                     totalClicks++;
                     // Add to unique clicks
-                    uniqueClicks.add(index);
-                    // Track the order of clicked hotels
-                    clickedHotelsOrderList.push(hotel.name); // Append the hotel name to the tracking array
-                    openHotelDetails(index);
+                    uniqueClicks.add(originalIndex);
+                    // Open hotel details (this will handle tab activation and tracking)
+                    openHotelDetails(originalIndex);
                 };
                 
                 li.appendChild(radio);
@@ -228,6 +228,14 @@
             const activeButton = document.querySelector(`.tab-button[data-tab="${tabId}"]`);
             if (activeTab) activeTab.classList.add('tab-active');
             if (activeButton) activeButton.classList.add('tab-button-active');
+
+            // Tracking tab visits
+            if (tabId.startsWith('hotel-tab-')) {
+                const index = parseInt(tabId.replace('hotel-tab-', ''), 10);
+                if (!isNaN(index) && hotels[index]) {
+                    clickedHotelsOrderList.push(hotels[index].name); // Append the hotel name to the tracking array
+                }
+            }
         }
 
         function closeTab(tabId) {
