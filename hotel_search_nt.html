@@ -82,6 +82,7 @@
     const clickedHotelsOrder = []; // New array to store the order of clicked hotels
     let timeSpentOnTabs = "";
     let currentPageStartTime = Date.now();
+    let currentPageName = "Main Page";
 
     // Capture the returnUrl from the URL parameters
     const urlParams = new URLSearchParams(window.location.search);
@@ -132,7 +133,7 @@
                 // Add to unique clicks
                 uniqueClicks.add(index);
                 // Track time spent on current page
-                trackTimeSpent("Main Page");
+                trackTimeSpent(currentPageName);
                 // Track the order of clicks
                 clickedHotelsOrder.push(hotel.name);
                 showHotelDetails(index);
@@ -157,13 +158,15 @@
         document.getElementById('hotel-image').alt = selectedHotel.name;
         document.getElementById('main-page').style.display = 'none';
         document.getElementById('hotel-details').style.display = 'block';
-        trackTimeSpent(shuffledHotels[index].name);
+        trackTimeSpent(currentPageName);
+        currentPageName = shuffledHotels[index].name;
     }
 
     document.getElementById('back-to-main').onclick = () => {
         document.getElementById('main-page').style.display = 'block';
         document.getElementById('hotel-details').style.display = 'none';
-        trackTimeSpent("Main Page");
+        trackTimeSpent(currentPageName);
+        currentPageName = "Main Page";
     };
 
     document.getElementById('confirm-selection').onclick = () => {
