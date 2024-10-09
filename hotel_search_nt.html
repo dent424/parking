@@ -83,6 +83,7 @@
     let timeSpentOnTabs = "";
     let currentPageStartTime = Date.now();
     let currentPageName = "Main Page";
+    const hotelVerticalPositions = {}; // New object to store vertical positions
 
     // Capture the returnUrl from the URL parameters
     const urlParams = new URLSearchParams(window.location.search);
@@ -136,6 +137,8 @@
                 trackTimeSpent(currentPageName);
                 // Track the order of clicks
                 clickedHotelsOrder.push(hotel.name);
+                // Record the vertical position
+                hotelVerticalPositions[hotel.name] = li.getBoundingClientRect().top;
                 showHotelDetails(index);
             };
     
@@ -199,6 +202,9 @@
                 
                 // Append time spent on tabs
                 redirectTo += `&timeSpentOnTabs=${encodeURIComponent(timeSpentOnTabs)}`;
+                
+                // Append vertical positions of hotels
+                redirectTo += `&hotelVerticalPositions=${encodeURIComponent(JSON.stringify(hotelVerticalPositions))}`;
                 
                 window.location.href = redirectTo;
             } else {
