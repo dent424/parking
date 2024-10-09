@@ -170,6 +170,8 @@
     };
 
     document.getElementById('confirm-selection').onclick = () => {
+        // Track time spent on main page before final selection
+        trackTimeSpent(currentPageName);
         if (selectedHotel) {
             // Calculate task duration in seconds
             const endTime = Date.now();
