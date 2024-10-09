@@ -130,10 +130,10 @@
                 totalClicks++;
                 // Add to unique clicks
                 uniqueClicks.add(index);
-                // Track the order of clicks
-                clickedHotelsOrder.push(hotel.name);
                 // Track time spent on current page
                 trackTimeSpent("Main Page");
+                // Track the order of clicks
+                clickedHotelsOrder.push(hotel.name);
                 showHotelDetails(index);
             };
     
@@ -192,7 +192,7 @@
                 redirectTo += `&TaskDuration=${encodeURIComponent(durationSeconds)}`;
                 
                 // Append time spent on tabs
-                redirectTo += `&timeSpentOnTabs=${encodeURIComponent(timeSpentOnTabs)}`;
+                redirectTo += `&TimeSpentOnTabs=${encodeURIComponent(timeSpentOnTabs)}`;
                 
                 window.location.href = redirectTo;
             } else {
@@ -206,10 +206,12 @@
     function trackTimeSpent(pageName) {
         const currentTime = Date.now();
         const timeSpent = ((currentTime - currentPageStartTime) / 1000).toFixed(1);
-        if (timeSpentOnTabs) {
-            timeSpentOnTabs += ` > ${pageName}:${timeSpent}s`;
-        } else {
-            timeSpentOnTabs = `${pageName}:${timeSpent}s`;
+        if (timeSpent > 0.1) { // Only log if time spent is significant
+            if (timeSpentOnTabs) {
+                timeSpentOnTabs += ` > ${pageName}:${timeSpent}s`;
+            } else {
+                timeSpentOnTabs = `${pageName}:${timeSpent}s`;
+            }
         }
         currentPageStartTime = currentTime;
     }
