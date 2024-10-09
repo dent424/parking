@@ -74,6 +74,7 @@
     ];
 
     let selectedHotel = null;
+    let shuffledHotels = [];
 
     // Initialize counters
     let totalClicks = 0;
@@ -101,7 +102,7 @@
         const hotelList = document.getElementById('hotel-list');
         
         // Shuffle the hotels array
-        const shuffledHotels = shuffleHotels([...hotels]); // Use a copy of the hotels array to avoid mutating the original
+        shuffledHotels = shuffleHotels([...hotels]); // Use a copy of the hotels array to avoid mutating the original
     
         shuffledHotels.forEach((hotel, index) => {
             const li = document.createElement('li');
@@ -145,18 +146,18 @@
     }
 
     function selectHotel(index) {
-        selectedHotel = hotels[index];
+        selectedHotel = shuffledHotels[index];
         document.getElementById('confirm-selection').style.display = 'block';
     }
 
     function showHotelDetails(index) {
-        selectedHotel = hotels[index];
+        selectedHotel = shuffledHotels[index];
         document.getElementById('hotel-name').textContent = selectedHotel.name;
         document.getElementById('hotel-image').src = selectedHotel.imageUrl;
         document.getElementById('hotel-image').alt = selectedHotel.name;
         document.getElementById('main-page').style.display = 'none';
         document.getElementById('hotel-details').style.display = 'block';
-        trackTimeSpent(hotels[index].name);
+        trackTimeSpent(shuffledHotels[index].name);
     }
 
     document.getElementById('back-to-main').onclick = () => {
