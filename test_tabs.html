@@ -227,7 +227,13 @@
             const timeSpent = Math.floor((currentTime - tabVisitStartTime) / 1000); // in seconds
             const currentTabId = openTabs.find(id => document.getElementById(id)?.classList.contains('tab-active'));
             if (currentTabId) {
-                const hotelName = currentTabId === 'main-page' ? 'Main Page' : hotels[parseInt(currentTabId.replace('hotel-tab-', ''), 10)]?.name;
+                let hotelName = 'Main Page';
+                if (currentTabId.startsWith('hotel-tab-')) {
+                    const index = parseInt(currentTabId.replace('hotel-tab-', ''), 10);
+                    if (!isNaN(index) && hotels[index]) {
+                        hotelName = hotels[index].name;
+                    }
+                }
                 timeSpentOnTabs.push(`${hotelName}:${timeSpent}s`);
             }
 
@@ -275,7 +281,13 @@
                 const timeSpent = Math.floor((currentTime - tabVisitStartTime) / 1000); // in seconds
                 const currentTabId = openTabs.find(id => document.getElementById(id)?.classList.contains('tab-active'));
                 if (currentTabId) {
-                    const hotelName = currentTabId === 'main-page' ? 'Main Page' : hotels[parseInt(currentTabId.replace('hotel-tab-', ''), 10)]?.name;
+                    let hotelName = 'Main Page';
+                    if (currentTabId.startsWith('hotel-tab-')) {
+                        const index = parseInt(currentTabId.replace('hotel-tab-', ''), 10);
+                        if (!isNaN(index) && hotels[index]) {
+                            hotelName = hotels[index].name;
+                        }
+                    }
                     timeSpentOnTabs.push(`${hotelName}:${timeSpent}s`);
                 }
 
