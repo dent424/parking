@@ -227,8 +227,7 @@
             const timeSpent = Math.floor((currentTime - tabVisitStartTime) / 1000); // in seconds
             const currentTabId = openTabs.find(id => document.getElementById(id)?.classList.contains('tab-active'));
             if (currentTabId) {
-                const hotelName = currentTabId === 'main-page' ? 'Main Page' : hotels[parseInt(currentTabId.replace('hotel-tab-', ''), 10)]?.name;
-timeSpentOnTabs.push(\`\${hotelName}:\${timeSpent}s\`);
+                timeSpentOnTabs.push(`${currentTabId}:${timeSpent}s`);
             }
 
             tabVisitStartTime = currentTime; // Reset the start time for the new tab
@@ -275,8 +274,7 @@ timeSpentOnTabs.push(\`\${hotelName}:\${timeSpent}s\`);
                 const timeSpent = Math.floor((currentTime - tabVisitStartTime) / 1000); // in seconds
                 const currentTabId = openTabs.find(id => document.getElementById(id)?.classList.contains('tab-active'));
                 if (currentTabId) {
-                    const hotelName = currentTabId === 'main-page' ? 'Main Page' : hotels[parseInt(currentTabId.replace('hotel-tab-', ''), 10)]?.name;
-timeSpentOnTabs.push(\`\${hotelName}:\${timeSpent}s\`);
+                    timeSpentOnTabs.push(`${currentTabId}:${timeSpent}s`);
                 }
 
                 if (returnUrl) {
