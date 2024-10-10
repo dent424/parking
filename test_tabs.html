@@ -27,9 +27,8 @@
     </div>
 
     <div id="main-page" class="tab tab-active">
-        <div id="timer-main" class="timer">Time Remaining: 30s</div>
-        <h1>Select a Hotel</h1>
-        <div id="timer">Time Remaining: 30s</div>
+                <h1>Select a Hotel</h1>
+        <div id="timer" class="timer">Time Remaining: 30s</div>
         <ul id="hotel-list"></ul>
         <button id="confirm-selection" style="display: none;">Confirm Selection</button>
     </div>
@@ -131,10 +130,10 @@
                 moreDetailsLink.className = "more-details";
                 moreDetailsLink.href = "#";
                 moreDetailsLink.onclick = (e) => {
-                    if (timeUp) {
-                        alert("Time is up! You can no longer view more details.");
-                        return;
-                    }
+                    if (timeUp && e.target.classList.contains('more-details')) {
+                alert("Time is up! You can no longer view more details.");
+                return;
+            }
                     e.preventDefault();
                     // Increment total clicks
                     totalClicks++;
@@ -180,9 +179,7 @@
         }
 
         function createNewTab(hotel, index) {
-            const timerClone = document.getElementById('timer-main').cloneNode(true);
-            timerClone.id = `timer-tab-${index}`;
-            tabContent.appendChild(timerClone);
+            
             if (timeUp) {
                 alert("Time is up! You can no longer view more details.");
                 return;
@@ -359,8 +356,7 @@
         let timeRemaining = 30;
         const timerElement = document.getElementById('timer');
         const timerInterval = setInterval(() => {
-            document.querySelectorAll('.timer').forEach(timer => timer.textContent = `Time Remaining: ${timeRemaining}s`);
-            timeRemaining--;
+                        timeRemaining--;
             timerElement.textContent = `Time Remaining: ${timeRemaining}s`;
 
             if (timeRemaining <= 0) {
