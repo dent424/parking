@@ -26,7 +26,7 @@
     <div id="hotel-details">
         <a id="back-to-main" class="back-link">Back to Main Page</a>
         <h2 id="hotel-name"></h2>
-        <img id="hotel-image" class="hotel-image" alt="Hotel Image">
+        
         <p><b>Room Quality:</b> <span id="hotel-room"></span></p>
         <p><b>Amenities:</b> <span id="hotel-amenities"></span></p>
         <p><b>Location:</b> <span id="hotel-location"></span></p>
@@ -45,7 +45,26 @@
     { name: "Hotel Amber", room: 6, amenities: 5, location: 3, view: 4, price: 6 },
     { name: "Hotel Topaz", room: 2, amenities: 2, location: 7, view: 2, price: 6 },
     { name: "Hotel Pearl", room: 6, amenities: 10, location: 5, view: 1, price: 8 },
-    { name: "Hotel Garnet", room: 9, amenities: 2, location: 7, view: 2, price: 9 }
+    { name: "Hotel Garnet", room: 9, amenities: 2, location: 7, view: 2, price: 9 },
+    { name: "Hotel Amethyst", room: 5, amenities: 10, location: 6, view: 10, price: 4 },
+    { name: "Hotel Topiary", room: 2, amenities: 1, location: 4, view: 5, price: 2 },
+    { name: "Hotel Birch", room: 4, amenities: 2, location: 7, view: 5, price: 8 },
+    { name: "Hotel Maple", room: 6, amenities: 3, location: 6, view: 6, price: 4 },
+    { name: "Hotel Pine", room: 5, amenities: 2, location: 10, view: 3, price: 9 },
+    { name: "Hotel Cedar", room: 4, amenities: 3, location: 8, view: 7, price: 5 },
+    { name: "Hotel Willow", room: 9, amenities: 4, location: 6, view: 1, price: 4 },
+    { name: "Hotel Redwood", room: 1, amenities: 6, location: 7, view: 5, price: 2 },
+    { name: "Hotel Aspen", room: 4, amenities: 10, location: 6, view: 4, price: 8 },
+    { name: "Hotel Oak", room: 7, amenities: 8, location: 3, view: 5, price: 3 },
+    { name: "Hotel Cedar Grove", room: 4, amenities: 9, location: 9, view: 5, price: 10 },
+    { name: "Hotel Hazel", room: 7, amenities: 10, location: 7, view: 6, price: 4 },
+    { name: "Hotel Fir", room: 3, amenities: 9, location: 8, view: 2, price: 1 },
+    { name: "Hotel Elm", room: 2, amenities: 3, location: 3, view: 7, price: 10 },
+    { name: "Hotel Larch", room: 2, amenities: 7, location: 7, view: 10, price: 8 },
+    { name: "Hotel Pinehill", room: 9, amenities: 5, location: 9, view: 1, price: 2 },
+    { name: "Hotel Sycamore", room: 9, amenities: 5, location: 6, view: 2, price: 5 },
+    { name: "Hotel Spruce", room: 7, amenities: 3, location: 8, view: 1, price: 5 },
+    { name: "Hotel Chestnut", room: 9, amenities: 3, location: 9, view: 2, price: 5 }
 ];
 
     let selectedHotel = null;
@@ -134,8 +153,7 @@
     function showHotelDetails(index) {
         selectedHotel = shuffledHotels[index];
         document.getElementById('hotel-name').textContent = selectedHotel.name;
-        document.getElementById('hotel-image').src = selectedHotel.imageUrl;
-        document.getElementById('hotel-image').alt = selectedHotel.name;
+        
         document.getElementById('hotel-room').textContent = selectedHotel.room;
         document.getElementById('hotel-amenities').textContent = selectedHotel.amenities;
         document.getElementById('hotel-location').textContent = selectedHotel.location;
