@@ -71,6 +71,7 @@
 
         let selectedHotel = null;
         let openTabs = ['main-page'];
+        let timerEnded = false;
 
         // Initialize counters
         let totalClicks = 0;
@@ -112,8 +113,26 @@
                 if (--timer < 0) {
                     clearInterval(interval);
                     timerElement.textContent = "Time is up!";
+                    timerEnded = true;
+                    closeAllTabsExceptMain();
                 }
             }, 1000);
+        }
+
+        function closeAllTabsExceptMain() {
+            // Close all tabs except for the main page
+            openTabs.forEach((tabId) => {
+                if (tabId !== 'main-page') {
+                    closeTab(tabId);
+                }
+            });
+            // Prevent opening new tabs
+            document.querySelectorAll('.more-details').forEach(link => {
+                link.onclick = (e) => {
+                    e.preventDefault();
+                    alert('Time is up! You can no longer open hotel details.');
+                };
+            });
         }
 
         function displayHotels() {
@@ -144,12 +163,16 @@
                 moreDetailsLink.href = "#";
                 moreDetailsLink.onclick = (e) => {
                     e.preventDefault();
-                    // Increment total clicks
-                    totalClicks++;
-                    // Add to unique clicks
-                    uniqueClicks.add(originalIndex);
-                    // Open hotel details (this will handle tab activation and tracking)
-                    openHotelDetails(originalIndex);
+                    if (!timerEnded) {
+                        // Increment total clicks
+                        totalClicks++;
+                        // Add to unique clicks
+                        uniqueClicks.add(originalIndex);
+                        // Open hotel details (this will handle tab activation and tracking)
+                        openHotelDetails(originalIndex);
+                    } else {
+                        alert('Time is up! You can no longer open hotel details.');
+                    }
                 };
                 
                 li.appendChild(radio);
@@ -168,6 +191,10 @@
         }
 
         function openHotelDetails(index) {
+            if (timerEnded) {
+                alert('Time is up! You can no longer open hotel details.');
+                return;
+            }
             selectedHotel = hotels[index];
             document.getElementById(`hotel-${index}`).checked = true;
             document.getElementById('confirm-selection').style.display = 'block';
