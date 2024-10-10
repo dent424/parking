@@ -188,6 +188,9 @@
             const tabContent = document.createElement('div');
             tabContent.id = tabId;
             tabContent.className = 'tab';
+            const timerClone = document.getElementById('timer').cloneNode(true);
+            timerClone.id = `timer-tab-${index}`;
+            tabContent.appendChild(timerClone);
             document.body.appendChild(tabContent);
             
             updateTabContent(tabId, hotel);
@@ -354,10 +357,10 @@
 
         // Timer logic
         let timeRemaining = 30;
-        const timerElement = document.getElementById('timer');
+        const const timerElements = document.querySelectorAll('.timer');
         const timerInterval = setInterval(() => {
                         timeRemaining--;
-            timerElement.textContent = `Time Remaining: ${timeRemaining}s`;
+            timerElements.forEach(timer => timer.textContent = `Time Remaining: ${timeRemaining}s`);
 
             if (timeRemaining <= 0) {
                 displayHotels();
