@@ -14,7 +14,7 @@
         .hotel-radio { margin-right: 10px; }
         .hotel-image { max-width: 100%; height: auto; margin-bottom: 20px; }
         .back-link { display: inline-block; margin-bottom: 20px; color: blue; text-decoration: underline; cursor: pointer; }
-        #timer { font-weight: bold; margin-bottom: 20px; }
+        #timer { font-weight: bold; margin-bottom: 20px; font-size: 1.5em; }
     </style>
 </head>
 <body>
@@ -243,7 +243,7 @@
                 document.getElementById('hotel-details').style.display = 'none';
                 currentPageName = "Main Page";
                 disableLinks();
-                alert('Time is up! Returning to the main page.');
+                timerElement.textContent = 'Time is up!';
             }
         }, 1000);
     }
