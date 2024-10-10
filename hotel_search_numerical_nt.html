@@ -14,9 +14,11 @@
         .hotel-radio { margin-right: 10px; }
         .hotel-image { max-width: 100%; height: auto; margin-bottom: 20px; }
         .back-link { display: inline-block; margin-bottom: 20px; color: blue; text-decoration: underline; cursor: pointer; }
+        #timer { font-weight: bold; margin-bottom: 20px; }
     </style>
 </head>
 <body>
+    <div id="timer">Time remaining: 30 seconds</div>
     <div id="main-page">
         <h1>Select a Hotel</h1>
         <ul id="hotel-list"></ul>
@@ -228,7 +230,39 @@
         currentPageStartTime = currentTime;
     }
 
-    displayHotels();
+    function startTimer(duration) {
+        let timer = duration;
+        const timerElement = document.getElementById('timer');
+        const timerInterval = setInterval(() => {
+            timer--;
+            timerElement.textContent = `Time remaining: ${timer} seconds`;
+
+            if (timer <= 0) {
+                clearInterval(timerInterval);
+                document.getElementById('main-page').style.display = 'block';
+                document.getElementById('hotel-details').style.display = 'none';
+                currentPageName = "Main Page";
+                disableLinks();
+                alert('Time is up! Returning to the main page.');
+            }
+        }, 1000);
+    }
+
+    function disableLinks() {
+        const moreDetailsLinks = document.querySelectorAll('.more-details');
+        moreDetailsLinks.forEach(link => {
+            link.onclick = (e) => {
+                e.preventDefault();
+                alert('Time is up! You can no longer view more details.');
+            };
+        });
+    }
+
+    // Start the timer when the page loads
+    window.onload = () => {
+        startTimer(30);
+        displayHotels();
+    };
 </script>
 
 </body>
