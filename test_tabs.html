@@ -27,6 +27,7 @@
     </div>
 
     <div id="main-page" class="tab tab-active">
+        <div id="timer-main" class="timer">Time Remaining: 30s</div>
         <h1>Select a Hotel</h1>
         <div id="timer">Time Remaining: 30s</div>
         <ul id="hotel-list"></ul>
@@ -179,6 +180,9 @@
         }
 
         function createNewTab(hotel, index) {
+            const timerClone = document.getElementById('timer-main').cloneNode(true);
+            timerClone.id = `timer-tab-${index}`;
+            tabContent.appendChild(timerClone);
             if (timeUp) {
                 alert("Time is up! You can no longer view more details.");
                 return;
@@ -236,6 +240,9 @@
         }
 
         function switchTab(tabId) {
+            if (tabId === 'main-page' && timeUp) {
+                displayHotels();
+            }
             if (timeUp) {
                 alert("Time is up! You can no longer view more details.");
                 return;
@@ -352,10 +359,12 @@
         let timeRemaining = 30;
         const timerElement = document.getElementById('timer');
         const timerInterval = setInterval(() => {
+            document.querySelectorAll('.timer').forEach(timer => timer.textContent = `Time Remaining: ${timeRemaining}s`);
             timeRemaining--;
             timerElement.textContent = `Time Remaining: ${timeRemaining}s`;
 
             if (timeRemaining <= 0) {
+                displayHotels();
                 clearInterval(timerInterval);
                 timeUp = true;
                 alert("Time is up! Returning to the main page.");
