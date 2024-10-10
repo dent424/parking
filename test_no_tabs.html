@@ -239,11 +239,11 @@
 
             if (timer <= 0) {
                 clearInterval(timerInterval);
-                alert('Time is up! Returning to the main page.');
                 document.getElementById('main-page').style.display = 'block';
                 document.getElementById('hotel-details').style.display = 'none';
                 currentPageName = "Main Page";
                 disableLinks();
+                alert('Time is up! Returning to the main page.');
             }
         }, 1000);
     }
