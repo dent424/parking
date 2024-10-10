@@ -35,87 +35,37 @@
     
     <script>
         const hotels = [
-            { 
-                name: "Radisson Blu Hotel, Marseille Vieux Port", 
-                amenities: "Free Wi-Fi, Pool, Gym",
-                location: "Marseille Vieux Port",
-                view: "Sea view",
-                price: "$200 per night",
-                value: "High value for location"
-            },
-            { 
-                name: "Odalys City Marseille Prado Castellane", 
-                amenities: "Free Wi-Fi, Kitchenette",
-                location: "Prado Castellane",
-                view: "City view",
-                price: "$120 per night",
-                value: "Good value for budget travelers"
-            },
-            { 
-                name: "NH Collection Marseille", 
-                amenities: "Free Wi-Fi, Restaurant, Bar",
-                location: "Marseille City Center",
-                view: "City view",
-                price: "$180 per night",
-                value: "Modern amenities"
-            },
-            { 
-                name: "New Hotel Le Quai - Vieux Port", 
-                amenities: "Free Wi-Fi, Room service",
-                location: "Vieux Port",
-                view: "Harbor view",
-                price: "$150 per night",
-                value: "Convenient for tourists"
-            },
-            { 
-                name: "Maisons du Monde Hôtel & Suites - Marseille Vieux Port", 
-                amenities: "Free Wi-Fi, Designer rooms",
-                location: "Vieux Port",
-                view: "Port view",
-                price: "$220 per night",
-                value: "Stylish and comfortable"
-            },
-            { 
-                name: "Les Jardins de Cassis", 
-                amenities: "Pool, Garden, Free parking",
-                location: "Cassis",
-                view: "Garden view",
-                price: "$140 per night",
-                value: "Quiet and peaceful"
-            },
-            { 
-                name: "Le Devem de Mirapier", 
-                amenities: "Free Wi-Fi, Tennis court, Pool",
-                location: "Rural Provence",
-                view: "Countryside view",
-                price: "$100 per night",
-                value: "Great for nature lovers"
-            },
-            { 
-                name: "Hôtel la Résidence du Vieux Port", 
-                amenities: "Free Wi-Fi, Restaurant, Bar",
-                location: "Vieux Port",
-                view: "Port view",
-                price: "$210 per night",
-                value: "Historic charm"
-            },
-            { 
-                name: "Grand Hotel Beauvau Marseille Vieux-Port – MGallery", 
-                amenities: "Free Wi-Fi, Bar, Historic building",
-                location: "Vieux Port",
-                view: "Port view",
-                price: "$230 per night",
-                value: "Luxury and history combined"
-            },
-            { 
-                name: "Adira Résid'Marseille Vieux-Port", 
-                amenities: "Free Wi-Fi, Kitchenette, Pet-friendly",
-                location: "Vieux Port",
-                view: "City view",
-                price: "$130 per night",
-                value: "Family-friendly"
-            }
-        ];
+    { name: "Hotel Sapphire", room: 2, amenities: 1, location: 5, view: 4, price: 4 },
+    { name: "Hotel Emerald", room: 3, amenities: 2, location: 9, view: 2, price: 10 },
+    { name: "Hotel Opal", room: 7, amenities: 1, location: 1, view: 2, price: 4 },
+    { name: "Hotel Quartz", room: 4, amenities: 9, location: 10, view: 1, price: 9 },
+    { name: "Hotel Onyx", room: 4, amenities: 9, location: 7, view: 4, price: 8 },
+    { name: "Hotel Jasper", room: 10, amenities: 5, location: 1, view: 3, price: 7 },
+    { name: "Hotel Amber", room: 6, amenities: 5, location: 3, view: 4, price: 6 },
+    { name: "Hotel Topaz", room: 2, amenities: 2, location: 7, view: 2, price: 6 },
+    { name: "Hotel Pearl", room: 6, amenities: 10, location: 5, view: 1, price: 8 },
+    { name: "Hotel Garnet", room: 9, amenities: 2, location: 7, view: 2, price: 9 },
+    { name: "Hotel Amethyst", room: 5, amenities: 10, location: 6, view: 10, price: 4 },
+    { name: "Hotel Topiary", room: 2, amenities: 1, location: 4, view: 5, price: 2 },
+    { name: "Hotel Birch", room: 4, amenities: 2, location: 7, view: 5, price: 8 },
+    { name: "Hotel Maple", room: 6, amenities: 3, location: 6, view: 6, price: 4 },
+    { name: "Hotel Pine", room: 5, amenities: 2, location: 10, view: 3, price: 9 },
+    { name: "Hotel Cedar", room: 4, amenities: 3, location: 8, view: 7, price: 5 },
+    { name: "Hotel Willow", room: 9, amenities: 4, location: 6, view: 1, price: 4 },
+    { name: "Hotel Redwood", room: 1, amenities: 6, location: 7, view: 5, price: 2 },
+    { name: "Hotel Aspen", room: 4, amenities: 10, location: 6, view: 4, price: 8 },
+    { name: "Hotel Oak", room: 7, amenities: 8, location: 3, view: 5, price: 3 },
+    { name: "Hotel Cedar Grove", room: 4, amenities: 9, location: 9, view: 5, price: 10 },
+    { name: "Hotel Hazel", room: 7, amenities: 10, location: 7, view: 6, price: 4 },
+    { name: "Hotel Fir", room: 3, amenities: 9, location: 8, view: 2, price: 1 },
+    { name: "Hotel Elm", room: 2, amenities: 3, location: 3, view: 7, price: 10 },
+    { name: "Hotel Larch", room: 2, amenities: 7, location: 7, view: 10, price: 8 },
+    { name: "Hotel Pinehill", room: 9, amenities: 5, location: 9, view: 1, price: 2 },
+    { name: "Hotel Sycamore", room: 9, amenities: 5, location: 6, view: 2, price: 5 },
+    { name: "Hotel Spruce", room: 7, amenities: 3, location: 8, view: 1, price: 5 },
+    { name: "Hotel Chestnut", room: 9, amenities: 3, location: 9, view: 2, price: 5 },
+    { name: "Hotel Acorn", room: 9, amenities: 10, location: 4, view: 3, price: 6 }
+];
 
         let selectedHotel = null;
         let openTabs = ['main-page'];
@@ -170,11 +120,7 @@
                 
                 const label = document.createElement('label');
                 label.htmlFor = `hotel-${originalIndex}`;
-                label.innerHTML = `<b>${hotel.name}</b><br>
-                                  Amenities: ${hotel.amenities}<br>
-                                  Location: ${hotel.location}<br>
-                                  View: ${hotel.view}<br>
-                                  Price: ${hotel.price}`;
+                label.innerHTML = `<b>${hotel.name}</b>`;
                 
                 const moreDetailsLink = document.createElement('a');
                 moreDetailsLink.textContent = "More Details";
@@ -196,7 +142,7 @@
                 hotelList.appendChild(li);
 
                 // Record the vertical position of each hotel
-                hotelVerticalPositions[hotel.name] = shuffledIndex + 1;
+                hotelVerticalPositions[hotel.name] = shuffledIndex;
             });
         }
 
@@ -263,12 +209,12 @@
                 tabContent.innerHTML = `
                     <a class="back-link" onclick="switchTab('main-page')">Back to Main Page</a>
                     <h2>${hotel.name}</h2>
+                    <p><b>Room Quality:</b> ${hotel.room}</p>
                     <p><b>Amenities:</b> ${hotel.amenities}</p>
                     <p><b>Location:</b> ${hotel.location}</p>
                     <p><b>View:</b> ${hotel.view}</p>
                     <p><b>Price:</b> ${hotel.price}</p>
-                    <p><b>Value:</b> ${hotel.value}</p>
-                `;
+                                    `;
             } else {
                 console.error(`Tab with id ${tabId} not found`);
             }
