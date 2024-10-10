@@ -170,11 +170,7 @@
                 
                 const label = document.createElement('label');
                 label.htmlFor = `hotel-${originalIndex}`;
-                label.innerHTML = `<b>${hotel.name}</b><br>
-                                  Amenities: ${hotel.amenities}<br>
-                                  Location: ${hotel.location}<br>
-                                  View: ${hotel.view}<br>
-                                  Price: ${hotel.price}`;
+                label.innerHTML = `<b>${hotel.name}</b>`;
                 
                 const moreDetailsLink = document.createElement('a');
                 moreDetailsLink.textContent = "More Details";
@@ -196,7 +192,7 @@
                 hotelList.appendChild(li);
 
                 // Record the vertical position of each hotel
-                hotelVerticalPositions[hotel.name] = shuffledIndex + 1;
+                hotelVerticalPositions[hotel.name] = shuffledIndex;
             });
         }
 
