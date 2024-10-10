@@ -18,7 +18,6 @@
         .close-tab { margin-left: 10px; cursor: pointer; font-weight: bold; }
         .more-details { margin-left: 10px; color: blue; text-decoration: underline; cursor: pointer; }
         .hotel-radio { margin-right: 10px; }
-        .hotel-image { max-width: 100%; height: auto; margin-bottom: 20px; }
     </style>
 </head>
 <body>
@@ -38,43 +37,83 @@
         const hotels = [
             { 
                 name: "Radisson Blu Hotel, Marseille Vieux Port", 
-                imageUrl: "https://live.staticflickr.com/65535/53958757296_a76e40482a_b.jpg"
+                amenities: "Free Wi-Fi, Pool, Gym",
+                location: "Marseille Vieux Port",
+                view: "Sea view",
+                price: "$200 per night",
+                value: "High value for location"
             },
             { 
                 name: "Odalys City Marseille Prado Castellane", 
-                imageUrl: "https://live.staticflickr.com/65535/53958757261_67b1721972_b.jpg"
+                amenities: "Free Wi-Fi, Kitchenette",
+                location: "Prado Castellane",
+                view: "City view",
+                price: "$120 per night",
+                value: "Good value for budget travelers"
             },
             { 
                 name: "NH Collection Marseille", 
-                imageUrl: "https://live.staticflickr.com/65535/53958757291_9af5e65298_b.jpg"
+                amenities: "Free Wi-Fi, Restaurant, Bar",
+                location: "Marseille City Center",
+                view: "City view",
+                price: "$180 per night",
+                value: "Modern amenities"
             },
             { 
                 name: "New Hotel Le Quai - Vieux Port", 
-                imageUrl: "https://live.staticflickr.com/65535/53957861847_0bb5b81c93_b.jpg"
+                amenities: "Free Wi-Fi, Room service",
+                location: "Vieux Port",
+                view: "Harbor view",
+                price: "$150 per night",
+                value: "Convenient for tourists"
             },
             { 
                 name: "Maisons du Monde Hôtel & Suites - Marseille Vieux Port", 
-                imageUrl: "https://live.staticflickr.com/65535/53957861852_0cb5f4a449_b.jpg"
+                amenities: "Free Wi-Fi, Designer rooms",
+                location: "Vieux Port",
+                view: "Port view",
+                price: "$220 per night",
+                value: "Stylish and comfortable"
             },
             { 
                 name: "Les Jardins de Cassis", 
-                imageUrl: "https://live.staticflickr.com/65535/53959078024_e854e86399_b.jpg"
+                amenities: "Pool, Garden, Free parking",
+                location: "Cassis",
+                view: "Garden view",
+                price: "$140 per night",
+                value: "Quiet and peaceful"
             },
             { 
                 name: "Le Devem de Mirapier", 
-                imageUrl: "https://live.staticflickr.com/65535/53959209905_d490dec6c0_b.jpg"
+                amenities: "Free Wi-Fi, Tennis court, Pool",
+                location: "Rural Provence",
+                view: "Countryside view",
+                price: "$100 per night",
+                value: "Great for nature lovers"
             },
             { 
                 name: "Hôtel la Résidence du Vieux Port", 
-                imageUrl: "https://live.staticflickr.com/65535/53957861802_27ba51894e_b.jpg"
+                amenities: "Free Wi-Fi, Restaurant, Bar",
+                location: "Vieux Port",
+                view: "Port view",
+                price: "$210 per night",
+                value: "Historic charm"
             },
             { 
                 name: "Grand Hotel Beauvau Marseille Vieux-Port – MGallery", 
-                imageUrl: "https://live.staticflickr.com/65535/53959077944_8ab417c5a3_b.jpg"
+                amenities: "Free Wi-Fi, Bar, Historic building",
+                location: "Vieux Port",
+                view: "Port view",
+                price: "$230 per night",
+                value: "Luxury and history combined"
             },
             { 
                 name: "Adira Résid'Marseille Vieux-Port", 
-                imageUrl: "https://live.staticflickr.com/65535/53959209785_a4c41c2b2a_b.jpg"
+                amenities: "Free Wi-Fi, Kitchenette, Pet-friendly",
+                location: "Vieux Port",
+                view: "City view",
+                price: "$130 per night",
+                value: "Family-friendly"
             }
         ];
 
@@ -131,7 +170,11 @@
                 
                 const label = document.createElement('label');
                 label.htmlFor = `hotel-${originalIndex}`;
-                label.textContent = hotel.name;
+                label.innerHTML = `<b>${hotel.name}</b><br>
+                                  Amenities: ${hotel.amenities}<br>
+                                  Location: ${hotel.location}<br>
+                                  View: ${hotel.view}<br>
+                                  Price: ${hotel.price}`;
                 
                 const moreDetailsLink = document.createElement('a');
                 moreDetailsLink.textContent = "More Details";
@@ -220,7 +263,11 @@
                 tabContent.innerHTML = `
                     <a class="back-link" onclick="switchTab('main-page')">Back to Main Page</a>
                     <h2>${hotel.name}</h2>
-                    <img src="${hotel.imageUrl}" alt="${hotel.name}" class="hotel-image">
+                    <p><b>Amenities:</b> ${hotel.amenities}</p>
+                    <p><b>Location:</b> ${hotel.location}</p>
+                    <p><b>View:</b> ${hotel.view}</p>
+                    <p><b>Price:</b> ${hotel.price}</p>
+                    <p><b>Value:</b> ${hotel.value}</p>
                 `;
             } else {
                 console.error(`Tab with id ${tabId} not found`);
