@@ -309,7 +309,9 @@
                 tabButton.remove();
                 openTabs = openTabs.filter(id => id !== tabId);
                 // No need to update maxTabsOpen since it tracks the maximum ever
-                switchTab('main-page');
+                if (openTabs.length > 0) {
+                    switchTab(openTabs[openTabs.length - 1]);
+                }
             }
         }
 
@@ -317,4 +319,63 @@
             if (selectedHotel) {
                 // Record the time spent on the current tab before confirming selection
                 const currentTime = Date.now();
-                const timeSpent = parseFloat(((currentTime -
+                const timeSpent = parseFloat(((currentTime - tabVisitStartTime) / 1000).toFixed(1)); // in seconds
+                const currentTabId = openTabs.find(id => document.getElementById(id)?.classList.contains('tab-active'));
+                if (currentTabId && timeSpent > 0) {
+                    let hotelName = 'Main Page';
+                    if (currentTabId.startsWith('hotel-tab-')) {
+                        const index = parseInt(currentTabId.replace('hotel-tab-', ''), 10);
+                        if (!isNaN(index) && hotels[index]) {
+                            hotelName = hotels[index].name;
+                        }
+                    }
+                    timeSpentOnTabs.push(`${hotelName}:${timeSpent}s`);
+                }
+
+                if (returnUrl) {
+                    const separator = returnUrl.includes('?') ? '&' : '?';
+                    let redirectTo = `${returnUrl}${separator}selectedHotel=${encodeURIComponent(selectedHotel.name)}`;
+                    const taskCondition = 'Tabs';
+                    redirectTo += `&TaskCondition=${encodeURIComponent(taskCondition)}`;
+                    
+                    // Append click data
+                    redirectTo += `&TotalClicks=${encodeURIComponent(totalClicks)}`;
+                    redirectTo += `&UniqueClicks=${encodeURIComponent(uniqueClicks.size)}`;
+                    
+                    // Append maximum tabs open
+                    redirectTo += `&MaxTabsOpen=${encodeURIComponent(maxTabsOpen)}`;
+                    
+                    // Calculate task duration in seconds
+                    const taskEndTime = Date.now();
+                    const taskDuration = Math.floor((taskEndTime - taskStartTime) / 1000);  // duration in seconds
+                    redirectTo += `&TaskDuration=${encodeURIComponent(taskDuration)}`;
+                    
+                    // Append the clickedHotelsOrder parameter
+                    const clickedHotelsOrderString = clickedHotelsOrderList.join(' > ');
+                    redirectTo += `&clickedHotelsOrder=${encodeURIComponent(clickedHotelsOrderString)}`;
+                    
+                    // Append the timeSpentOnTabs parameter
+                    const timeSpentOnTabsString = timeSpentOnTabs.join(' > ');
+                    redirectTo += `&timeSpentOnTabs=${encodeURIComponent(timeSpentOnTabsString)}`;
+
+                    // Append the hotelVerticalPositions parameter
+                    const hotelVerticalPositionsString = JSON.stringify(hotelVerticalPositions);
+                    redirectTo += `&hotelVerticalPositions=${encodeURIComponent(hotelVerticalPositionsString)}`;
+                    
+                    window.location.href = redirectTo;
+                } else {
+                    alert('Return URL not found. Please try again.');
+                }
+            } else {
+                alert('Please select a hotel before confirming.');
+            }
+        };
+
+        // Event listener for the main page tab
+        document.querySelector('.tab-button[data-tab="main-page"]').onclick = () => switchTab('main-page');
+
+        startTimer(15);
+        displayHotels();
+    </script>
+</body>
+</html>
