@@ -19,6 +19,12 @@
         .more-details { margin-left: 10px; color: blue; text-decoration: underline; cursor: pointer; }
         .hotel-radio { margin-right: 10px; }
         #timer { font-size: 1.5em; font-weight: bold; margin-bottom: 20px; }
+        /* Optional: Style disabled button */
+        button:disabled {
+            background-color: #cccccc;
+            color: #666666;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
@@ -30,8 +36,8 @@
     <div id="main-page" class="tab tab-active">
         <h1>Select a Hotel</h1>
         <ul id="hotel-list"></ul>
-        <!-- Initially hidden Confirm Selection button -->
-        <button id="confirm-selection" style="display: none;">Confirm Selection</button>
+        <!-- Confirm Selection button is always visible but initially disabled -->
+        <button id="confirm-selection" disabled>Confirm Selection</button>
     </div>
     
     <!-- Hotel Detail Tabs will be dynamically added here -->
@@ -116,7 +122,7 @@
                 timerElement.textContent = "Time is up!";
                 timerEnded = true;
                 closeAllTabsExceptMain();
-                handleConfirmButtonVisibility();
+                // No longer handling confirm button visibility here
             }
         }, 1000);
     }
@@ -135,6 +141,15 @@
                 alert('Time is up! You can no longer open hotel details.');
             };
         });
+        // **Removed:** Disable radio buttons to allow selection after timer ends
+        // document.querySelectorAll('.hotel-radio').forEach(radio => {
+        //     radio.disabled = true;
+        // });
+        // **Removed:** Style labels to indicate they are disabled
+        // document.querySelectorAll('label').forEach(label => {
+        //     label.style.color = 'gray';
+        //     label.style.cursor = 'not-allowed';
+        // });
     }
 
     function displayHotels() {
@@ -189,10 +204,9 @@
 
     function selectHotel(index) {
         selectedHotel = hotels[index];
-        // Only show the Confirm Selection button if the timer has ended
-        if (timerEnded) {
-            document.getElementById('confirm-selection').style.display = 'block';
-        }
+        // Enable the Confirm Selection button since a hotel is selected
+        const confirmButton = document.getElementById('confirm-selection');
+        confirmButton.disabled = false;
     }
 
     function openHotelDetails(index) {
@@ -200,19 +214,21 @@
             alert('Time is up! You can no longer open hotel details.');
             return;
         }
-        selectedHotel = hotels[index];
+        // **Removed:** Do not set selectedHotel here
+        // selectedHotel = hotels[index]; // <-- REMOVE THIS LINE
+        
         // Do not show the Confirm Selection button immediately
         // It will be shown when both conditions are met
-        // document.getElementById('confirm-selection').style.display = 'block'; // Remove this line
+        // document.getElementById('confirm-selection').style.display = 'block'; // Removed
         
         const tabId = `hotel-tab-${index}`;
         const existingTab = document.getElementById(tabId);
 
         if (existingTab) {
-            updateTabContent(tabId, selectedHotel);
+            updateTabContent(tabId, hotels[index]);
             switchTab(tabId);
         } else {
-            createNewTab(selectedHotel, index);
+            createNewTab(hotels[index], index);
         }
     }
 
@@ -312,11 +328,18 @@
         const tabButton = document.querySelector(`.tab-button[data-tab="${tabId}"]`);
         
         if (tabContent && tabButton) {
+            // Check if the tab to be closed is currently active
+            const isActive = tabContent.classList.contains('tab-active');
+            
+            // Remove the tab content and button
             tabContent.remove();
             tabButton.remove();
             openTabs = openTabs.filter(id => id !== tabId);
-            // Ensure main page is active after closing a tab
-            switchTab('main-page');
+            
+            if (isActive) {
+                // If the closed tab was active, switch back to main-page
+                switchTab('main-page');
+            }
         }
     }
 
@@ -324,17 +347,6 @@
     
     startTimer(15);
     displayHotels();
-
-    // Function to handle the visibility of the Confirm Selection button
-    function handleConfirmButtonVisibility() {
-        if (selectedHotel) {
-            document.getElementById('confirm-selection').style.display = 'block';
-        } else {
-            // Optionally, inform the user that no selection was made
-            // For example:
-            // alert('No hotel was selected.');
-        }
-    }
 
     // Handle the Confirm Selection button click
     document.getElementById('confirm-selection').addEventListener('click', function() {
@@ -345,7 +357,7 @@
                 alert('Return URL is not defined.');
             }
         } else {
-            // Optionally, provide feedback to the user
+            // This block should rarely be reached due to button state management
             alert('You cannot confirm selection before the timer ends or without selecting a hotel.');
         }
     });
