@@ -363,7 +363,34 @@
     document.getElementById('confirm-selection').addEventListener('click', function() {
         if (timerEnded && selectedHotel) {
             if (returnUrl) {
-                window.location.href = returnUrl;
+                // **Modified:** Append necessary data to returnUrl before redirecting
+                const separator = returnUrl.includes('?') ? '&' : '?';
+                let redirectTo = `${returnUrl}${separator}selectedHotel=${encodeURIComponent(selectedHotel.name)}`;
+                
+                // Append TaskCondition if it exists
+                const taskCondition = 'NoTabs'; // Assuming this is a constant; modify if dynamic
+                redirectTo += `&TaskCondition=${encodeURIComponent(taskCondition)}`;
+                
+                // Append click data
+                redirectTo += `&TotalClicks=${encodeURIComponent(totalClicks)}`;
+                redirectTo += `&UniqueClicks=${encodeURIComponent(uniqueClicks.size)}`;
+                
+                // Append clicked hotels order
+                redirectTo += `&clickedHotelsOrder=${encodeURIComponent(clickedHotelsOrderList.join(' > '))}`;
+                
+                // Append task duration
+                const durationMs = Date.now() - taskStartTime;
+                const durationSeconds = Math.round(durationMs / 1000);
+                redirectTo += `&TaskDuration=${encodeURIComponent(durationSeconds)}`;
+                
+                // Append time spent on tabs
+                redirectTo += `&timeSpentOnTabs=${encodeURIComponent(timeSpentOnTabs.join(' > '))}`;
+                
+                // Append vertical positions of hotels
+                redirectTo += `&hotelVerticalPositions=${encodeURIComponent(JSON.stringify(hotelVerticalPositions))}`;
+                
+                // Redirect to the constructed URL
+                window.location.href = redirectTo;
             } else {
                 alert('Return URL is not defined.');
             }
