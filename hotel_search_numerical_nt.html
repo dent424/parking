@@ -22,7 +22,8 @@
     <div id="main-page">
         <h1>Select a Hotel</h1>
         <ul id="hotel-list"></ul>
-        <button id="confirm-selection" style="display: none;">Confirm Selection</button>
+        <!-- Confirm Selection button is always visible but initially disabled -->
+        <button id="confirm-selection" disabled>Confirm Selection</button>
     </div>
     
     <div id="hotel-details">
@@ -39,36 +40,36 @@
     <script>
     const hotels = [
         { name: "Hotel Sapphire", room: 2, amenities: 1, location: 5, view: 4, price: 4 },
-    { name: "Hotel Emerald", room: 3, amenities: 2, location: 9, view: 2, price: 10 },
-    { name: "Hotel Opal", room: 7, amenities: 1, location: 1, view: 2, price: 4 },
-    { name: "Hotel Quartz", room: 4, amenities: 9, location: 10, view: 1, price: 9 },
-    { name: "Hotel Onyx", room: 4, amenities: 9, location: 7, view: 4, price: 8 },
-    { name: "Hotel Jasper", room: 10, amenities: 5, location: 1, view: 3, price: 7 },
-    { name: "Hotel Amber", room: 6, amenities: 5, location: 3, view: 4, price: 6 },
-    { name: "Hotel Topaz", room: 2, amenities: 2, location: 7, view: 2, price: 6 },
-    { name: "Hotel Pearl", room: 6, amenities: 10, location: 5, view: 1, price: 8 },
-    { name: "Hotel Garnet", room: 9, amenities: 2, location: 7, view: 2, price: 9 },
-    { name: "Hotel Amethyst", room: 5, amenities: 10, location: 6, view: 10, price: 4 },
-    { name: "Hotel Topiary", room: 2, amenities: 1, location: 4, view: 5, price: 2 },
-    { name: "Hotel Birch", room: 4, amenities: 2, location: 7, view: 5, price: 8 },
-    { name: "Hotel Maple", room: 6, amenities: 3, location: 6, view: 6, price: 4 },
-    { name: "Hotel Pine", room: 5, amenities: 2, location: 10, view: 3, price: 9 },
-    { name: "Hotel Cedar", room: 4, amenities: 3, location: 8, view: 7, price: 5 },
-    { name: "Hotel Willow", room: 9, amenities: 4, location: 6, view: 1, price: 4 },
-    { name: "Hotel Redwood", room: 1, amenities: 6, location: 7, view: 5, price: 2 },
-    { name: "Hotel Aspen", room: 4, amenities: 10, location: 6, view: 4, price: 8 },
-    { name: "Hotel Oak", room: 7, amenities: 8, location: 3, view: 5, price: 3 },
-    { name: "Hotel Cedar Grove", room: 4, amenities: 9, location: 9, view: 5, price: 10 },
-    { name: "Hotel Hazel", room: 7, amenities: 10, location: 7, view: 6, price: 4 },
-    { name: "Hotel Fir", room: 3, amenities: 9, location: 8, view: 2, price: 1 },
-    { name: "Hotel Elm", room: 2, amenities: 3, location: 3, view: 7, price: 10 },
-    { name: "Hotel Larch", room: 2, amenities: 7, location: 7, view: 10, price: 8 },
-    { name: "Hotel Pinehill", room: 9, amenities: 5, location: 9, view: 1, price: 2 },
-    { name: "Hotel Sycamore", room: 9, amenities: 5, location: 6, view: 2, price: 5 },
-    { name: "Hotel Spruce", room: 7, amenities: 3, location: 8, view: 1, price: 5 },
-    { name: "Hotel Chestnut", room: 9, amenities: 3, location: 9, view: 2, price: 5 },
-    { name: "Hotel Acorn", room: 9, amenities: 10, location: 4, view: 3, price: 6 }
-];
+        { name: "Hotel Emerald", room: 3, amenities: 2, location: 9, view: 2, price: 10 },
+        { name: "Hotel Opal", room: 7, amenities: 1, location: 1, view: 2, price: 4 },
+        { name: "Hotel Quartz", room: 4, amenities: 9, location: 10, view: 1, price: 9 },
+        { name: "Hotel Onyx", room: 4, amenities: 9, location: 7, view: 4, price: 8 },
+        { name: "Hotel Jasper", room: 10, amenities: 5, location: 1, view: 3, price: 7 },
+        { name: "Hotel Amber", room: 6, amenities: 5, location: 3, view: 4, price: 6 },
+        { name: "Hotel Topaz", room: 2, amenities: 2, location: 7, view: 2, price: 6 },
+        { name: "Hotel Pearl", room: 6, amenities: 10, location: 5, view: 1, price: 8 },
+        { name: "Hotel Garnet", room: 9, amenities: 2, location: 7, view: 2, price: 9 },
+        { name: "Hotel Amethyst", room: 5, amenities: 10, location: 6, view: 10, price: 4 },
+        { name: "Hotel Topiary", room: 2, amenities: 1, location: 4, view: 5, price: 2 },
+        { name: "Hotel Birch", room: 4, amenities: 2, location: 7, view: 5, price: 8 },
+        { name: "Hotel Maple", room: 6, amenities: 3, location: 6, view: 6, price: 4 },
+        { name: "Hotel Pine", room: 5, amenities: 2, location: 10, view: 3, price: 9 },
+        { name: "Hotel Cedar", room: 4, amenities: 3, location: 8, view: 7, price: 5 },
+        { name: "Hotel Willow", room: 9, amenities: 4, location: 6, view: 1, price: 4 },
+        { name: "Hotel Redwood", room: 1, amenities: 6, location: 7, view: 5, price: 2 },
+        { name: "Hotel Aspen", room: 4, amenities: 10, location: 6, view: 4, price: 8 },
+        { name: "Hotel Oak", room: 7, amenities: 8, location: 3, view: 5, price: 3 },
+        { name: "Hotel Cedar Grove", room: 4, amenities: 9, location: 9, view: 5, price: 10 },
+        { name: "Hotel Hazel", room: 7, amenities: 10, location: 7, view: 6, price: 4 },
+        { name: "Hotel Fir", room: 3, amenities: 9, location: 8, view: 2, price: 1 },
+        { name: "Hotel Elm", room: 2, amenities: 3, location: 3, view: 7, price: 10 },
+        { name: "Hotel Larch", room: 2, amenities: 7, location: 7, view: 10, price: 8 },
+        { name: "Hotel Pinehill", room: 9, amenities: 5, location: 9, view: 1, price: 2 },
+        { name: "Hotel Sycamore", room: 9, amenities: 5, location: 6, view: 2, price: 5 },
+        { name: "Hotel Spruce", room: 7, amenities: 3, location: 8, view: 1, price: 5 },
+        { name: "Hotel Chestnut", room: 9, amenities: 3, location: 9, view: 2, price: 5 },
+        { name: "Hotel Acorn", room: 9, amenities: 10, location: 4, view: 3, price: 6 }
+    ];
 
     let selectedHotel = null;
     let shuffledHotels = [];
@@ -102,12 +103,12 @@
         
         // Shuffle the hotels array
         shuffledHotels = shuffleHotels([...hotels]); // Use a copy of the hotels array to avoid mutating the original
-    
+
         shuffledHotels.forEach((hotel, index) => {
             // Record the vertical position
             hotelVerticalPositions[hotel.name] = index;
             const li = document.createElement('li');
-    
+
             // Add radio button for hotel selection
             const radio = document.createElement('input');
             radio.type = 'radio';
@@ -116,11 +117,11 @@
             radio.id = `hotel-${index}`;
             radio.className = 'hotel-radio';
             radio.onchange = () => selectHotel(index);
-    
+
             const label = document.createElement('label');
             label.htmlFor = `hotel-${index}`;
             label.textContent = hotel.name;
-    
+
             // Add "More Details" link
             const moreDetailsLink = document.createElement('a');
             moreDetailsLink.textContent = "More Details";
@@ -128,19 +129,23 @@
             moreDetailsLink.href = "#";
             moreDetailsLink.onclick = (e) => {
                 e.preventDefault();
-                // Increment total clicks
-                totalClicks++;
-                // Add to unique clicks
-                uniqueClicks.add(index);
-                // Track time spent on current page
-                trackTimeSpent(currentPageName);
-                // Track the order of clicks
-                clickedHotelsOrder.push(hotel.name);
-                // Record the vertical position
-                hotelVerticalPositions[hotel.name] = hotelVerticalPositions[hotel.name] || clickedHotelsOrder.length + 1;
-                showHotelDetails(index);
+                if (!timerEnded) {
+                    // Increment total clicks
+                    totalClicks++;
+                    // Add to unique clicks
+                    uniqueClicks.add(index);
+                    // Track time spent on current page
+                    trackTimeSpent(currentPageName);
+                    // Track the order of clicks
+                    clickedHotelsOrder.push(hotel.name);
+                    // Record the vertical position
+                    hotelVerticalPositions[hotel.name] = hotelVerticalPositions[hotel.name] || clickedHotelsOrder.length + 1;
+                    showHotelDetails(index);
+                } else {
+                    alert('Time is up! You can no longer open hotel details.');
+                }
             };
-    
+
             li.appendChild(radio);
             li.appendChild(label);
             li.appendChild(moreDetailsLink);
@@ -150,7 +155,10 @@
 
     function selectHotel(index) {
         selectedHotel = shuffledHotels[index];
-        document.getElementById('confirm-selection').style.display = 'block';
+        // Enable the Confirm Selection button only if the timer has ended
+        if (timerEnded) {
+            document.getElementById('confirm-selection').disabled = false;
+        }
     }
 
     function showHotelDetails(index) {
@@ -231,6 +239,8 @@
         currentPageStartTime = currentTime;
     }
 
+    let timerEnded = false; // Initialize the timerEnded flag
+
     function startTimer(duration) {
         let timer = duration;
         const timerElement = document.getElementById('timer');
@@ -240,11 +250,13 @@
 
             if (timer <= 0) {
                 clearInterval(timerInterval);
-                document.getElementById('main-page').style.display = 'block';
-                document.getElementById('hotel-details').style.display = 'none';
-                currentPageName = "Main Page";
-                disableLinks();
                 timerElement.textContent = 'Time is up!';
+                timerEnded = true;
+
+                // If a hotel is already selected, enable the Confirm Selection button
+                if (selectedHotel) {
+                    document.getElementById('confirm-selection').disabled = false;
+                }
             }
         }, 1000);
     }
@@ -254,7 +266,7 @@
         moreDetailsLinks.forEach(link => {
             link.onclick = (e) => {
                 e.preventDefault();
-                alert('Time is up! You can no longer view more details.');
+                alert('Time is up! You can no longer open hotel details.');
             };
         });
     }
@@ -264,7 +276,7 @@
         startTimer(30);
         displayHotels();
     };
-</script>
+    </script>
 
 </body>
 </html>
