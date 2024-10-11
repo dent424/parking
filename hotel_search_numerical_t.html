@@ -122,9 +122,20 @@
                 timerElement.textContent = "Time is up!";
                 timerEnded = true;
                 closeAllTabsExceptMain();
+                updateConfirmButtonState(); // **Added:** Update the confirm button state when timer ends
                 // No longer handling confirm button visibility here
             }
         }, 1000);
+    }
+
+    // **Added:** Function to update the Confirm Selection button state
+    function updateConfirmButtonState() {
+        const confirmButton = document.getElementById('confirm-selection');
+        if (selectedHotel !== null && timerEnded) {
+            confirmButton.disabled = false;
+        } else {
+            confirmButton.disabled = true;
+        }
     }
 
     function closeAllTabsExceptMain() {
@@ -204,9 +215,8 @@
 
     function selectHotel(index) {
         selectedHotel = hotels[index];
-        // Enable the Confirm Selection button since a hotel is selected
-        const confirmButton = document.getElementById('confirm-selection');
-        confirmButton.disabled = false;
+        // **Modified:** Call updateConfirmButtonState instead of directly enabling the button
+        updateConfirmButtonState();
     }
 
     function openHotelDetails(index) {
@@ -343,6 +353,7 @@
         }
     }
 
+    // Attach the click event to the main-page tab button
     document.querySelector('.tab-button[data-tab="main-page"]').onclick = () => switchTab('main-page');
     
     startTimer(15);
@@ -357,8 +368,9 @@
                 alert('Return URL is not defined.');
             }
         } else {
+            // **Removed:** Alert to prevent it from showing when button is disabled
             // This block should rarely be reached due to button state management
-            alert('You cannot confirm selection before the timer ends or without selecting a hotel.');
+            // alert('You cannot confirm selection before the timer ends or without selecting a hotel.');
         }
     });
     </script>
