@@ -267,7 +267,7 @@
             // Calculate time spent on the current tab
             const timeSpent = parseFloat(((currentTime - tabVisitStartTime) / 1000).toFixed(1)); // in seconds
             const currentTabId = openTabs.find(id => document.getElementById(id)?.classList.contains('tab-active'));
-            if (currentTabId) {
+            if (currentTabId && timeSpent > 0) {
                 let hotelName = 'Main Page';
                 if (currentTabId.startsWith('hotel-tab-')) {
                     const index = parseInt(currentTabId.replace('hotel-tab-', ''), 10);
@@ -321,7 +321,7 @@
                 const currentTime = Date.now();
                 const timeSpent = parseFloat(((currentTime - tabVisitStartTime) / 1000).toFixed(1)); // in seconds
                 const currentTabId = openTabs.find(id => document.getElementById(id)?.classList.contains('tab-active'));
-                if (currentTabId) {
+                if (currentTabId && timeSpent > 0) {
                     let hotelName = 'Main Page';
                     if (currentTabId.startsWith('hotel-tab-')) {
                         const index = parseInt(currentTabId.replace('hotel-tab-', ''), 10);
