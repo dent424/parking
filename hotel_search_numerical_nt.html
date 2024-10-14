@@ -229,7 +229,7 @@
     function trackTimeSpent(pageName) {
         const currentTime = Date.now();
         const timeSpent = ((currentTime - currentPageStartTime) / 1000).toFixed(1);
-        if (timeSpent > 0.1) { // Only log if time spent is significant
+        if (!timerEnded && timeSpent > 0.1) { // Only log if time spent is significant and timer has not ended
             if (timeSpentOnTabs) {
                 timeSpentOnTabs += ` > ${pageName}:${timeSpent}s`;
             } else {
