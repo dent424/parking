@@ -152,16 +152,10 @@
                 alert('Time is up! You can no longer open hotel details.');
             };
         });
-        // **Removed:** Disable radio buttons to allow selection after timer ends
-        // document.querySelectorAll('.hotel-radio').forEach(radio => {
-        //     radio.disabled = true;
-        // });
-        // **Removed:** Style labels to indicate they are disabled
-        // document.querySelectorAll('label').forEach(label => {
-        //     label.style.color = 'gray';
-        //     label.style.cursor = 'not-allowed';
-        // });
+        // **Added:** Switch back to the Main Page to record the last active tab's time
+        switchTab('main-page');
     }
+
 
     function displayHotels() {
         const hotelList = document.getElementById('hotel-list');
