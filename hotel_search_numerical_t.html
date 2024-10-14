@@ -144,7 +144,6 @@
 
         function closeAllTabsExceptMain() {
             // Close all tabs except for the main page
-            // Make a copy of openTabs to avoid mutation issues during iteration
             const tabsToClose = [...openTabs];
             tabsToClose.forEach((tabId) => {
                 if (tabId !== 'main-page') {
@@ -158,10 +157,8 @@
                     alert('Time is up! You can no longer open hotel details.');
                 };
             });
-            // Switch back to the Main Page to record the last active tab's time
-            if (activeTabId !== 'main-page') {
-                switchTab('main-page');
-            }
+            // **Always** switch back to the Main Page to record the last active tab's time
+            switchTab('main-page');
         }
 
         function displayHotels() {
