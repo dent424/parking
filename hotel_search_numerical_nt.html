@@ -5,16 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hotel Selection Experiment</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 20px; }
-        #hotel-list { list-style-type: none; padding: 0; }
-        #hotel-list li { margin-bottom: 10px; }
-        #hotel-details { display: none; }
-        button { margin-top: 20px; }
-        .more-details { margin-left: 10px; color: blue; text-decoration: underline; cursor: pointer; }
-        .hotel-radio { margin-right: 10px; }
-        .hotel-image { max-width: 100%; height: auto; margin-bottom: 20px; }
-        .back-link { display: inline-block; margin-bottom: 20px; color: blue; text-decoration: underline; cursor: pointer; }
-        #timer { font-weight: bold; margin-bottom: 20px; font-size: 1.5em; }
+        body { 
+            font-family: Arial, sans-serif; 
+            line-height: 1.6; 
+            margin: 0; 
+            padding: 20px; 
+        }
+        #hotel-list { 
+            list-style-type: none; 
+            padding: 0; 
+        }
+        #hotel-list li { 
+            margin-bottom: 10px; 
+        }
+        #hotel-details { 
+            display: none; 
+        }
+        button { 
+            margin-top: 20px; 
+            padding: 10px 20px; 
+            font-size: 1em;
+        }
+        .more-details { 
+            margin-left: 10px; 
+            color: blue; 
+            text-decoration: underline; 
+            cursor: pointer; 
+        }
+        .hotel-radio { 
+            margin-right: 10px; 
+        }
+        .hotel-image { 
+            max-width: 100%; 
+            height: auto; 
+            margin-bottom: 20px; 
+        }
+        .back-link { 
+            display: inline-block; 
+            margin-bottom: 20px; 
+            color: blue; 
+            text-decoration: underline; 
+            cursor: pointer; 
+        }
+        #timer { 
+            font-weight: bold; 
+            margin-bottom: 20px; 
+            font-size: 1.5em; 
+        }
+        /* Disabled elements styling */
+        .disabled {
+            pointer-events: none;
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .disabled-link {
+            color: gray;
+            text-decoration: none;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
@@ -77,11 +125,11 @@
     // Initialize counters
     let totalClicks = 0;
     const uniqueClicks = new Set();
-    const clickedHotelsOrder = []; // New array to store the order of clicked hotels
+    const clickedHotelsOrder = []; // Array to store the order of clicked hotels
     let timeSpentOnTabs = "";
     let currentPageStartTime = Date.now();
     let currentPageName = "Main Page";
-    const hotelVerticalPositions = {}; // New object to store vertical positions
+    const hotelVerticalPositions = {}; // Object to store vertical positions
 
     // Capture the returnUrl from the URL parameters
     const urlParams = new URLSearchParams(window.location.search);
@@ -184,8 +232,10 @@
     };
 
     document.getElementById('confirm-selection').onclick = () => {
-        // Track time spent on main page before final selection
-        trackTimeSpent(currentPageName);
+        if (!timerEnded) {
+            // Track time spent on main page before final selection
+            trackTimeSpent(currentPageName);
+        }
         if (selectedHotel) {
             // Calculate task duration in seconds
             const endTime = Date.now();
@@ -227,6 +277,8 @@
     };
 
     function trackTimeSpent(pageName) {
+        if (timerEnded) return; // Prevent tracking after timer ends
+
         const currentTime = Date.now();
         const timeSpent = ((currentTime - currentPageStartTime) / 1000).toFixed(1);
         if (timeSpent > 0.1) { // Only log if time spent is significant
@@ -253,27 +305,44 @@
                 timerElement.textContent = 'Time is up!';
                 timerEnded = true;
 
-                // If a hotel is already selected, enable the Confirm Selection button
+                // Disable all interactive elements
+                disableInteractiveElements();
+
+                // Enable Confirm Selection button if a hotel is selected
                 if (selectedHotel) {
                     document.getElementById('confirm-selection').disabled = false;
+                } else {
+                    document.getElementById('confirm-selection').disabled = true;
                 }
             }
         }, 1000);
     }
 
-    function disableLinks() {
+    function disableInteractiveElements() {
+        // Disable all "More Details" links and apply visual feedback
         const moreDetailsLinks = document.querySelectorAll('.more-details');
         moreDetailsLinks.forEach(link => {
             link.onclick = (e) => {
                 e.preventDefault();
                 alert('Time is up! You can no longer open hotel details.');
             };
+            link.classList.add('disabled-link');
+        });
+
+        // Disable all radio buttons and apply visual feedback to labels
+        const radioButtons = document.querySelectorAll('.hotel-radio');
+        radioButtons.forEach(radio => {
+            radio.disabled = true;
+            const label = document.querySelector(`label[for="${radio.id}"]`);
+            if (label) {
+                label.classList.add('disabled');
+            }
         });
     }
 
-    // Start the timer when the page loads
+    // Start the timer and display hotels when the page loads
     window.onload = () => {
-        startTimer(30);
+        startTimer(30); // Timer duration in seconds
         displayHotels();
     };
     </script>
