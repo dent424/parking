@@ -251,6 +251,8 @@
             if (timer <= 0) {
                 clearInterval(timerInterval);
                 timerElement.textContent = 'Time is up!';
+                // Call trackTimeSpent before setting timerEnded to true
+                trackTimeSpent(currentPageName);
                 timerEnded = true;
 
                 // If a hotel is already selected, enable the Confirm Selection button
