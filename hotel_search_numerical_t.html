@@ -271,8 +271,8 @@
             if (!openTabs.includes(tabId)) {
                 openTabs.push(tabId);
                 // Update maxTabsOpen if current openTabs.length exceeds it
-                if (openTabs.length > maxTabsOpen) {
-                    maxTabsOpen = openTabs.length;
+                if (openTabs.length - 1 > maxTabsOpen) {
+                    maxTabsOpen = openTabs.length - 1;
                 }
             }
             switchTab(tabId);
