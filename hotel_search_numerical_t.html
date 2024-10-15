@@ -411,6 +411,9 @@
                     
                     // Append vertical positions of hotels
                     redirectTo += `&hotelVerticalPositions=${encodeURIComponent(JSON.stringify(hotelVerticalPositions))}`;
+
+                    // **Append MaxTabsOpen**
+                    redirectTo += `&MaxTabsOpen=${encodeURIComponent(maxTabsOpen)}`;
                     
                     // Redirect to the constructed URL
                     window.location.href = redirectTo;
