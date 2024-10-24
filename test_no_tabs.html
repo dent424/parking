@@ -23,7 +23,8 @@
         <h1>Select a Hotel</h1>
         <ul id="hotel-list"></ul>
         <!-- Confirm Selection button is always visible but initially disabled -->
-        <button id="confirm-selection" disabled>Confirm Selection</button>
+        <button id="confirm-selection" disabled style="opacity: 0.5; cursor: not-allowed;">Confirm Selection</button>
+
     </div>
     
     <div id="hotel-details">
@@ -247,10 +248,11 @@
             // Disable opening of hotel details
             disableLinks();
 
-            // Enable the Confirm Selection button once the timer ends, but only if a hotel has been selected
-            if (selectedHotel) {
-                document.getElementById('confirm-selection').disabled = false;
-            }
+            // Enable the Confirm Selection button if a hotel is selected
+            const confirmButton = document.getElementById('confirm-selection');
+            confirmButton.disabled = false;
+            confirmButton.style.opacity = '1';
+            confirmButton.style.cursor = 'pointer';
         } else {
             // Keep the Confirm Selection button disabled during the countdown
             document.getElementById('confirm-selection').disabled = true;
