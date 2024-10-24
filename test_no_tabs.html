@@ -226,34 +226,37 @@
     let timerEnded = false; // Initialize the timerEnded flag
 
     function startTimer(duration) {
-        let timer = duration;
-        const timerElement = document.getElementById('timer');
-        const timerInterval = setInterval(() => {
-            timer--;
-            timerElement.textContent = `Time remaining: ${timer} seconds`;
+    let timer = duration;
+    const timerElement = document.getElementById('timer');
+    const timerInterval = setInterval(() => {
+        timer--;
+        timerElement.textContent = `Time remaining: ${timer} seconds`;
 
-            if (timer <= 0) {
-                clearInterval(timerInterval);
-                timerElement.textContent = 'Time is up!';
-                // Call trackTimeSpent before setting timerEnded to true
-                trackTimeSpent(currentPageName);
-                timerEnded = true;
+        if (timer <= 0) {
+            clearInterval(timerInterval);
+            timerElement.textContent = 'Time is up!';
+            // Call trackTimeSpent before setting timerEnded to true
+            trackTimeSpent(currentPageName);
+            timerEnded = true;
 
-                // Automatically return to main page if not already there
-                if (document.getElementById('hotel-details').style.display === 'block') {
-                    document.getElementById('back-to-main').click();
-                }
-
-                // Disable opening of hotel details
-                disableLinks();
-
-                // If no hotel is selected, ensure Confirm Selection button is disabled
-                if (!selectedHotel) {
-                    document.getElementById('confirm-selection').disabled = true;
-                }
+            // Automatically return to main page if not already there
+            if (document.getElementById('hotel-details').style.display === 'block') {
+                document.getElementById('back-to-main').click();
             }
-        }, 1000);
-    }
+
+            // Disable opening of hotel details
+            disableLinks();
+
+            // Enable the Confirm Selection button once the timer ends, but only if a hotel has been selected
+            if (selectedHotel) {
+                document.getElementById('confirm-selection').disabled = false;
+            }
+        } else {
+            // Keep the Confirm Selection button disabled during the countdown
+            document.getElementById('confirm-selection').disabled = true;
+        }
+    }, 1000);
+}
 
     function disableLinks() {
         const moreDetailsLinks = document.querySelectorAll('.more-details');
