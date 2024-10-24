@@ -139,10 +139,12 @@
         });
     }
 
-    function selectHotel(index) {
+function selectHotel(index) {
         selectedHotel = shuffledHotels[index];
-        // Enable the Confirm Selection button only if a hotel is selected
-        document.getElementById('confirm-selection').disabled = false;
+        // Enable the Confirm Selection button only if the timer has ended
+        if (timerEnded) {
+            document.getElementById('confirm-selection').disabled = false;
+        }
     }
 
     function showHotelDetails(index) {
@@ -225,7 +227,7 @@
 
     let timerEnded = false; // Initialize the timerEnded flag
 
-    function startTimer(duration) {
+        function startTimer(duration) {
         let timer = duration;
         const timerElement = document.getElementById('timer');
         const timerInterval = setInterval(() => {
@@ -247,8 +249,10 @@
                 // Disable opening of hotel details
                 disableLinks();
 
-                // If no hotel is selected, ensure Confirm Selection button is disabled
-                if (!selectedHotel) {
+                // Enable Confirm Selection button if a hotel is selected
+                if (selectedHotel) {
+                    document.getElementById('confirm-selection').disabled = false;
+                } else {
                     document.getElementById('confirm-selection').disabled = true;
                 }
             }
