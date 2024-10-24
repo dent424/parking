@@ -23,8 +23,7 @@
         <h1>Select a Hotel</h1>
         <ul id="hotel-list"></ul>
         <!-- Confirm Selection button is always visible but initially disabled -->
-        <button id="confirm-selection" disabled style="opacity: 0.5; cursor: not-allowed;">Confirm Selection</button>
-
+        <button id="confirm-selection" disabled>Confirm Selection</button>
     </div>
     
     <div id="hotel-details">
@@ -140,10 +139,12 @@
         });
     }
 
-    function selectHotel(index) {
+function selectHotel(index) {
         selectedHotel = shuffledHotels[index];
-        // Enable the Confirm Selection button only if a hotel is selected
-        document.getElementById('confirm-selection').disabled = false;
+        // Enable the Confirm Selection button only if the timer has ended
+        if (timerEnded) {
+            document.getElementById('confirm-selection').disabled = false;
+        }
     }
 
     function showHotelDetails(index) {
@@ -226,39 +227,37 @@
 
     let timerEnded = false; // Initialize the timerEnded flag
 
-    function startTimer(duration) {
-    let timer = duration;
-    const timerElement = document.getElementById('timer');
-    const timerInterval = setInterval(() => {
-        timer--;
-        timerElement.textContent = `Time remaining: ${timer} seconds`;
+        function startTimer(duration) {
+        let timer = duration;
+        const timerElement = document.getElementById('timer');
+        const timerInterval = setInterval(() => {
+            timer--;
+            timerElement.textContent = `Time remaining: ${timer} seconds`;
 
-        if (timer <= 0) {
-            clearInterval(timerInterval);
-            timerElement.textContent = 'Time is up!';
-            // Call trackTimeSpent before setting timerEnded to true
-            trackTimeSpent(currentPageName);
-            timerEnded = true;
+            if (timer <= 0) {
+                clearInterval(timerInterval);
+                timerElement.textContent = 'Time is up!';
+                // Call trackTimeSpent before setting timerEnded to true
+                trackTimeSpent(currentPageName);
+                timerEnded = true;
 
-            // Automatically return to main page if not already there
-            if (document.getElementById('hotel-details').style.display === 'block') {
-                document.getElementById('back-to-main').click();
+                // Automatically return to main page if not already there
+                if (document.getElementById('hotel-details').style.display === 'block') {
+                    document.getElementById('back-to-main').click();
+                }
+
+                // Disable opening of hotel details
+                disableLinks();
+
+                // Enable Confirm Selection button if a hotel is selected
+                if (selectedHotel) {
+                    document.getElementById('confirm-selection').disabled = false;
+                } else {
+                    document.getElementById('confirm-selection').disabled = true;
+                }
             }
-
-            // Disable opening of hotel details
-            disableLinks();
-
-            // Enable the Confirm Selection button if a hotel is selected
-            const confirmButton = document.getElementById('confirm-selection');
-            confirmButton.disabled = false;
-            confirmButton.style.opacity = '1';
-            confirmButton.style.cursor = 'pointer';
-        } else {
-            // Keep the Confirm Selection button disabled during the countdown
-            document.getElementById('confirm-selection').disabled = true;
-        }
-    }, 1000);
-}
+        }, 1000);
+    }
 
     function disableLinks() {
         const moreDetailsLinks = document.querySelectorAll('.more-details');
