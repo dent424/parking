@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/> 
     <title>Hotel Selection Experiment</title>
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 20px; }
@@ -15,15 +15,18 @@
         .hotel-image { max-width: 100%; height: auto; margin-bottom: 20px; }
         .back-link { display: inline-block; margin-bottom: 20px; color: blue; text-decoration: underline; cursor: pointer; }
         #timer { font-weight: bold; margin-bottom: 20px; font-size: 1.5em; }
+        #choose-button { display: none; }
+        #confirm-selection { display: none; }
     </style>
 </head>
 <body>
-    <div id="timer">Time remaining: 10 seconds</div>
+    <div id="timer">Time remaining: N minutes</div>
     <div id="main-page">
         <h1>Select a Hotel</h1>
         <ul id="hotel-list"></ul>
-        <!-- Confirm Selection button is always visible but initially disabled -->
-        <button id="confirm-selection" disabled>Confirm Selection</button>
+        <!-- Initially, no choose or confirm buttons are visible. They will be shown dynamically. -->
+        <button id="choose-button">Choose Now</button>
+        <button id="confirm-selection">Confirm Selection</button>
     </div>
     
     <div id="hotel-details">
@@ -59,14 +62,14 @@
     let selectedHotel = null;
     let shuffledHotels = [];
 
-    // Initialize counters
+    // Data tracking variables
     let totalClicks = 0;
     const uniqueClicks = new Set();
-    const clickedHotelsOrder = []; // New array to store the order of clicked hotels
+    const clickedHotelsOrder = [];
     let timeSpentOnTabs = "";
     let currentPageStartTime = Date.now();
     let currentPageName = "Main Page";
-    const hotelVerticalPositions = {}; // New object to store vertical positions
+    const hotelVerticalPositions = {};
 
     // Capture the returnUrl from the URL parameters
     const urlParams = new URLSearchParams(window.location.search);
@@ -75,27 +78,26 @@
     // Record the start time when the page loads
     const startTime = Date.now();
 
+    // Timer behavior variables
+    let browsingEnded = false; // After N minutes, we set this to true and show "Choose" button
+    let choosingPhase = false; // After "Choose Now" is clicked, details are disabled and "Confirm Selection" is shown
+
     function shuffleHotels(array) {
-        // (Function remains unchanged)
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [array[i], array[j]] = [array[j], array[i]];
         }
         return array;
     }
-    
+
     function displayHotels() {
         const hotelList = document.getElementById('hotel-list');
+        shuffledHotels = shuffleHotels([...hotels]);
         
-        // Shuffle the hotels array
-        shuffledHotels = shuffleHotels([...hotels]); // Use a copy of the hotels array to avoid mutating the original
-
         shuffledHotels.forEach((hotel, index) => {
-            // Record the vertical position
             hotelVerticalPositions[hotel.name] = index;
             const li = document.createElement('li');
 
-            // Add radio button for hotel selection
             const radio = document.createElement('input');
             radio.type = 'radio';
             radio.name = 'hotel';
@@ -108,27 +110,22 @@
             label.htmlFor = `hotel-${index}`;
             label.textContent = hotel.name;
 
-            // Add "More Details" link
             const moreDetailsLink = document.createElement('a');
             moreDetailsLink.textContent = "More Details";
             moreDetailsLink.className = "more-details";
             moreDetailsLink.href = "#";
             moreDetailsLink.onclick = (e) => {
                 e.preventDefault();
-                if (!timerEnded) {
-                    // Increment total clicks
+                if (!choosingPhase) {
+                    // Still allowed to view details
                     totalClicks++;
-                    // Add to unique clicks
                     uniqueClicks.add(index);
-                    // Track time spent on current page
                     trackTimeSpent(currentPageName);
-                    // Track the order of clicks
                     clickedHotelsOrder.push(hotel.name);
-                    // Record the vertical position
-                    hotelVerticalPositions[hotel.name] = hotelVerticalPositions[hotel.name] || clickedHotelsOrder.length + 1;
                     showHotelDetails(index);
                 } else {
-                    alert('Time is up! You can no longer open hotel details.');
+                    // Once in choosing phase, no details allowed
+                    alert('You can no longer view hotel details. Please pick a hotel and confirm.');
                 }
             };
 
@@ -139,26 +136,23 @@
         });
     }
 
-function selectHotel(index) {
+    function selectHotel(index) {
         selectedHotel = shuffledHotels[index];
-        // Enable the Confirm Selection button only if the timer has ended
-        if (timerEnded) {
-            document.getElementById('confirm-selection').disabled = false;
-        }
     }
 
     function showHotelDetails(index) {
-        document.getElementById('hotel-name').textContent = selectedHotel.name;
+        const hotel = shuffledHotels[index];
+        document.getElementById('hotel-name').textContent = hotel.name;
+        document.getElementById('hotel-room').textContent = hotel.room;
+        document.getElementById('hotel-amenities').textContent = hotel.amenities;
+        document.getElementById('hotel-location').textContent = hotel.location;
+        document.getElementById('hotel-view').textContent = hotel.view;
+        document.getElementById('hotel-price').textContent = hotel.price;
         
-        document.getElementById('hotel-room').textContent = selectedHotel.room;
-        document.getElementById('hotel-amenities').textContent = selectedHotel.amenities;
-        document.getElementById('hotel-location').textContent = selectedHotel.location;
-        document.getElementById('hotel-view').textContent = selectedHotel.view;
-        document.getElementById('hotel-price').textContent = selectedHotel.price;
         document.getElementById('main-page').style.display = 'none';
         document.getElementById('hotel-details').style.display = 'block';
         trackTimeSpent(currentPageName);
-        currentPageName = shuffledHotels[index].name;
+        currentPageName = hotel.name;
     }
 
     document.getElementById('back-to-main').onclick = () => {
@@ -168,38 +162,35 @@ function selectHotel(index) {
         currentPageName = "Main Page";
     };
 
+    // When "Choose Now" is clicked, we enter choosing phase
+    document.getElementById('choose-button').onclick = () => {
+        choosingPhase = true;
+        // Hide "Choose Now" button and show "Confirm Selection"
+        document.getElementById('choose-button').style.display = 'none';
+        document.getElementById('confirm-selection').style.display = 'inline-block';
+
+        // Once choosing phase starts, no more details can be opened
+        // This is enforced in the moreDetailsLink.onclick handler
+    };
+
+    // Confirm selection sends data back to Qualtrics
     document.getElementById('confirm-selection').onclick = () => {
-        // Track time spent on main page before final selection
         trackTimeSpent(currentPageName);
         if (selectedHotel) {
-            // Calculate task duration in seconds
             const endTime = Date.now();
             const durationMs = endTime - startTime;
             const durationSeconds = Math.round(durationMs / 1000);
 
-            // Redirect back to Qualtrics with the selected hotel and click data included as query parameters
             if (returnUrl) {
+                const taskCondition = 'NoTabs';
                 const separator = returnUrl.includes('?') ? '&' : '?';
                 let redirectTo = `${returnUrl}${separator}selectedHotel=${encodeURIComponent(selectedHotel.name)}`;
-                
-                // Append TaskCondition if it exists
-                const taskCondition = 'NoTabs'; // Assuming this is a constant; modify if dynamic
                 redirectTo += `&TaskCondition=${encodeURIComponent(taskCondition)}`;
-                
-                // Append click data
                 redirectTo += `&TotalClicks=${encodeURIComponent(totalClicks)}`;
                 redirectTo += `&UniqueClicks=${encodeURIComponent(uniqueClicks.size)}`;
-                
-                // Append clicked hotels order
                 redirectTo += `&clickedHotelsOrder=${encodeURIComponent(clickedHotelsOrder.join(' > '))}`;
-                
-                // Append task duration
                 redirectTo += `&TaskDuration=${encodeURIComponent(durationSeconds)}`;
-                
-                // Append time spent on tabs
                 redirectTo += `&timeSpentOnTabs=${encodeURIComponent(timeSpentOnTabs)}`;
-                
-                // Append vertical positions of hotels
                 redirectTo += `&hotelVerticalPositions=${encodeURIComponent(JSON.stringify(hotelVerticalPositions))}`;
                 
                 window.location.href = redirectTo;
@@ -214,7 +205,7 @@ function selectHotel(index) {
     function trackTimeSpent(pageName) {
         const currentTime = Date.now();
         const timeSpent = ((currentTime - currentPageStartTime) / 1000).toFixed(1);
-        if (!timerEnded && timeSpent > 0.1) { // Only log if time spent is significant and timer has not ended
+        if (timeSpent > 0.1) {
             if (timeSpentOnTabs) {
                 timeSpentOnTabs += ` > ${pageName}:${timeSpent}s`;
             } else {
@@ -224,56 +215,36 @@ function selectHotel(index) {
         currentPageStartTime = currentTime;
     }
 
-    let timerEnded = false; // Initialize the timerEnded flag
-
-        function startTimer(duration) {
-        let timer = duration;
+    // Start a timer for N minutes (replace N*60 with your desired total seconds)
+    function startTimer(seconds) {
+        let timer = seconds;
         const timerElement = document.getElementById('timer');
         const timerInterval = setInterval(() => {
             timer--;
-            timerElement.textContent = `Time remaining: ${timer} seconds`;
+            // Update display in mm:ss format
+            const minutes = Math.floor(timer / 60);
+            const secs = timer % 60;
+            timerElement.textContent = `Time remaining: ${minutes}:${secs < 10 ? '0' : ''}${secs}`;
 
             if (timer <= 0) {
                 clearInterval(timerInterval);
-                timerElement.textContent = 'Time is up!';
-                // Call trackTimeSpent before setting timerEnded to true
-                trackTimeSpent(currentPageName);
-                timerEnded = true;
+                // Browsing period ended
+                browsingEnded = true;
+                timerElement.textContent = 'Browsing period ended. You can choose now or keep browsing.';
+                // Show "Choose Now" button
+                document.getElementById('choose-button').style.display = 'inline-block';
 
-                // Automatically return to main page if not already there
-                if (document.getElementById('hotel-details').style.display === 'block') {
-                    document.getElementById('back-to-main').click();
-                }
-
-                // Disable opening of hotel details
-                disableLinks();
-
-                // Enable Confirm Selection button if a hotel is selected
-                if (selectedHotel) {
-                    document.getElementById('confirm-selection').disabled = false;
-                } else {
-                    document.getElementById('confirm-selection').disabled = true;
-                }
+                // At this point, the user can still view details until they press "Choose Now"
             }
         }, 1000);
     }
 
-    function disableLinks() {
-        const moreDetailsLinks = document.querySelectorAll('.more-details');
-        moreDetailsLinks.forEach(link => {
-            link.onclick = (e) => {
-                e.preventDefault();
-                alert('Time is up! You can no longer open hotel details.');
-            };
-        });
-    }
-
-    // Start the timer when the page loads
     window.onload = () => {
-        startTimer(10);
+        // Set your desired browsing duration here, for example 3 minutes = 180 seconds
+        const browsingDuration = 180; 
+        startTimer(browsingDuration);
         displayHotels();
     };
     </script>
-
 </body>
 </html>
