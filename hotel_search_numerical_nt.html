@@ -15,8 +15,6 @@
         .hotel-image { max-width: 100%; height: auto; margin-bottom: 20px; }
         .back-link { display: inline-block; margin-bottom: 20px; color: blue; text-decoration: underline; cursor: pointer; }
         #timer { font-weight: bold; margin-bottom: 20px; font-size: 1.5em; }
-        /* Removed the display:none from #choose-button so it's visible from start */
-        /* #choose-button { display: none; } */
         #confirm-selection { display: none; }
     </style>
 </head>
@@ -25,7 +23,6 @@
     <div id="main-page">
         <h1>Select a Hotel</h1>
         <ul id="hotel-list"></ul>
-        <!-- "Choose Now" button is visible from the start, will be disabled initially -->
         <button id="choose-button" disabled>Choose Now</button>
         <button id="confirm-selection" disabled>Confirm Selection</button>
     </div>
@@ -78,6 +75,9 @@
     let browsingEnded = false; 
     let choosingPhase = false; 
 
+    // New variable to stop recording time after choosing
+    let stopRecordingTime = false; // <-- Added line
+
     const chooseButton = document.getElementById('choose-button');
     const confirmButton = document.getElementById('confirm-selection');
 
@@ -105,8 +105,7 @@
             radio.className = 'hotel-radio';
             radio.onchange = () => selectHotel(index);
 
-            // Initially disable radio buttons until "Choose Now" is clicked
-            radio.disabled = true; // <-- Added line
+            radio.disabled = true;
 
             const label = document.createElement('label');
             label.htmlFor = `hotel-${index}`;
@@ -138,7 +137,6 @@
 
     function selectHotel(index) {
         selectedHotel = shuffledHotels[index];
-        // Enable confirm button only when hotel selected during choosing phase
         if (choosingPhase && selectedHotel) {
             confirmButton.disabled = false;
         }
@@ -166,15 +164,15 @@
         currentPageName = "Main Page";
     };
 
-    // Modify the "Choose Now" button handler
     chooseButton.onclick = () => {
         choosingPhase = true;
-        // Disable the choose button now that it's clicked
-        chooseButton.disabled = true; // <-- Changed to disable instead of hide
-        // Show Confirm Selection button
+        // Record final time before stopping
+        trackTimeSpent(currentPageName); // <-- Record final time
+        stopRecordingTime = true; // <-- Stop recording any further time
+
+        chooseButton.disabled = true; 
         confirmButton.style.display = 'inline-block';
 
-        // Enable radio buttons now that user is choosing
         document.querySelectorAll('.hotel-radio').forEach(radio => {
             radio.disabled = false;
         });
@@ -209,6 +207,9 @@
     };
 
     function trackTimeSpent(pageName) {
+        // If we've stopped recording, do nothing
+        if (stopRecordingTime) return; // <-- Added condition
+
         const currentTime = Date.now();
         const timeSpent = ((currentTime - currentPageStartTime) / 1000).toFixed(1);
         if (timeSpent > 0.1) {
@@ -234,8 +235,7 @@
                 clearInterval(timerInterval);
                 browsingEnded = true;
                 timerElement.textContent = 'Browsing period ended. You can choose now or keep browsing.';
-                // Instead of showing the button now, we just enable it since it's already visible
-                chooseButton.disabled = false; // <-- Enable the choose button once time is up
+                chooseButton.disabled = false; 
             }
         }, 1000);
     }
