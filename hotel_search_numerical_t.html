@@ -118,7 +118,7 @@
         function displayHotels() {
             const hotelList = document.getElementById('hotel-list');
             const shuffledHotels = shuffleHotels([...hotels]);
-
+        
             shuffledHotels.forEach((hotel, shuffledIndex) => {
                 const originalIndex = hotels.indexOf(hotel);
                 const li = document.createElement('li');
@@ -129,6 +129,7 @@
                 radio.value = originalIndex;
                 radio.id = `hotel-${originalIndex}`;
                 radio.className = 'hotel-radio';
+                // On radio change is set, but will be initially disabled
                 radio.onchange = () => {
                     selectHotel(originalIndex);
                 };
@@ -143,7 +144,7 @@
                 moreDetailsLink.href = "#";
                 moreDetailsLink.onclick = (e) => {
                     e.preventDefault();
-                    if (!choosingPhase) { // Only open details if not in choosing phase
+                    if (!choosingPhase) { 
                         if (!browsingEnded || (browsingEnded && !choosingPhase)) {
                             totalClicks++;
                             uniqueClicks.add(originalIndex);
@@ -158,10 +159,17 @@
                 li.appendChild(label);
                 li.appendChild(moreDetailsLink);
                 hotelList.appendChild(li);
-
+        
                 hotelVerticalPositions[hotel.name] = shuffledIndex;
             });
+        
+            // Disable all radio buttons until choose phase
+            document.querySelectorAll('.hotel-radio').forEach(radio => {
+                radio.disabled = true;
+            });
         }
+
+        
 
         function selectHotel(index) {
             selectedHotel = hotels[index];
@@ -351,6 +359,18 @@
             }
         });
 
+        chooseButton.addEventListener('click', () => {
+            choosingPhase = true;
+            closeAllTabsExceptMain();
+            disableMoreDetailsLinks();
+            updateConfirmButtonState();
+        
+            // Enable all radio buttons now that user is choosing
+            document.querySelectorAll('.hotel-radio').forEach(radio => {
+                radio.disabled = false;
+            });
+        });
+        
         document.querySelector('.tab-button[data-tab="main-page"]').addEventListener('click', () => switchTab('main-page'));
 
         window.addEventListener('DOMContentLoaded', (event) => {
