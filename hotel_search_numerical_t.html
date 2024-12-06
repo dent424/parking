@@ -302,17 +302,6 @@
             }
         }
 
-        // **NEW LOGIC FOR CHOOSING PHASE**
-        chooseButton.addEventListener('click', () => {
-            choosingPhase = true;
-            // Once user chooses to start choosing, close all hotel tabs
-            closeAllTabsExceptMain();
-            // Disable opening new details
-            disableMoreDetailsLinks();
-            // Now user can pick a hotel and confirm
-            updateConfirmButtonState();
-        });
-
         function closeAllTabsExceptMain() {
             const tabsToClose = [...openTabs];
             tabsToClose.forEach((tabId) => {
