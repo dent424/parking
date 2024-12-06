@@ -19,7 +19,6 @@
         .more-details { margin-left: 10px; color: blue; text-decoration: underline; cursor: pointer; }
         .hotel-radio { margin-right: 10px; }
         #timer { font-size: 1.5em; font-weight: bold; margin-bottom: 20px; }
-        /* Optional: Style disabled button */
         button:disabled {
             background-color: #cccccc;
             color: #666666;
@@ -36,11 +35,9 @@
     <div id="main-page" class="tab tab-active">
         <h1>Select a Hotel</h1>
         <ul id="hotel-list"></ul>
-        <!-- Confirm Selection button is always visible but initially disabled -->
+        <button id="choose-button" style="display:none;">Choose Now</button> <!-- The new Choose Now button -->
         <button id="confirm-selection" disabled>Confirm Selection</button>
     </div>
-    
-    <!-- Hotel Detail Tabs will be dynamically added here -->
     
     <script>
     (function() {
@@ -64,32 +61,24 @@
 
         let selectedHotel = null;
         let openTabs = ['main-page'];
-        let timerEnded = false;
-
-        // Initialize counters
+        let browsingEnded = false;   // <-- Now indicates that browsing time ended, but user can still view details until pressing choose
+        let choosingPhase = false;   // <-- Indicates that user pressed "Choose Now" button
         let totalClicks = 0;
         const uniqueClicks = new Set();
-
-        // Initialize variables for new tracking
-        let maxTabsOpen = 0;  // Starts with 'main-page' open
-        const taskStartTime = Date.now();  // Record the start time
-
-        // Initialize the clickedHotelsOrder tracking array
-        let clickedHotelsOrderList = []; // This array will store the order of visited hotel tabs
-
-        // Initialize tracking for time spent on each tab
+        let maxTabsOpen = 0;
+        const taskStartTime = Date.now();
+        let clickedHotelsOrderList = [];
         let tabVisitStartTime = Date.now();
-        let timeSpentOnTabs = []; // Array to track time spent on each tab visit
-
-        // Initialize tracking for hotel vertical positions
+        let timeSpentOnTabs = [];
         let hotelVerticalPositions = {};
-
-        // Initialize the activeTabId variable
-        let activeTabId = 'main-page'; // Tracks the currently active tab
-
-        // Capture the returnUrl from the URL parameters
+        let activeTabId = 'main-page';
+        
         const urlParams = new URLSearchParams(window.location.search);
         const returnUrl = urlParams.get('returnUrl');
+
+        // Select elements
+        const chooseButton = document.getElementById('choose-button');
+        const confirmButton = document.getElementById('confirm-selection');
 
         function shuffleHotels(array) {
             for (let i = array.length - 1; i > 0; i--) {
@@ -98,7 +87,7 @@
             }
             return array;
         }
-        
+
         function startTimer(duration) {
             let timer = duration, seconds;
             const timerElement = document.getElementById('timer');
@@ -108,52 +97,30 @@
 
                 if (--timer < 0) {
                     clearInterval(interval);
-                    timerElement.textContent = "Time is up!";
-                    timerEnded = true;
-                    closeAllTabsExceptMain();
-                    updateConfirmButtonState(); // Update the confirm button state when timer ends
-                    // No longer handling confirm button visibility here
+                    // Browsing time ended
+                    browsingEnded = true;
+                    timerElement.textContent = "Browsing period ended. You can still look or press 'Choose Now'.";
+                    // Show the "Choose Now" button instead of ending access
+                    chooseButton.style.display = 'inline-block';
                 }
             }, 1000);
         }
 
-        // Function to update the Confirm Selection button state
         function updateConfirmButtonState() {
-            const confirmButton = document.getElementById('confirm-selection');
-            if (selectedHotel !== null && timerEnded) {
+            // Confirm button should be enabled only in choosing phase AND if a hotel is selected
+            if (choosingPhase && selectedHotel !== null) {
                 confirmButton.disabled = false;
             } else {
                 confirmButton.disabled = true;
             }
         }
 
-        function closeAllTabsExceptMain() {
-            // Close all tabs except for the main page
-            const tabsToClose = [...openTabs];
-            tabsToClose.forEach((tabId) => {
-                if (tabId !== 'main-page') {
-                    closeTab(tabId);
-                }
-            });
-            // Prevent opening new tabs
-            document.querySelectorAll('.more-details').forEach(link => {
-                link.onclick = (e) => {
-                    e.preventDefault();
-                    alert('Time is up! You can no longer open hotel details.');
-                };
-            });
-            // **Always** switch back to the Main Page to record the last active tab's time
-            switchTab('main-page');
-        }
-
         function displayHotels() {
             const hotelList = document.getElementById('hotel-list');
-
-            // Shuffle the hotels array
-            const shuffledHotels = shuffleHotels([...hotels]); // Create a shuffled copy of the hotels array
+            const shuffledHotels = shuffleHotels([...hotels]);
 
             shuffledHotels.forEach((hotel, shuffledIndex) => {
-                const originalIndex = hotels.indexOf(hotel); // Get the original index of the hotel
+                const originalIndex = hotels.indexOf(hotel);
                 const li = document.createElement('li');
                 
                 const radio = document.createElement('input');
@@ -162,7 +129,9 @@
                 radio.value = originalIndex;
                 radio.id = `hotel-${originalIndex}`;
                 radio.className = 'hotel-radio';
-                radio.onchange = () => selectHotel(originalIndex);
+                radio.onchange = () => {
+                    selectHotel(originalIndex);
+                };
                 
                 const label = document.createElement('label');
                 label.htmlFor = `hotel-${originalIndex}`;
@@ -174,15 +143,14 @@
                 moreDetailsLink.href = "#";
                 moreDetailsLink.onclick = (e) => {
                     e.preventDefault();
-                    if (!timerEnded) {
-                        // Increment total clicks
-                        totalClicks++;
-                        // Add to unique clicks
-                        uniqueClicks.add(originalIndex);
-                        // Open hotel details (this will handle tab activation and tracking)
-                        openHotelDetails(originalIndex);
+                    if (!choosingPhase) { // Only open details if not in choosing phase
+                        if (!browsingEnded || (browsingEnded && !choosingPhase)) {
+                            totalClicks++;
+                            uniqueClicks.add(originalIndex);
+                            openHotelDetails(originalIndex);
+                        }
                     } else {
-                        alert('Time is up! You can no longer open hotel details.');
+                        alert('You are now choosing. You can no longer open new hotel details.');
                     }
                 };
                 
@@ -191,29 +159,16 @@
                 li.appendChild(moreDetailsLink);
                 hotelList.appendChild(li);
 
-                // Record the vertical position of each hotel
                 hotelVerticalPositions[hotel.name] = shuffledIndex;
             });
         }
 
         function selectHotel(index) {
             selectedHotel = hotels[index];
-            // Call updateConfirmButtonState instead of directly enabling the button
             updateConfirmButtonState();
         }
 
         function openHotelDetails(index) {
-            if (timerEnded) {
-                alert('Time is up! You can no longer open hotel details.');
-                return;
-            }
-            // Do not set selectedHotel here
-            // selectedHotel = hotels[index]; // <-- REMOVE THIS LINE
-            
-            // Do not show the Confirm Selection button immediately
-            // It will be shown when both conditions are met
-            // document.getElementById('confirm-selection').style.display = 'block'; // Removed
-            
             const tabId = `hotel-tab-${index}`;
             const existingTab = document.getElementById(tabId);
 
@@ -240,7 +195,6 @@
             tabButton.dataset.tab = tabId;
             document.getElementById('tab-bar').appendChild(tabButton);
             
-            // Event listener for tab button
             tabButton.addEventListener('click', (e) => {
                 if (!e.target.classList.contains('close-tab')) {
                     switchTab(tabId);
@@ -255,7 +209,6 @@
             
             if (!openTabs.includes(tabId)) {
                 openTabs.push(tabId);
-                // Update maxTabsOpen if current openTabs.length exceeds it
                 if (openTabs.length - 1 > maxTabsOpen) {
                     maxTabsOpen = openTabs.length - 1;
                 }
@@ -275,25 +228,18 @@
                     <p><b>View:</b> ${hotel.view}</p>
                     <p><b>Price:</b> ${hotel.price}</p>
                 `;
-
-                // Attach event listener to the back link
                 const backLink = tabContent.querySelector('.back-link');
                 backLink.addEventListener('click', (e) => {
                     e.preventDefault();
                     switchTab('main-page');
                 });
-            } else {
-                console.error(`Tab with id ${tabId} not found`);
             }
         }
 
         function switchTab(tabId) {
             const currentTime = Date.now();
+            const timeSpent = parseFloat(((currentTime - tabVisitStartTime) / 1000).toFixed(1));
             
-            // Calculate time spent on the current active tab
-            const timeSpent = parseFloat(((currentTime - tabVisitStartTime) / 1000).toFixed(1)); // in seconds
-            
-            // Determine the name of the current active tab
             let currentTabName = 'Main Page';
             if (activeTabId.startsWith('hotel-tab-')) {
                 const index = parseInt(activeTabId.replace('hotel-tab-', ''), 10);
@@ -301,16 +247,13 @@
                     currentTabName = hotels[index].name;
                 }
             }
-            
-            // Record the time spent on the current active tab
+
             if (timeSpent > 0) {
                 timeSpentOnTabs.push(`${currentTabName}:${timeSpent}s`);
             }
             
-            // Update the start time for the new tab
             tabVisitStartTime = currentTime;
             
-            // Remove active classes from current active tab and button
             if (activeTabId) {
                 const currentTab = document.getElementById(activeTabId);
                 const currentButton = document.querySelector(`.tab-button[data-tab="${activeTabId}"]`);
@@ -318,20 +261,17 @@
                 if (currentButton) currentButton.classList.remove('tab-button-active');
             }
             
-            // Set the new active tab and add active classes
             const newActiveTab = document.getElementById(tabId);
             const newActiveButton = document.querySelector(`.tab-button[data-tab="${tabId}"]`);
             if (newActiveTab) newActiveTab.classList.add('tab-active');
             if (newActiveButton) newActiveButton.classList.add('tab-button-active');
             
-            // Update the activeTabId variable
             activeTabId = tabId;
             
-            // Tracking tab visits
             if (tabId.startsWith('hotel-tab-')) {
                 const index = parseInt(tabId.replace('hotel-tab-', ''), 10);
                 if (!isNaN(index) && hotels[index]) {
-                    clickedHotelsOrderList.push(hotels[index].name); // Append the hotel name to the tracking array
+                    clickedHotelsOrderList.push(hotels[index].name);
                 }
             }
         }
@@ -341,76 +281,84 @@
             const tabButton = document.querySelector(`.tab-button[data-tab="${tabId}"]`);
             
             if (tabContent && tabButton) {
-                // Determine if the tab to be closed is currently active
                 const isActive = (tabId === activeTabId);
                 
-                // Remove the tab content and button from the DOM
                 tabContent.remove();
                 tabButton.remove();
                 
-                // Remove the tab from the openTabs array
                 openTabs = openTabs.filter(id => id !== tabId);
                 
                 if (isActive) {
-                    // If the closed tab was active, switch back to the Main Page
                     switchTab('main-page');
                 }
             }
         }
 
-        // Attach the click event to the main-page tab button
-        document.querySelector('.tab-button[data-tab="main-page"]').addEventListener('click', () => switchTab('main-page'));
-        
-        // Start the timer and display hotels once the DOM is fully loaded
-        window.addEventListener('DOMContentLoaded', (event) => {
-            startTimer(180);
-            displayHotels();
+        // **NEW LOGIC FOR CHOOSING PHASE**
+        chooseButton.addEventListener('click', () => {
+            choosingPhase = true;
+            // Once user chooses to start choosing, close all hotel tabs
+            closeAllTabsExceptMain();
+            // Disable opening new details
+            disableMoreDetailsLinks();
+            // Now user can pick a hotel and confirm
+            updateConfirmButtonState();
         });
 
-        // Handle the Confirm Selection button click
-        document.getElementById('confirm-selection').addEventListener('click', function() {
-            if (timerEnded && selectedHotel) {
+        function closeAllTabsExceptMain() {
+            const tabsToClose = [...openTabs];
+            tabsToClose.forEach((tabId) => {
+                if (tabId !== 'main-page') {
+                    closeTab(tabId);
+                }
+            });
+            switchTab('main-page');
+        }
+
+        function disableMoreDetailsLinks() {
+            document.querySelectorAll('.more-details').forEach(link => {
+                link.onclick = (e) => {
+                    e.preventDefault();
+                    alert('You are now choosing. No more hotel details can be viewed.');
+                };
+            });
+        }
+
+        // Confirm Selection now only works in choosing phase and after a hotel is selected
+        confirmButton.addEventListener('click', () => {
+            if (choosingPhase && selectedHotel) {
                 if (returnUrl) {
-                    // Append necessary data to returnUrl before redirecting
                     const separator = returnUrl.includes('?') ? '&' : '?';
                     let redirectTo = `${returnUrl}${separator}selectedHotel=${encodeURIComponent(selectedHotel.name)}`;
-                    
-                    // Append TaskCondition if it exists
-                    const taskCondition = 'Tabs'; // Assuming this is a constant; modify if dynamic
+                    const taskCondition = 'Tabs'; 
                     redirectTo += `&TaskCondition=${encodeURIComponent(taskCondition)}`;
-                    
-                    // Append click data
                     redirectTo += `&TotalClicks=${encodeURIComponent(totalClicks)}`;
                     redirectTo += `&UniqueClicks=${encodeURIComponent(uniqueClicks.size)}`;
-                    
-                    // Append clicked hotels order
                     redirectTo += `&clickedHotelsOrder=${encodeURIComponent(clickedHotelsOrderList.join(' > '))}`;
-                    
-                    // Append task duration
                     const durationMs = Date.now() - taskStartTime;
                     const durationSeconds = Math.round(durationMs / 1000);
                     redirectTo += `&TaskDuration=${encodeURIComponent(durationSeconds)}`;
-                    
-                    // Append time spent on tabs
                     redirectTo += `&timeSpentOnTabs=${encodeURIComponent(timeSpentOnTabs.join(' > '))}`;
-                    
-                    // Append vertical positions of hotels
                     redirectTo += `&hotelVerticalPositions=${encodeURIComponent(JSON.stringify(hotelVerticalPositions))}`;
-
-                    // **Append MaxTabsOpen**
                     redirectTo += `&MaxTabsOpen=${encodeURIComponent(maxTabsOpen)}`;
-                    
-                    // Redirect to the constructed URL
+
                     window.location.href = redirectTo;
                 } else {
                     alert('Return URL is not defined.');
                 }
             } else {
-                // This block should rarely be reached due to button state management
-                // But it's kept here for safety
-                alert('You cannot confirm selection before the timer ends or without selecting a hotel.');
+                alert('You must be in choosing phase and have selected a hotel to confirm.');
             }
         });
+
+        document.querySelector('.tab-button[data-tab="main-page"]').addEventListener('click', () => switchTab('main-page'));
+
+        window.addEventListener('DOMContentLoaded', (event) => {
+            // Set your desired browsing time in seconds (e.g., 180 for 3 minutes)
+            startTimer(180);
+            displayHotels();
+        });
+
     })();
     </script>
 </body>
