@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/> 
     <title>Hotel Selection Experiment</title>
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 20px; }
@@ -14,66 +14,50 @@
         .hotel-radio { margin-right: 10px; }
         .hotel-image { max-width: 100%; height: auto; margin-bottom: 20px; }
         .back-link { display: inline-block; margin-bottom: 20px; color: blue; text-decoration: underline; cursor: pointer; }
+        #timer { font-weight: bold; margin-bottom: 20px; font-size: 1.5em; }
+        /* Removed the display:none from #choose-button so it's visible from start */
+        /* #choose-button { display: none; } */
+        #confirm-selection { display: none; }
     </style>
 </head>
 <body>
+    <div id="timer">Time remaining: N minutes</div>
     <div id="main-page">
         <h1>Select a Hotel</h1>
         <ul id="hotel-list"></ul>
-        <!-- Choose Now button present from the start but disabled until timer ends -->
-        <button id="choose-now" disabled>Choose Now</button>
-        <!-- Confirm Selection will be hidden initially and only shown after choose-now is clicked -->
-        <button id="confirm-selection" style="display: none;">Confirm Selection</button>
+        <!-- "Choose Now" button is visible from the start, will be disabled initially -->
+        <button id="choose-button" disabled>Choose Now</button>
+        <button id="confirm-selection" disabled>Confirm Selection</button>
     </div>
     
     <div id="hotel-details">
         <a id="back-to-main" class="back-link">Back to Main Page</a>
         <h2 id="hotel-name"></h2>
-        <img id="hotel-image" class="hotel-image" alt="Hotel Image">
+        
+        <p><b>Room Quality:</b> <span id="hotel-room"></span></p>
+        <p><b>Amenities:</b> <span id="hotel-amenities"></span></p>
+        <p><b>Location:</b> <span id="hotel-location"></span></p>
+        <p><b>View:</b> <span id="hotel-view"></span></p>
+        <p><b>Price:</b> <span id="hotel-price"></span></p>
     </div>
 
     <script>
     const hotels = [
-        { 
-            name: "Radisson Blu Hotel, Marseille Vieux Port", 
-            imageUrl: "https://live.staticflickr.com/65535/53958757296_a76e40482a_b.jpg"
-        },
-        { 
-            name: "Odalys City Marseille Prado Castellane", 
-            imageUrl: "https://live.staticflickr.com/65535/53958757261_67b1721972_b.jpg"
-        },
-        { 
-            name: "NH Collection Marseille", 
-            imageUrl: "https://live.staticflickr.com/65535/53958757291_9af5e65298_b.jpg"
-        },
-        { 
-            name: "New Hotel Le Quai - Vieux Port", 
-            imageUrl: "https://live.staticflickr.com/65535/53957861847_0bb5b81c93_b.jpg"
-        },
-        { 
-            name: "Maisons du Monde Hôtel & Suites - Marseille Vieux Port", 
-            imageUrl: "https://live.staticflickr.com/65535/53957861852_0cb5f4a449_b.jpg"
-        },
-        { 
-            name: "Les Jardins de Cassis", 
-            imageUrl: "https://live.staticflickr.com/65535/53959078024_e854e86399_b.jpg"
-        },
-        { 
-            name: "Le Devem de Mirapier", 
-            imageUrl: "https://live.staticflickr.com/65535/53959209905_d490dec6c0_b.jpg"
-        },
-        { 
-            name: "Hôtel la Résidence du Vieux Port", 
-            imageUrl: "https://live.staticflickr.com/65535/53957861802_27ba51894e_b.jpg"
-        },
-        { 
-            name: "Grand Hotel Beauvau Marseille Vieux-Port – MGallery", 
-            imageUrl: "https://live.staticflickr.com/65535/53959077944_8ab417c5a3_b.jpg"
-        },
-        { 
-            name: "Adira Résid'Marseille Vieux-Port", 
-            imageUrl: "https://live.staticflickr.com/65535/53959209785_a4c41c2b2a_b.jpg"
-        }
+        { name: "Hotel Sapphire", room: 2, amenities: 1, location: 5, view: 4, price: 4 },
+        { name: "Hotel Emerald", room: 3, amenities: 2, location: 9, view: 2, price: 10 },
+        { name: "Hotel Opal", room: 7, amenities: 1, location: 1, view: 2, price: 4 },
+        { name: "Hotel Quartz", room: 4, amenities: 9, location: 10, view: 1, price: 9 },
+        { name: "Hotel Onyx", room: 4, amenities: 9, location: 7, view: 4, price: 8 },
+        { name: "Hotel Jasper", room: 10, amenities: 5, location: 1, view: 3, price: 7 },
+        { name: "Hotel Amber", room: 6, amenities: 5, location: 3, view: 4, price: 6 },
+        { name: "Hotel Topaz", room: 2, amenities: 2, location: 7, view: 2, price: 6 },
+        { name: "Hotel Pearl", room: 6, amenities: 10, location: 5, view: 1, price: 8 },
+        { name: "Hotel Garnet", room: 9, amenities: 2, location: 7, view: 2, price: 9 },
+        { name: "Hotel Amethyst", room: 5, amenities: 6, location: 6, view: 7, price: 4 },
+        { name: "Hotel Topiary", room: 2, amenities: 1, location: 4, view: 5, price: 2 },
+        { name: "Hotel Birch", room: 4, amenities: 2, location: 7, view: 5, price: 8 },
+        { name: "Hotel Maple", room: 6, amenities: 3, location: 6, view: 6, price: 4 },
+        { name: "Hotel Pine", room: 5, amenities: 2, location: 10, view: 3, price: 9 }
     ];
 
     let selectedHotel = null;
@@ -86,11 +70,15 @@
     let currentPageStartTime = Date.now();
     let currentPageName = "Main Page";
     const hotelVerticalPositions = {};
+
     const urlParams = new URLSearchParams(window.location.search);
     const returnUrl = urlParams.get('returnUrl');
     const startTime = Date.now();
 
-    const chooseNowButton = document.getElementById('choose-now');
+    let browsingEnded = false; 
+    let choosingPhase = false; 
+
+    const chooseButton = document.getElementById('choose-button');
     const confirmButton = document.getElementById('confirm-selection');
 
     function shuffleHotels(array) {
@@ -100,41 +88,47 @@
         }
         return array;
     }
-    
+
     function displayHotels() {
         const hotelList = document.getElementById('hotel-list');
         shuffledHotels = shuffleHotels([...hotels]);
-
+        
         shuffledHotels.forEach((hotel, index) => {
-            hotelVerticalPositions[hotel.name] = index + 1;
+            hotelVerticalPositions[hotel.name] = index;
             const li = document.createElement('li');
-    
+
             const radio = document.createElement('input');
             radio.type = 'radio';
             radio.name = 'hotel';
             radio.value = index;
             radio.id = `hotel-${index}`;
             radio.className = 'hotel-radio';
-            radio.disabled = true; // Radio buttons are disabled until "Choose Now" is clicked
             radio.onchange = () => selectHotel(index);
-    
+
+            // Initially disable radio buttons until "Choose Now" is clicked
+            radio.disabled = true; // <-- Added line
+
             const label = document.createElement('label');
             label.htmlFor = `hotel-${index}`;
             label.textContent = hotel.name;
-    
+
             const moreDetailsLink = document.createElement('a');
             moreDetailsLink.textContent = "More Details";
             moreDetailsLink.className = "more-details";
             moreDetailsLink.href = "#";
             moreDetailsLink.onclick = (e) => {
                 e.preventDefault();
-                totalClicks++;
-                uniqueClicks.add(index);
-                trackTimeSpent(currentPageName);
-                clickedHotelsOrder.push(hotel.name);
-                showHotelDetails(index);
+                if (!choosingPhase) {
+                    totalClicks++;
+                    uniqueClicks.add(index);
+                    trackTimeSpent(currentPageName);
+                    clickedHotelsOrder.push(hotel.name);
+                    showHotelDetails(index);
+                } else {
+                    alert('You can no longer view hotel details. Please pick a hotel and confirm.');
+                }
             };
-    
+
             li.appendChild(radio);
             li.appendChild(label);
             li.appendChild(moreDetailsLink);
@@ -144,22 +138,25 @@
 
     function selectHotel(index) {
         selectedHotel = shuffledHotels[index];
-        // Confirm button will be shown after "Choose Now" is clicked, so no changes here
-        // We'll handle enabling of confirm button after Choose Now
-        if (selectedHotel) {
+        // Enable confirm button only when hotel selected during choosing phase
+        if (choosingPhase && selectedHotel) {
             confirmButton.disabled = false;
         }
     }
 
     function showHotelDetails(index) {
-        selectedHotel = shuffledHotels[index];
-        document.getElementById('hotel-name').textContent = selectedHotel.name;
-        document.getElementById('hotel-image').src = selectedHotel.imageUrl;
-        document.getElementById('hotel-image').alt = selectedHotel.name;
+        const hotel = shuffledHotels[index];
+        document.getElementById('hotel-name').textContent = hotel.name;
+        document.getElementById('hotel-room').textContent = hotel.room;
+        document.getElementById('hotel-amenities').textContent = hotel.amenities;
+        document.getElementById('hotel-location').textContent = hotel.location;
+        document.getElementById('hotel-view').textContent = hotel.view;
+        document.getElementById('hotel-price').textContent = hotel.price;
+        
         document.getElementById('main-page').style.display = 'none';
         document.getElementById('hotel-details').style.display = 'block';
         trackTimeSpent(currentPageName);
-        currentPageName = shuffledHotels[index].name;
+        currentPageName = hotel.name;
     }
 
     document.getElementById('back-to-main').onclick = () => {
@@ -169,8 +166,19 @@
         currentPageName = "Main Page";
     };
 
-    // Originally confirm-selection is shown after selecting a hotel, we remove that logic 
-    // and handle it after choose-now is clicked.
+    // Modify the "Choose Now" button handler
+    chooseButton.onclick = () => {
+        choosingPhase = true;
+        // Disable the choose button now that it's clicked
+        chooseButton.disabled = true; // <-- Changed to disable instead of hide
+        // Show Confirm Selection button
+        confirmButton.style.display = 'inline-block';
+
+        // Enable radio buttons now that user is choosing
+        document.querySelectorAll('.hotel-radio').forEach(radio => {
+            radio.disabled = false;
+        });
+    };
 
     confirmButton.onclick = () => {
         trackTimeSpent(currentPageName);
@@ -180,9 +188,9 @@
             const durationSeconds = Math.round(durationMs / 1000);
 
             if (returnUrl) {
+                const taskCondition = 'NoTabs';
                 const separator = returnUrl.includes('?') ? '&' : '?';
                 let redirectTo = `${returnUrl}${separator}selectedHotel=${encodeURIComponent(selectedHotel.name)}`;
-                const taskCondition = 'NoTabs';
                 redirectTo += `&TaskCondition=${encodeURIComponent(taskCondition)}`;
                 redirectTo += `&TotalClicks=${encodeURIComponent(totalClicks)}`;
                 redirectTo += `&UniqueClicks=${encodeURIComponent(uniqueClicks.size)}`;
@@ -213,26 +221,30 @@
         currentPageStartTime = currentTime;
     }
 
-    displayHotels();
+    function startTimer(seconds) {
+        let timer = seconds;
+        const timerElement = document.getElementById('timer');
+        const timerInterval = setInterval(() => {
+            timer--;
+            const minutes = Math.floor(timer / 60);
+            const secs = timer % 60;
+            timerElement.textContent = `Time remaining: ${minutes}:${secs < 10 ? '0' : ''}${secs}`;
 
-    // Minimal timer: After a set time (e.g., 10 seconds), enable the "Choose Now" button
-    setTimeout(() => {
-        chooseNowButton.disabled = false;
-    }, 10000); // Adjust time as needed
+            if (timer <= 0) {
+                clearInterval(timerInterval);
+                browsingEnded = true;
+                timerElement.textContent = 'Browsing period ended. You can choose now or keep browsing.';
+                // Instead of showing the button now, we just enable it since it's already visible
+                chooseButton.disabled = false; // <-- Enable the choose button once time is up
+            }
+        }, 1000);
+    }
 
-    // When "Choose Now" is clicked:
-    // 1. Disable it (gray out)
-    // 2. Show "Confirm Selection" button
-    // 3. Enable radio buttons
-    chooseNowButton.addEventListener('click', () => {
-        chooseNowButton.disabled = true;
-        confirmButton.style.display = 'block';
-        confirmButton.disabled = true; // disabled until a hotel is selected
-        document.querySelectorAll('.hotel-radio').forEach(radio => {
-            radio.disabled = false;
-        });
-    });
+    window.onload = () => {
+        const browsingDuration = 180; 
+        startTimer(browsingDuration);
+        displayHotels();
+    };
     </script>
-
 </body>
 </html>
