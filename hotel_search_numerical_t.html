@@ -61,8 +61,8 @@
 
         let selectedHotel = null;
         let openTabs = ['main-page'];
-        let browsingEnded = false;   // <-- Now indicates that browsing time ended, but user can still view details until pressing choose
-        let choosingPhase = false;   // <-- Indicates that user pressed "Choose Now" button
+        let browsingEnded = false;   
+        let choosingPhase = false;   
         let totalClicks = 0;
         const uniqueClicks = new Set();
         let maxTabsOpen = 0;
@@ -72,11 +72,13 @@
         let timeSpentOnTabs = [];
         let hotelVerticalPositions = {};
         let activeTabId = 'main-page';
-        
+
+        // New variable to stop recording time after choosing
+        let stopRecordingTime = false; // <-- Added
+
         const urlParams = new URLSearchParams(window.location.search);
         const returnUrl = urlParams.get('returnUrl');
 
-        // Select elements
         const chooseButton = document.getElementById('choose-button');
         const confirmButton = document.getElementById('confirm-selection');
 
@@ -97,17 +99,14 @@
 
                 if (--timer < 0) {
                     clearInterval(interval);
-                    // Browsing time ended
                     browsingEnded = true;
                     timerElement.textContent = "Browsing period ended. You can still look or press 'Choose Now'.";
-                    // Show the "Choose Now" button instead of ending access
                     chooseButton.style.display = 'inline-block';
                 }
             }, 1000);
         }
 
         function updateConfirmButtonState() {
-            // Confirm button should be enabled only in choosing phase AND if a hotel is selected
             if (choosingPhase && selectedHotel !== null) {
                 confirmButton.disabled = false;
             } else {
@@ -129,7 +128,6 @@
                 radio.value = originalIndex;
                 radio.id = `hotel-${originalIndex}`;
                 radio.className = 'hotel-radio';
-                // On radio change is set, but will be initially disabled
                 radio.onchange = () => {
                     selectHotel(originalIndex);
                 };
@@ -168,8 +166,6 @@
                 radio.disabled = true;
             });
         }
-
-        
 
         function selectHotel(index) {
             selectedHotel = hotels[index];
@@ -244,7 +240,53 @@
             }
         }
 
+        // New helper function to record time
+        function recordTimeOnCurrentTab() {
+            const currentTime = Date.now();
+            const timeSpent = parseFloat(((currentTime - tabVisitStartTime) / 1000).toFixed(1));
+            
+            let currentTabName = 'Main Page';
+            if (activeTabId.startsWith('hotel-tab-')) {
+                const index = parseInt(activeTabId.replace('hotel-tab-', ''), 10);
+                if (!isNaN(index) && hotels[index]) {
+                    currentTabName = hotels[index].name;
+                }
+            }
+
+            if (timeSpent > 0) {
+                timeSpentOnTabs.push(`${currentTabName}:${timeSpent}s`);
+            }
+
+            // Update the start time so no double counting occurs later
+            tabVisitStartTime = currentTime;
+        }
+
         function switchTab(tabId) {
+            // If we have stopped recording time, just switch tabs without recording new times
+            if (stopRecordingTime) {
+                const currentTab = document.getElementById(activeTabId);
+                const currentButton = document.querySelector(`.tab-button[data-tab="${activeTabId}"]`);
+                if (currentTab) currentTab.classList.remove('tab-active');
+                if (currentButton) currentButton.classList.remove('tab-button-active');
+
+                const newActiveTab = document.getElementById(tabId);
+                const newActiveButton = document.querySelector(`.tab-button[data-tab="${tabId}"]`);
+                if (newActiveTab) newActiveTab.classList.add('tab-active');
+                if (newActiveButton) newActiveButton.classList.add('tab-button-active');
+
+                activeTabId = tabId;
+
+                // Record clicked hotel order if relevant
+                if (tabId.startsWith('hotel-tab-')) {
+                    const index = parseInt(tabId.replace('hotel-tab-', ''), 10);
+                    if (!isNaN(index) && hotels[index]) {
+                        clickedHotelsOrderList.push(hotels[index].name);
+                    }
+                }
+                return; // No timing recorded after stopping
+            }
+
+            // Original timing logic if stopRecordingTime is false
             const currentTime = Date.now();
             const timeSpent = parseFloat(((currentTime - tabVisitStartTime) / 1000).toFixed(1));
             
@@ -321,7 +363,6 @@
             });
         }
 
-        // Confirm Selection now only works in choosing phase and after a hotel is selected
         confirmButton.addEventListener('click', () => {
             if (choosingPhase && selectedHotel) {
                 if (returnUrl) {
@@ -349,6 +390,12 @@
         });
 
         chooseButton.addEventListener('click', () => {
+            // Record final time before stopping recording
+            if (!stopRecordingTime) {
+                recordTimeOnCurrentTab();
+            }
+            stopRecordingTime = true; // After this, no more time is recorded
+
             choosingPhase = true;
             closeAllTabsExceptMain();
             disableMoreDetailsLinks();
@@ -363,7 +410,6 @@
         document.querySelector('.tab-button[data-tab="main-page"]').addEventListener('click', () => switchTab('main-page'));
 
         window.addEventListener('DOMContentLoaded', (event) => {
-            // Set your desired browsing time in seconds (e.g., 180 for 3 minutes)
             startTimer(15);
             displayHotels();
         });
