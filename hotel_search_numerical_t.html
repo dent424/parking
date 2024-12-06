@@ -395,11 +395,14 @@
                 recordTimeOnCurrentTab();
             }
             stopRecordingTime = true; // After this, no more time is recorded
-
+        
             choosingPhase = true;
             closeAllTabsExceptMain();
             disableMoreDetailsLinks();
             updateConfirmButtonState();
+        
+            // Disable the choose button now that it's been clicked
+            chooseButton.disabled = true;
         
             // Enable all radio buttons now that user is choosing
             document.querySelectorAll('.hotel-radio').forEach(radio => {
