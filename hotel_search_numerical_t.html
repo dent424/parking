@@ -35,8 +35,10 @@
     <div id="main-page" class="tab tab-active">
         <h1>Select a Hotel</h1>
         <ul id="hotel-list"></ul>
-        <button id="choose-button" style="display:none;">Choose Now</button> <!-- The new Choose Now button -->
-        <button id="confirm-selection" disabled>Confirm Selection</button>
+        <!-- Make the Choose Now button visible but disabled initially -->
+        <button id="choose-button" disabled style="display:inline-block;">Choose Now</button>
+        <!-- Hide the confirm button initially -->
+        <button id="confirm-selection" style="display:none;" disabled>Confirm Selection</button>
     </div>
     
     <script>
@@ -88,8 +90,7 @@
         let hotelVerticalPositions = {};
         let activeTabId = 'main-page';
 
-        // New variable to stop recording time after choosing
-        let stopRecordingTime = false; // <-- Added
+        let stopRecordingTime = false;
 
         const urlParams = new URLSearchParams(window.location.search);
         const returnUrl = urlParams.get('returnUrl');
@@ -115,18 +116,16 @@
                 if (--timer < 0) {
                     clearInterval(interval);
                     browsingEnded = true;
-                    timerElement.textContent = "Browsing period ended. You can choose now in the Hotels List Page after clicking 'Choose Now' or keep browsing.";
-                    chooseButton.style.display = 'inline-block';
+                    timerElement.textContent = "Browsing period ended. You can now click 'Choose Now' or keep browsing.";
+                    // Enable the Choose Now button once time is up
+                    chooseButton.disabled = false;
                 }
             }, 1000);
         }
 
         function updateConfirmButtonState() {
-            if (choosingPhase && selectedHotel !== null) {
-                confirmButton.disabled = false;
-            } else {
-                confirmButton.disabled = true;
-            }
+            // Confirm button should be enabled only if in choosing phase and a hotel is selected
+            confirmButton.disabled = !(choosingPhase && selectedHotel !== null);
         }
 
         function displayHotels() {
@@ -255,7 +254,6 @@
             }
         }
 
-        // New helper function to record time
         function recordTimeOnCurrentTab() {
             const currentTime = Date.now();
             const timeSpent = parseFloat(((currentTime - tabVisitStartTime) / 1000).toFixed(1));
@@ -272,12 +270,10 @@
                 timeSpentOnTabs.push(`${currentTabName}:${timeSpent}s`);
             }
 
-            // Update the start time so no double counting occurs later
             tabVisitStartTime = currentTime;
         }
 
         function switchTab(tabId) {
-            // If we have stopped recording time, just switch tabs without recording new times
             if (stopRecordingTime) {
                 const currentTab = document.getElementById(activeTabId);
                 const currentButton = document.querySelector(`.tab-button[data-tab="${activeTabId}"]`);
@@ -291,17 +287,15 @@
 
                 activeTabId = tabId;
 
-                // Record clicked hotel order if relevant
                 if (tabId.startsWith('hotel-tab-')) {
                     const index = parseInt(tabId.replace('hotel-tab-', ''), 10);
                     if (!isNaN(index) && hotels[index]) {
                         clickedHotelsOrderList.push(hotels[index].name);
                     }
                 }
-                return; // No timing recorded after stopping
+                return;
             }
 
-            // Original timing logic if stopRecordingTime is false
             const currentTime = Date.now();
             const timeSpent = parseFloat(((currentTime - tabVisitStartTime) / 1000).toFixed(1));
             
@@ -405,20 +399,22 @@
         });
 
         chooseButton.addEventListener('click', () => {
-            // Record final time before stopping recording
             if (!stopRecordingTime) {
                 recordTimeOnCurrentTab();
             }
-            stopRecordingTime = true; // After this, no more time is recorded
-        
+            stopRecordingTime = true; 
             choosingPhase = true;
             closeAllTabsExceptMain();
             disableMoreDetailsLinks();
             updateConfirmButtonState();
-        
+
+            // The Confirm Selection button should now appear but remain disabled until a hotel is chosen
+            confirmButton.style.display = 'inline-block';
+            updateConfirmButtonState();
+
             // Disable the choose button now that it's been clicked
             chooseButton.disabled = true;
-        
+
             // Enable all radio buttons now that user is choosing
             document.querySelectorAll('.hotel-radio').forEach(radio => {
                 radio.disabled = false;
