@@ -27,7 +27,7 @@
     </style>
 </head>
 <body>
-    <div id="timer">Time Remaining: 60 seconds</div>
+    <div id="timer">Time Remaining: 180 seconds</div>
     <div id="tab-bar" class="tab-bar">
         <div class="tab-button tab-button-active" data-tab="main-page">Hotel List</div>
     </div>
@@ -424,7 +424,7 @@
         document.querySelector('.tab-button[data-tab="main-page"]').addEventListener('click', () => switchTab('main-page'));
 
         window.addEventListener('DOMContentLoaded', (event) => {
-            startTimer(60);
+            startTimer(180);
             displayHotels();
         });
 
