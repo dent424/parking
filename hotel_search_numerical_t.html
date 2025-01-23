@@ -27,7 +27,7 @@
     </style>
 </head>
 <body>
-    <div id="timer">Time Remaining: 180 seconds</div>
+    <div id="timer">Time Remaining: 3:00</div>
     <div id="tab-bar" class="tab-bar">
         <div class="tab-button tab-button-active" data-tab="main-page">Hotel List</div>
     </div>
@@ -111,7 +111,9 @@
             const timerElement = document.getElementById('timer');
             const interval = setInterval(function () {
                 seconds = parseInt(timer, 10);
-                timerElement.textContent = `Time Remaining: ${seconds} seconds`;
+                const minutes = Math.floor(seconds / 60);
+		        const displaySeconds = seconds % 60;
+		        timerElement.textContent = `Time Remaining: ${minutes}:${displaySeconds < 10 ? '0' : ''}${displaySeconds}`;
 
                 if (--timer < 0) {
                     clearInterval(interval);
