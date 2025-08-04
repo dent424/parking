@@ -44,36 +44,36 @@
     <script>
     (function() {
         const hotels = [
-            { name: "Hotel Horizon", room: 8.2, amenities: 5.1, location: 6.4, view: 6.1, price: 7.6 },
-            { name: "Hotel Skyline", room: 8.4, amenities: 9.5, location: 5.4, view: 7.1, price: 1.3 },
-            { name: "Hotel Ocean Breeze", room: 6.1, amenities: 7.5, location: 5.1, view: 6.0, price: 6.8 },
-            { name: "Hotel Serenity", room: 7.7, amenities: 6.1, location: 7.9, view: 9.0, price: 1.1 },
-            { name: "Hotel Cascade", room: 9.0, amenities: 8.5, location: 6.7, view: 5.8, price: 9.6 },
-            { name: "Hotel Summit", room: 6.7, amenities: 5.5, location: 5.5, view: 9.2, price: 6.4 },
-            { name: "Hotel Alpine", room: 9.0, amenities: 8.6, location: 7.7, view: 9.9, price: 4.4 },
-            { name: "Hotel Crystal Bay", room: 7.8, amenities: 9.1, location: 8.1, view: 9.3, price: 6.2 },
-            { name: "Hotel Crystal Cove", room: 8.5, amenities: 5.2, location: 6.1, view: 6.4, price: 1.7 },
-            { name: "Hotel Sunset", room: 6.2, amenities: 5.5, location: 6.4, view: 8.2, price: 4.3 },
-            { name: "Hotel Sunset Ridge", room: 6.9, amenities: 6.0, location: 6.3, view: 9.7, price: 6.8 },
-            { name: "Hotel Sapphire", room: 8.0, amenities: 5.9, location: 8.6, view: 5.8, price: 4.4 },
-            { name: "Hotel Coral", room: 9.9, amenities: 8.2, location: 7.8, view: 8.4, price: 8.6 },
-            { name: "Hotel Amber", room: 8.9, amenities: 6.1, location: 5.2, view: 6.6, price: 3.4 },
-            { name: "Hotel Starlight", room: 6.1, amenities: 9.7, location: 9.4, view: 6.6, price: 6.9 },
-            { name: "Hotel Riverview", room: 7.0, amenities: 9.6, location: 7.3, view: 6.3, price: 3.2 },
-            { name: "Hotel Seabreeze", room: 7.8, amenities: 6.3, location: 7.9, view: 9.5, price: 4.6 },
-            { name: "Hotel Evergreen", room: 6.1, amenities: 10.0, location: 7.5, view: 5.5, price: 1.4 },
-            { name: "Hotel Urbania", room: 5.5, amenities: 8.1, location: 9.0, view: 7.1, price: 1.6 },
-            { name: "Hotel Bayfront", room: 6.9, amenities: 10.0, location: 7.6, view: 9.9, price: 8.7 },
-            { name: "Hotel Harborview", room: 5.1, amenities: 8.6, location: 8.4, view: 7.7, price: 3.4 },
-            { name: "Hotel Meadowbrook", room: 8.2, amenities: 5.6, location: 7.2, view: 7.3, price: 9.6 },
-            { name: "Hotel Woodland", room: 9.4, amenities: 6.3, location: 7.5, view: 5.9, price: 9.2 },
-            { name: "Hotel Timberline", room: 9.4, amenities: 6.5, location: 8.2, view: 8.0, price: 2.4 },
-            { name: "Hotel Clearwater", room: 8.8, amenities: 7.7, location: 8.9, view: 7.7, price: 1.0 },
-            { name: "Hotel Bluestone", room: 6.6, amenities: 5.1, location: 9.6, view: 9.4, price: 8.5 },
-            { name: "Hotel Sunridge", room: 6.5, amenities: 5.3, location: 9.4, view: 9.7, price: 1.8 },
-            { name: "Hotel Sandstone", room: 7.4, amenities: 5.3, location: 8.8, view: 8.8, price: 2.2 },
-            { name: "Hotel Windsong", room: 7.4, amenities: 7.7, location: 6.3, view: 9.4, price: 4.8 },
-            { name: "Hotel Silverlake", room: 6.1, amenities: 7.7, location: 8.6, view: 6.0, price: 3.8 },
+            { id: "001", name: "Hotel Horizon", room: 8.2, amenities: 5.1, location: 6.4, view: 6.1, price: 7.6 },
+            { id: "002", name: "Hotel Skyline", room: 8.4, amenities: 9.5, location: 5.4, view: 7.1, price: 1.3 },
+            { id: "003", name: "Hotel Ocean Breeze", room: 6.1, amenities: 7.5, location: 5.1, view: 6.0, price: 6.8 },
+            { id: "004", name: "Hotel Serenity", room: 7.7, amenities: 6.1, location: 7.9, view: 9.0, price: 1.1 },
+            { id: "005", name: "Hotel Cascade", room: 9.0, amenities: 8.5, location: 6.7, view: 5.8, price: 9.6 },
+            { id: "006", name: "Hotel Summit", room: 6.7, amenities: 5.5, location: 5.5, view: 9.2, price: 6.4 },
+            { id: "007", name: "Hotel Alpine", room: 9.0, amenities: 8.6, location: 7.7, view: 9.9, price: 4.4 },
+            { id: "008", name: "Hotel Crystal Bay", room: 7.8, amenities: 9.1, location: 8.1, view: 9.3, price: 6.2 },
+            { id: "009", name: "Hotel Crystal Cove", room: 8.5, amenities: 5.2, location: 6.1, view: 6.4, price: 1.7 },
+            { id: "010", name: "Hotel Sunset", room: 6.2, amenities: 5.5, location: 6.4, view: 8.2, price: 4.3 },
+            { id: "011", name: "Hotel Sunset Ridge", room: 6.9, amenities: 6.0, location: 6.3, view: 9.7, price: 6.8 },
+            { id: "012", name: "Hotel Sapphire", room: 8.0, amenities: 5.9, location: 8.6, view: 5.8, price: 4.4 },
+            { id: "013", name: "Hotel Coral", room: 9.9, amenities: 8.2, location: 7.8, view: 8.4, price: 8.6 },
+            { id: "014", name: "Hotel Amber", room: 8.9, amenities: 6.1, location: 5.2, view: 6.6, price: 3.4 },
+            { id: "015", name: "Hotel Starlight", room: 6.1, amenities: 9.7, location: 9.4, view: 6.6, price: 6.9 },
+            { id: "016", name: "Hotel Riverview", room: 7.0, amenities: 9.6, location: 7.3, view: 6.3, price: 3.2 },
+            { id: "017", name: "Hotel Seabreeze", room: 7.8, amenities: 6.3, location: 7.9, view: 9.5, price: 4.6 },
+            { id: "018", name: "Hotel Evergreen", room: 6.1, amenities: 10.0, location: 7.5, view: 5.5, price: 1.4 },
+            { id: "019", name: "Hotel Urbania", room: 5.5, amenities: 8.1, location: 9.0, view: 7.1, price: 1.6 },
+            { id: "020", name: "Hotel Bayfront", room: 6.9, amenities: 10.0, location: 7.6, view: 9.9, price: 8.7 },
+            { id: "021", name: "Hotel Harborview", room: 5.1, amenities: 8.6, location: 8.4, view: 7.7, price: 3.4 },
+            { id: "022", name: "Hotel Meadowbrook", room: 8.2, amenities: 5.6, location: 7.2, view: 7.3, price: 9.6 },
+            { id: "023", name: "Hotel Woodland", room: 9.4, amenities: 6.3, location: 7.5, view: 5.9, price: 9.2 },
+            { id: "024", name: "Hotel Timberline", room: 9.4, amenities: 6.5, location: 8.2, view: 8.0, price: 2.4 },
+            { id: "025", name: "Hotel Clearwater", room: 8.8, amenities: 7.7, location: 8.9, view: 7.7, price: 1.0 },
+            { id: "026", name: "Hotel Bluestone", room: 6.6, amenities: 5.1, location: 9.6, view: 9.4, price: 8.5 },
+            { id: "027", name: "Hotel Sunridge", room: 6.5, amenities: 5.3, location: 9.4, view: 9.7, price: 1.8 },
+            { id: "028", name: "Hotel Sandstone", room: 7.4, amenities: 5.3, location: 8.8, view: 8.8, price: 2.2 },
+            { id: "029", name: "Hotel Windsong", room: 7.4, amenities: 7.7, location: 6.3, view: 9.4, price: 4.8 },
+            { id: "030", name: "Hotel Silverlake", room: 6.1, amenities: 7.7, location: 8.6, view: 6.0, price: 3.8 },
         ];
 
         let selectedHotel = null;
@@ -174,7 +174,7 @@
                 li.appendChild(moreDetailsLink);
                 hotelList.appendChild(li);
         
-                hotelVerticalPositions[hotel.name] = shuffledIndex;
+                hotelVerticalPositions[hotel.id] = shuffledIndex;
             });
         
             // Disable all radio buttons until choose phase
@@ -260,11 +260,11 @@
             const currentTime = Date.now();
             const timeSpent = parseFloat(((currentTime - tabVisitStartTime) / 1000).toFixed(1));
             
-            let currentTabName = 'Main Page';
+            let currentTabName = '000';
             if (activeTabId.startsWith('hotel-tab-')) {
                 const index = parseInt(activeTabId.replace('hotel-tab-', ''), 10);
                 if (!isNaN(index) && hotels[index]) {
-                    currentTabName = hotels[index].name;
+                    currentTabName = hotels[index].id;
                 }
             }
 
@@ -292,7 +292,7 @@
                 if (tabId.startsWith('hotel-tab-')) {
                     const index = parseInt(tabId.replace('hotel-tab-', ''), 10);
                     if (!isNaN(index) && hotels[index]) {
-                        clickedHotelsOrderList.push(hotels[index].name);
+                        clickedHotelsOrderList.push(hotels[index].id);
                     }
                 }
                 return;
@@ -301,11 +301,11 @@
             const currentTime = Date.now();
             const timeSpent = parseFloat(((currentTime - tabVisitStartTime) / 1000).toFixed(1));
             
-            let currentTabName = 'Main Page';
+            let currentTabName = '000';
             if (activeTabId.startsWith('hotel-tab-')) {
                 const index = parseInt(activeTabId.replace('hotel-tab-', ''), 10);
                 if (!isNaN(index) && hotels[index]) {
-                    currentTabName = hotels[index].name;
+                    currentTabName = hotels[index].id;
                 }
             }
 
@@ -332,7 +332,7 @@
             if (tabId.startsWith('hotel-tab-')) {
                 const index = parseInt(tabId.replace('hotel-tab-', ''), 10);
                 if (!isNaN(index) && hotels[index]) {
-                    clickedHotelsOrderList.push(hotels[index].name);
+                    clickedHotelsOrderList.push(hotels[index].id);
                 }
             }
         }
@@ -378,20 +378,35 @@
             if (choosingPhase && selectedHotel) {
                 if (returnUrl) {
                     const separator = returnUrl.includes('?') ? '&' : '?';
-                    let redirectTo = `${returnUrl}${separator}selectedHotel=${encodeURIComponent(selectedHotel.name)}`;
+                    let redirectTo = `${returnUrl}${separator}selectedHotel=${encodeURIComponent(selectedHotel.id)}`;
+                    redirectTo += `&truncated=${encodeURIComponent("xxnotxxtruncatedxx")}`;
+                    redirectTo += `&hotelName=${encodeURIComponent(selectedHotel.name)}`;
                     const taskCondition = 'Tabs'; 
                     redirectTo += `&TaskCondition=${encodeURIComponent(taskCondition)}`;
                     redirectTo += `&TotalClicks=${encodeURIComponent(totalClicks)}`;
                     redirectTo += `&UniqueClicks=${encodeURIComponent(uniqueClicks.size)}`;
-                    redirectTo += `&clickedHotelsOrder=${encodeURIComponent(clickedHotelsOrderList.join(' > '))}`;
+                    redirectTo += `&clickedHotelsOrder=${encodeURIComponent(clickedHotelsOrderList.join('>'))}`;
                     const durationMs = Date.now() - taskStartTime;
                     const durationSeconds = Math.round(durationMs / 1000);
                     redirectTo += `&TaskDuration=${encodeURIComponent(durationSeconds)}`;
-                    redirectTo += `&timeSpentOnTabs=${encodeURIComponent(timeSpentOnTabs.join(' > '))}`;
+                    redirectTo += `&timeSpentOnTabs=${encodeURIComponent(timeSpentOnTabs.join('>'))}`;
                     redirectTo += `&hotelVerticalPositions=${encodeURIComponent(JSON.stringify(hotelVerticalPositions))}`;
                     redirectTo += `&MaxTabsOpen=${encodeURIComponent(maxTabsOpen)}`;
 
+                    if (redirectTo.length > 2000) {
+                        redirectTo = redirectTo.substring(0, 2000);
+                        // Truncate the URL if it exceeds 2000 characters
+                        // also make sure it's cut off at a safe point
+                        const lastAmpersand = redirectTo.lastIndexOf('&');
+                        if (lastAmpersand !== -1) {
+                            redirectTo = redirectTo.substring(0, lastAmpersand);
+                        }
+                        // string substitute to show we truncated
+                        redirectTo = redirectTo.replace("xxnotxxtruncatedxx", "xxyesxxtruncatedxx");
+                    }
+
                     window.location.href = redirectTo;
+                    
                 } else {
                     alert('Return URL is not defined.');
                 }
