@@ -42,6 +42,8 @@
     </div>
     
     <script>
+    window.onbeforeunload = function() { return "Your work will be lost."; };
+    
     (function() {
         const hotels = [
             { id: "001", name: "Hotel Horizon", room: 8.2, amenities: 5.1, location: 6.4, view: 6.1, price: 7.6 },
