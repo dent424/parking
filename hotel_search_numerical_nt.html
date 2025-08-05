@@ -220,8 +220,9 @@
 
                 if (redirectTo.length > 2000) {
                     // Truncate the URL if it exceeds 2000 characters
+                    let origLen = redirectTo.length;    
                     console.warn('Redirect URL exceeds 2000 characters, truncating...');
-                    console.warn(`Original URL length: ${redirectTo.length}`);
+                    console.warn(`Original URL length: ${origLen}`);
                     console.warn(`Original URL: ${redirectTo}`);
                     redirectTo = redirectTo.substring(0, 2000);
                     console.warn(`Truncated URL: ${redirectTo}`);
@@ -231,7 +232,8 @@
                         redirectTo = redirectTo.substring(0, lastAmpersand);
                     }
                     // string substitute to show we truncated
-                    redirectTo = redirectTo.replace("xxnotxxtruncatedxx", "xxyesxxtruncatedxx");
+                    truncString = `${origLen}`;
+                    redirectTo = redirectTo.replace("xxnotxxtruncatedxx", truncString);
                 }
 
                 window.location.href = redirectTo;
