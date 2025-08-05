@@ -43,7 +43,7 @@
     
     <script>
     window.onbeforeunload = function() { return "Your work will be lost."; };
-    
+
     (function() {
         const hotels = [
             { id: "001", name: "Hotel Horizon", room: 8.2, amenities: 5.1, location: 6.4, view: 6.1, price: 7.6 },
@@ -380,9 +380,9 @@
             if (choosingPhase && selectedHotel) {
                 if (returnUrl) {
                     const separator = returnUrl.includes('?') ? '&' : '?';
-                    let redirectTo = `${returnUrl}${separator}selectedHotel=${encodeURIComponent(selectedHotel.id)}`;
+                    let redirectTo = `${returnUrl}${separator}selectedHotel=${encodeURIComponent(selectedHotel.name)}`;
                     redirectTo += `&truncated=${encodeURIComponent("xxnotxxtruncatedxx")}`;
-                    redirectTo += `&hotelName=${encodeURIComponent(selectedHotel.name)}`;
+                    redirectTo += `&selectedHotelId=${encodeURIComponent(selectedHotel.id)}`;
                     const taskCondition = 'Tabs'; 
                     redirectTo += `&TaskCondition=${encodeURIComponent(taskCondition)}`;
                     redirectTo += `&TotalClicks=${encodeURIComponent(totalClicks)}`;
