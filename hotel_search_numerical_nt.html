@@ -199,6 +199,12 @@
     confirmButton.onclick = () => {
         trackTimeSpent(currentPageId);
         if (selectedHotel) {
+            var isDebug = false;
+            if (!returnUrl) {
+                alert('Return URL is not defined. Proceeding in debug mode.');
+                returnUrl = 'https://echo.free.beeceptor.com'; // Fallback URL for debug mode
+                isDebug = true;
+            }
             if (returnUrl) {
                 const taskCondition = 'NoTabs';
                 const durationMs = Date.now() - taskStartTime;
@@ -235,10 +241,15 @@
                     truncString = `${origLen}`;
                     redirectTo = redirectTo.replace("xxnotxxtruncatedxx", truncString);
                 }
+                if (isDebug) {
+                    console.log('Debug Mode: Redirecting to');
+                    console.log(redirectTo);
+                    alert(redirectTo)
+                }
 
                 window.location.href = redirectTo;
             } else {
-                alert('Return URL not found. Please try again.');
+                alert('Return URL is not defined.');
             }
         } else {
             alert('Please select a hotel before confirming.');

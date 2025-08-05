@@ -378,6 +378,12 @@
 
         confirmButton.addEventListener('click', () => {
             if (choosingPhase && selectedHotel) {
+                var isDebug = false;
+                if (!returnUrl) {
+                    alert('Return URL is not defined. Proceeding in debug mode.');
+                    returnUrl = 'https://echo.free.beeceptor.com'; // Fallback URL for debug mode
+                    isDebug = true;
+                }
                 if (returnUrl) {
                     const taskCondition = 'Tabs'; 
                     const durationMs = Date.now() - taskStartTime;
@@ -414,6 +420,12 @@
                         truncString = `${origLen}`;
                         redirectTo = redirectTo.replace("xxnotxxtruncatedxx", truncString);
                     }
+                    if (isDebug) {
+                        console.log('Debug Mode: Redirecting to');
+                        console.log(redirectTo);
+                        alert(redirectTo)
+                    }
+
 
                     window.location.href = redirectTo;
                     
