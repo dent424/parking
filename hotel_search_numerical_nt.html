@@ -220,6 +220,9 @@
                 
 
                 if (redirectTo.length > 2000) {
+                    console.warn('Redirect URL exceeds 2000 characters, truncating...');
+                    console.warn(`Original URL length: ${redirectTo.length}`);
+                    console.warn(`Original URL: ${redirectTo}`);
                     redirectTo = redirectTo.substring(0, 2000);
                     // Truncate the URL if it exceeds 2000 characters
                     // also make sure it's cut off at a safe point
