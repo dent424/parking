@@ -42,7 +42,6 @@
     </div>
     
     <script>
-    window.onbeforeunload = function() { return "Your work will be lost."; };
 
     (function() {
         const hotels = [
@@ -379,28 +378,31 @@
         confirmButton.addEventListener('click', () => {
             if (choosingPhase && selectedHotel) {
                 if (returnUrl) {
-                    const separator = returnUrl.includes('?') ? '&' : '?';
-                    let redirectTo = `${returnUrl}${separator}selectedHotel=${encodeURIComponent(selectedHotel.name)}`;
-                    redirectTo += `&truncated=${encodeURIComponent("xxnotxxtruncatedxx")}`;
-                    redirectTo += `&selectedHotelId=${encodeURIComponent(selectedHotel.id)}`;
                     const taskCondition = 'Tabs'; 
+                    const durationMs = Date.now() - taskStartTime;
+                    const durationSeconds = Math.round(durationMs / 1000);
+                    const separator = returnUrl.includes('?') ? '&' : '?';
+
+                    let redirectTo = `${returnUrl}${separator}`;
+                    redirectTo += `truncated=${encodeURIComponent("xxnotxxtruncatedxx")}`; // first one doesn't have the ampersand
+                    redirectTo += `&selectedHotel=${encodeURIComponent(selectedHotel.name)}`;
+                    redirectTo += `&selectedHotelId=${encodeURIComponent(selectedHotel.id)}`;
                     redirectTo += `&TaskCondition=${encodeURIComponent(taskCondition)}`;
                     redirectTo += `&TotalClicks=${encodeURIComponent(totalClicks)}`;
                     redirectTo += `&UniqueClicks=${encodeURIComponent(uniqueClicks.size)}`;
-                    redirectTo += `&clickedHotelsOrder=${encodeURIComponent(clickedHotelsOrderList.join('>'))}`;
-                    const durationMs = Date.now() - taskStartTime;
-                    const durationSeconds = Math.round(durationMs / 1000);
                     redirectTo += `&TaskDuration=${encodeURIComponent(durationSeconds)}`;
-                    redirectTo += `&timeSpentOnTabs=${encodeURIComponent(timeSpentOnTabs.join('>'))}`;
-                    redirectTo += `&hotelVerticalPositions=${encodeURIComponent(JSON.stringify(hotelVerticalPositions))}`;
                     redirectTo += `&MaxTabsOpen=${encodeURIComponent(maxTabsOpen)}`;
+                    redirectTo += `&hotelVerticalPositions=${encodeURIComponent(JSON.stringify(hotelVerticalPositions))}`;
+                    redirectTo += `&clickedHotelsOrder=${encodeURIComponent(clickedHotelsOrderList.join('>'))}`;
+                    redirectTo += `&timeSpentOnTabs=${encodeURIComponent(timeSpentOnTabs.join('>'))}`;
 
                     if (redirectTo.length > 2000) {
+                        // Truncate the URL if it exceeds 2000 characters
                         console.warn('Redirect URL exceeds 2000 characters, truncating...');
                         console.warn(`Original URL length: ${redirectTo.length}`);
                         console.warn(`Original URL: ${redirectTo}`);
                         redirectTo = redirectTo.substring(0, 2000);
-                        // Truncate the URL if it exceeds 2000 characters
+                        console.warn(`Truncated URL: ${redirectTo}`);
                         // also make sure it's cut off at a safe point
                         const lastAmpersand = redirectTo.lastIndexOf('&');
                         if (lastAmpersand !== -1) {
