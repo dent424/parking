@@ -94,7 +94,7 @@
         let stopRecordingTime = false;
 
         const urlParams = new URLSearchParams(window.location.search);
-        const returnUrl = urlParams.get('returnUrl');
+        var returnUrl = urlParams.get('returnUrl');
 
         const chooseButton = document.getElementById('choose-button');
         const confirmButton = document.getElementById('confirm-selection');

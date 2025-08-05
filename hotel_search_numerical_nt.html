@@ -86,7 +86,7 @@
     const hotelVerticalPositions = {};
 
     const urlParams = new URLSearchParams(window.location.search);
-    const returnUrl = urlParams.get('returnUrl');
+    var returnUrl = urlParams.get('returnUrl');
     const taskStartTime = Date.now();
 
     let browsingEnded = false; 
