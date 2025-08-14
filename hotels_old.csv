@@ -1,0 +1,32 @@
+id,name,room,amenities,location,view,price
+001,Hotel Horizon,8.2,5.1,6.4,6.1,7.6
+002,Hotel Skyline,8.4,9.5,5.4,7.1,1.3
+003,Hotel Ocean Breeze,6.1,7.5,5.1,6.0,6.8
+004,Hotel Serenity,7.7,6.1,7.9,9.0,1.1
+005,Hotel Cascade,9.0,8.5,6.7,5.8,9.6
+006,Hotel Summit,6.7,5.5,5.5,9.2,6.4
+007,Hotel Alpine,9.0,8.6,7.7,9.9,4.4
+008,Hotel Crystal Bay,7.8,9.1,8.1,9.3,6.2
+009,Hotel Crystal Cove,8.5,5.2,6.1,6.4,1.7
+010,Hotel Sunset,6.2,5.5,6.4,8.2,4.3
+011,Hotel Sunset Ridge,6.9,6.0,6.3,9.7,6.8
+012,Hotel Sapphire,8.0,5.9,8.6,5.8,4.4
+013,Hotel Coral,9.9,8.2,7.8,8.4,8.6
+014,Hotel Amber,8.9,6.1,5.2,6.6,3.4
+015,Hotel Starlight,6.1,9.7,9.4,6.6,6.9
+016,Hotel Riverview,7.0,9.6,7.3,6.3,3.2
+017,Hotel Seabreeze,7.8,6.3,7.9,9.5,4.6
+018,Hotel Evergreen,6.1,10.0,7.5,5.5,1.4
+019,Hotel Urbania,5.5,8.1,9.0,7.1,1.6
+020,Hotel Bayfront,6.9,10.0,7.6,9.9,8.7
+021,Hotel Harborview,5.1,8.6,8.4,7.7,3.4
+022,Hotel Meadowbrook,8.2,5.6,7.2,7.3,9.6
+023,Hotel Woodland,9.4,6.3,7.5,5.9,9.2
+024,Hotel Timberline,9.4,6.5,8.2,8.0,2.4
+025,Hotel Clearwater,8.8,7.7,8.9,7.7,1.0
+026,Hotel Bluestone,6.6,5.1,9.6,9.4,8.5
+027,Hotel Sunridge,6.5,5.3,9.4,9.7,1.8
+028,Hotel Sandstone,7.4,5.3,8.8,8.8,2.2
+029,Hotel Windsong,7.4,7.7,6.3,9.4,4.8
+030,Hotel Silverlake,6.1,7.7,8.6,6.0,3.8
+

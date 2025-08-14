@@ -41,36 +41,36 @@
     <script>
 
     const hotels = [
-        { id: "A", name: "Hotel Horizon", room: 8.2, amenities: 5.1, location: 6.4, view: 6.1, price: 7.6 },
-        { id: "B", name: "Hotel Skyline", room: 8.4, amenities: 9.5, location: 5.4, view: 7.1, price: 1.3 },
-        { id: "C", name: "Hotel Ocean Breeze", room: 6.1, amenities: 7.5, location: 5.1, view: 6.0, price: 6.8 },
-        { id: "D", name: "Hotel Serenity", room: 7.7, amenities: 6.1, location: 7.9, view: 9.0, price: 1.1 },
-        { id: "E", name: "Hotel Cascade", room: 9.0, amenities: 8.5, location: 6.7, view: 5.8, price: 9.6 },
-        { id: "F", name: "Hotel Summit", room: 6.7, amenities: 5.5, location: 5.5, view: 9.2, price: 6.4 },
-        { id: "G", name: "Hotel Alpine", room: 9.0, amenities: 8.6, location: 7.7, view: 9.9, price: 4.4 },
-        { id: "H", name: "Hotel Crystal Bay", room: 7.8, amenities: 9.1, location: 8.1, view: 9.3, price: 6.2 },
-        { id: "I", name: "Hotel Crystal Cove", room: 8.5, amenities: 5.2, location: 6.1, view: 6.4, price: 1.7 },
-        { id: "J", name: "Hotel Sunset", room: 6.2, amenities: 5.5, location: 6.4, view: 8.2, price: 4.3 },
-        { id: "K", name: "Hotel Sunset Ridge", room: 6.9, amenities: 6.0, location: 6.3, view: 9.7, price: 6.8 },
-        { id: "L", name: "Hotel Sapphire", room: 8.0, amenities: 5.9, location: 8.6, view: 5.8, price: 4.4 },
-        { id: "M", name: "Hotel Coral", room: 9.9, amenities: 8.2, location: 7.8, view: 8.4, price: 8.6 },
-        { id: "N", name: "Hotel Amber", room: 8.9, amenities: 6.1, location: 5.2, view: 6.6, price: 3.4 },
-        { id: "O", name: "Hotel Starlight", room: 6.1, amenities: 9.7, location: 9.4, view: 6.6, price: 6.9 },
-        { id: "P", name: "Hotel Riverview", room: 7.0, amenities: 9.6, location: 7.3, view: 6.3, price: 3.2 },
-        { id: "Q", name: "Hotel Seabreeze", room: 7.8, amenities: 6.3, location: 7.9, view: 9.5, price: 4.6 },
-        { id: "R", name: "Hotel Evergreen", room: 6.1, amenities: 10.0, location: 7.5, view: 5.5, price: 1.4 },
-        { id: "S", name: "Hotel Urbania", room: 5.5, amenities: 8.1, location: 9.0, view: 7.1, price: 1.6 },
-        { id: "T", name: "Hotel Bayfront", room: 6.9, amenities: 10.0, location: 7.6, view: 9.9, price: 8.7 },
-        { id: "U", name: "Hotel Harborview", room: 5.1, amenities: 8.6, location: 8.4, view: 7.7, price: 3.4 },
-        { id: "V", name: "Hotel Meadowbrook", room: 8.2, amenities: 5.6, location: 7.2, view: 7.3, price: 9.6 },
-        { id: "W", name: "Hotel Woodland", room: 9.4, amenities: 6.3, location: 7.5, view: 5.9, price: 9.2 },
-        { id: "X", name: "Hotel Timberline", room: 9.4, amenities: 6.5, location: 8.2, view: 8.0, price: 2.4 },
-        { id: "Y", name: "Hotel Clearwater", room: 8.8, amenities: 7.7, location: 8.9, view: 7.7, price: 1.0 },
-        { id: "Z", name: "Hotel Bluestone", room: 6.6, amenities: 5.1, location: 9.6, view: 9.4, price: 8.5 },
-        { id: "1", name: "Hotel Sunridge", room: 6.5, amenities: 5.3, location: 9.4, view: 9.7, price: 1.8 },
-        { id: "2", name: "Hotel Sandstone", room: 7.4, amenities: 5.3, location: 8.8, view: 8.8, price: 2.2 },
-        { id: "3", name: "Hotel Windsong", room: 7.4, amenities: 7.7, location: 6.3, view: 9.4, price: 4.8 },
-        { id: "4", name: "Hotel Silverlake", room: 6.1, amenities: 7.7, location: 8.6, view: 6.0, price: 3.8 },
+        { id: "001", name: "Hotel Horizon", room: 8.2, amenities: 5.1, location: 6.4, view: 6.1, price: 7.6 },
+        { id: "002", name: "Hotel Skyline", room: 8.4, amenities: 9.5, location: 5.4, view: 7.1, price: 1.3 },
+        { id: "003", name: "Hotel Ocean Breeze", room: 6.1, amenities: 7.5, location: 5.1, view: 6.0, price: 6.8 },
+        { id: "004", name: "Hotel Serenity", room: 7.7, amenities: 6.1, location: 7.9, view: 9.0, price: 1.1 },
+        { id: "005", name: "Hotel Cascade", room: 9.0, amenities: 8.5, location: 6.7, view: 5.8, price: 9.6 },
+        { id: "006", name: "Hotel Summit", room: 6.7, amenities: 5.5, location: 5.5, view: 9.2, price: 6.4 },
+        { id: "007", name: "Hotel Alpine", room: 9.0, amenities: 8.6, location: 7.7, view: 9.9, price: 4.4 },
+        { id: "008", name: "Hotel Crystal Bay", room: 7.8, amenities: 9.1, location: 8.1, view: 9.3, price: 6.2 },
+        { id: "009", name: "Hotel Crystal Cove", room: 8.5, amenities: 5.2, location: 6.1, view: 6.4, price: 1.7 },
+        { id: "010", name: "Hotel Sunset", room: 6.2, amenities: 5.5, location: 6.4, view: 8.2, price: 4.3 },
+        { id: "011", name: "Hotel Sunset Ridge", room: 6.9, amenities: 6.0, location: 6.3, view: 9.7, price: 6.8 },
+        { id: "012", name: "Hotel Sapphire", room: 8.0, amenities: 5.9, location: 8.6, view: 5.8, price: 4.4 },
+        { id: "013", name: "Hotel Coral", room: 9.9, amenities: 8.2, location: 7.8, view: 8.4, price: 8.6 },
+        { id: "014", name: "Hotel Amber", room: 8.9, amenities: 6.1, location: 5.2, view: 6.6, price: 3.4 },
+        { id: "015", name: "Hotel Starlight", room: 6.1, amenities: 9.7, location: 9.4, view: 6.6, price: 6.9 },
+        { id: "016", name: "Hotel Riverview", room: 7.0, amenities: 9.6, location: 7.3, view: 6.3, price: 3.2 },
+        { id: "017", name: "Hotel Seabreeze", room: 7.8, amenities: 6.3, location: 7.9, view: 9.5, price: 4.6 },
+        { id: "018", name: "Hotel Evergreen", room: 6.1, amenities: 10.0, location: 7.5, view: 5.5, price: 1.4 },
+        { id: "019", name: "Hotel Urbania", room: 5.5, amenities: 8.1, location: 9.0, view: 7.1, price: 1.6 },
+        { id: "020", name: "Hotel Bayfront", room: 6.9, amenities: 10.0, location: 7.6, view: 9.9, price: 8.7 },
+        { id: "021", name: "Hotel Harborview", room: 5.1, amenities: 8.6, location: 8.4, view: 7.7, price: 3.4 },
+        { id: "022", name: "Hotel Meadowbrook", room: 8.2, amenities: 5.6, location: 7.2, view: 7.3, price: 9.6 },
+        { id: "023", name: "Hotel Woodland", room: 9.4, amenities: 6.3, location: 7.5, view: 5.9, price: 9.2 },
+        { id: "024", name: "Hotel Timberline", room: 9.4, amenities: 6.5, location: 8.2, view: 8.0, price: 2.4 },
+        { id: "025", name: "Hotel Clearwater", room: 8.8, amenities: 7.7, location: 8.9, view: 7.7, price: 1.0 },
+        { id: "026", name: "Hotel Bluestone", room: 6.6, amenities: 5.1, location: 9.6, view: 9.4, price: 8.5 },
+        { id: "027", name: "Hotel Sunridge", room: 6.5, amenities: 5.3, location: 9.4, view: 9.7, price: 1.8 },
+        { id: "028", name: "Hotel Sandstone", room: 7.4, amenities: 5.3, location: 8.8, view: 8.8, price: 2.2 },
+        { id: "029", name: "Hotel Windsong", room: 7.4, amenities: 7.7, location: 6.3, view: 9.4, price: 4.8 },
+        { id: "030", name: "Hotel Silverlake", room: 6.1, amenities: 7.7, location: 8.6, view: 6.0, price: 3.8 },
     ];
 
 
@@ -78,25 +78,23 @@
     let shuffledHotels = [];
 
     let totalClicks = 0;
-    const uniqueClicks = new Set();
-    const clickedHotelsOrder = [];
-    let timeSpentOnTabs = "";
-    let currentPageStartTime = Date.now();
-    let currentPageId = "000";
-    const hotelVerticalPositions = {};
-
+    let uniqueClicks = new Set();
+    let clickedHotelsOrder = [];
+    let timeSpentOnTabs = [];
+    let hotelVisitStartTime = Date.now();
+    let hotelVerticalPositions = {};
+    let currentHotelId = "000";
+    let browsingEnded = false; 
+    let choosingPhase = false; 
     const urlParams = new URLSearchParams(window.location.search);
     var returnUrl = urlParams.get('returnUrl');
     const taskStartTime = Date.now();
-
-    let browsingEnded = false; 
-    let choosingPhase = false; 
-
-    // New variable to stop recording time after choosing
-    let stopRecordingTime = false; // <-- Added line
-
     const chooseButton = document.getElementById('choose-button');
     const confirmButton = document.getElementById('confirm-selection');
+    let stopRecordingTime = false;
+    const browsingDuration = 180;
+
+    const taskCondition = 'NoTabs';
 
     function shuffleHotels(array) {
         for (let i = array.length - 1; i > 0; i--) {
@@ -105,6 +103,30 @@
         }
         return array;
     }
+
+    function startTimer(seconds) {
+        seconds = parseInt(seconds);
+        const timerElement = document.getElementById('timer');
+        const timerInterval = setInterval(function () {
+            seconds--;
+            const minutes = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            timerElement.textContent = `Time remaining: ${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+
+            if (seconds <= 0) {
+                clearInterval(timerInterval);
+                browsingEnded = true;
+                timerElement.textContent = "Browsing period ended. You can now click 'Choose Now' or keep browsing.";
+                // Enable the Choose Now button once time is up
+                chooseButton.disabled = false; 
+            }
+        }, 1000);
+    }
+
+    window.addEventListener('DOMContentLoaded', (event) => {
+        startTimer(180);
+        displayHotels();
+    });
 
     function displayHotels() {
         const hotelList = document.getElementById('hotel-list');
@@ -134,10 +156,11 @@
             moreDetailsLink.href = "#";
             moreDetailsLink.onclick = (e) => {
                 e.preventDefault();
+
                 if (!choosingPhase) {
                     totalClicks++;
                     uniqueClicks.add(index);
-                    trackTimeSpent(currentPageId);
+                    trackTimeSpent(currentHotelId);
                     clickedHotelsOrder.push(hotel.id);
                     showHotelDetails(index);
                 } else {
@@ -149,6 +172,7 @@
             li.appendChild(label);
             li.appendChild(moreDetailsLink);
             hotelList.appendChild(li);
+
         });
     }
 
@@ -170,33 +194,21 @@
         
         document.getElementById('main-page').style.display = 'none';
         document.getElementById('hotel-details').style.display = 'block';
-        trackTimeSpent(currentPageId); // Track time on hotel details page using ID to keep url shorter
-        currentPageId = hotel.id;
+        //trackTimeSpent(currentHotelId);
+        trackTimeSpent(currentHotelId); // Track time on hotel details page using ID to keep url shorter
+        currentHotelId = hotel.id;
     }
 
     document.getElementById('back-to-main').onclick = () => {
         document.getElementById('main-page').style.display = 'block';
         document.getElementById('hotel-details').style.display = 'none';
-        trackTimeSpent(currentPageId);
-        currentPageId = "000";
+        trackTimeSpent(currentHotelId);
+        currentHotelId = "000";
     };
 
-    chooseButton.onclick = () => {
-        choosingPhase = true;
-        // Record final time before stopping
-        trackTimeSpent(currentPageId); // <-- Record final time
-        stopRecordingTime = true; // <-- Stop recording any further time
 
-        chooseButton.disabled = true; 
-        confirmButton.style.display = 'inline-block';
-
-        document.querySelectorAll('.hotel-radio').forEach(radio => {
-            radio.disabled = false;
-        });
-    };
-
-    confirmButton.onclick = () => {
-        trackTimeSpent(currentPageId);
+    confirmButton.addEventListener('click', () => {
+        trackTimeSpent(currentHotelId);
         if (selectedHotel) {
             var isDebug = false;
             if (!returnUrl) {
@@ -205,7 +217,6 @@
                 isDebug = true;
             }
             if (returnUrl) {
-                const taskCondition = 'NoTabs';
                 const durationMs = Date.now() - taskStartTime;
                 const durationSeconds = Math.round(durationMs / 1000);
                 const separator = returnUrl.includes('?') ? '&' : '?';
@@ -219,8 +230,8 @@
                 redirectTo += `&UniqueClicks=${encodeURIComponent(uniqueClicks.size)}`;
                 redirectTo += `&TaskDuration=${encodeURIComponent(durationSeconds)}`;
                 redirectTo += `&hotelVerticalPositions=${encodeURIComponent(JSON.stringify(hotelVerticalPositions))}`;
-                redirectTo += `&timeSpentOnTabs=${encodeURIComponent(timeSpentOnTabs)}`;
                 redirectTo += `&clickedHotelsOrder=${encodeURIComponent(clickedHotelsOrder.join('>'))}`;
+                redirectTo += `&timeSpentOnTabs=${encodeURIComponent(timeSpentOnTabs.join('>'))}`;
                 
 
                 if (redirectTo.length > 2000) {
@@ -246,54 +257,52 @@
                     alert(redirectTo)
                 }
 
+
                 window.location.href = redirectTo;
+
             } else {
                 alert('Return URL is not defined.');
             }
         } else {
+            //alert('You must be in choosing phase and have selected a hotel to confirm.');
             alert('Please select a hotel before confirming.');
         }
-    };
+    });
 
     function trackTimeSpent(pageName) {
         // If we've stopped recording, do nothing
         if (stopRecordingTime) return; // <-- Added condition
 
         const currentTime = Date.now();
-        const timeSpent = (currentTime - currentPageStartTime).toFixed(0);
-        if (timeSpent > 100) { // Only record if more than 100ms
+        const timeSpent = ((currentTime - hotelVisitStartTime) / 1000).toFixed(1);
+        if (timeSpent > 0.1) {
+            timeSpentOnTabs.push(`${currentHotelId}:${timeSpent}s`)
             if (timeSpentOnTabs) {
-                timeSpentOnTabs += `>${pageName}:${timeSpent}`;
+                timeSpentOnTabs += ` > ${pageName}:${timeSpent}s`;
             } else {
-                timeSpentOnTabs = `${pageName}:${timeSpent}`;
+                timeSpentOnTabs = `${pageName}:${timeSpent}s`;
             }
         }
-        currentPageStartTime = currentTime;
+        hotelVisitStartTime = currentTime;
     }
 
-    function startTimer(seconds) {
-        let timer = seconds;
-        const timerElement = document.getElementById('timer');
-        const timerInterval = setInterval(() => {
-            timer--;
-            const minutes = Math.floor(timer / 60);
-            const secs = timer % 60;
-            timerElement.textContent = `Time remaining: ${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+    chooseButton.addEventListener('click', () => {
+        choosingPhase = true;
+        // The Confirm Selection button should now appear but remain disabled until a hotel is chosen
+        confirmButton.style.display = 'inline-block';
+        // Record final time before stopping
+        trackTimeSpent(currentHotelId); // <-- Record final time
+        stopRecordingTime = true; // <-- Stop recording any further time
 
-            if (timer <= 0) {
-                clearInterval(timerInterval);
-                browsingEnded = true;
-                timerElement.textContent = 'Browsing period ended. You can choose now in the Hotels List Page after clicking `Choose Now` or keep browsing.';
-                chooseButton.disabled = false; 
-            }
-        }, 1000);
-    }
+        // Disable the choose button now that it's been clicked
+        chooseButton.disabled = true; 
 
-    window.onload = () => {
-        const browsingDuration = 180; 
-        startTimer(browsingDuration);
-        displayHotels();
-    };
+        // Enable all radio buttons now that user is choosing
+        document.querySelectorAll('.hotel-radio').forEach(radio => {
+            radio.disabled = false;
+        });
+    });
+
     </script>
 </body>
 </html>
