@@ -82,7 +82,7 @@
     const clickedHotelsOrder = [];
     let timeSpentOnTabs = "";
     let currentPageStartTime = Date.now();
-    let currentPageId = "000";
+    let currentPageId = "0";
     const hotelVerticalPositions = {};
 
     const urlParams = new URLSearchParams(window.location.search);
@@ -178,7 +178,7 @@
         document.getElementById('main-page').style.display = 'block';
         document.getElementById('hotel-details').style.display = 'none';
         trackTimeSpent(currentPageId);
-        currentPageId = "000";
+        currentPageId = "0";
     };
 
     chooseButton.onclick = () => {
