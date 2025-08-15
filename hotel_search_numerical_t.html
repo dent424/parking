@@ -301,7 +301,7 @@
             }
 
             const currentTime = Date.now();
-            const timeSpent = parseFloat(((currentTime - tabVisitStartTime) / 1000).toFixed(1));
+            const timeSpent = (currentTime - tabVisitStartTime).toFixed(0);
             
             let currentTabName = '*';
             if (activeTabId.startsWith('hotel-tab-')) {
@@ -400,8 +400,8 @@
                     redirectTo += `&TaskDuration=${encodeURIComponent(durationSeconds)}`;
                     redirectTo += `&MaxTabsOpen=${encodeURIComponent(maxTabsOpen)}`;
                     redirectTo += `&hotelVerticalPositions=${encodeURIComponent(JSON.stringify(hotelVerticalPositions))}`;
-                    redirectTo += `&timeSpentOnTabs=${encodeURIComponent(timeSpentOnTabs.join('+'))}`;
-                    redirectTo += `&clickedHotelsOrder=${encodeURIComponent(clickedHotelsOrderList.join('+'))}`;
+                    redirectTo += `&timeSpentOnTabs=${encodeURIComponent(timeSpentOnTabs.join('~'))}`;
+                    redirectTo += `&clickedHotelsOrder=${encodeURIComponent(clickedHotelsOrderList.join('~'))}`;
 
                     if (redirectTo.length > 2000) {
                         // Truncate the URL if it exceeds 2000 characters

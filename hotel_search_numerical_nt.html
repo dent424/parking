@@ -220,7 +220,7 @@
                 redirectTo += `&TaskDuration=${encodeURIComponent(durationSeconds)}`;
                 redirectTo += `&hotelVerticalPositions=${encodeURIComponent(JSON.stringify(hotelVerticalPositions))}`;
                 redirectTo += `&timeSpentOnTabs=${encodeURIComponent(timeSpentOnTabs)}`;
-                redirectTo += `&clickedHotelsOrder=${encodeURIComponent(clickedHotelsOrder.join('+'))}`;
+                redirectTo += `&clickedHotelsOrder=${encodeURIComponent(clickedHotelsOrder.join('~'))}`;
                 
 
                 if (redirectTo.length > 2000) {
@@ -263,7 +263,7 @@
         const timeSpent = (currentTime - currentPageStartTime).toFixed(0);
         if (timeSpent > 100) { // Only record if more than 100ms
             if (timeSpentOnTabs) {
-                timeSpentOnTabs += `+${pageName}${timeSpent}`;
+                timeSpentOnTabs += `~${pageName}${timeSpent}`;
             } else {
                 timeSpentOnTabs = `${pageName}${timeSpent}`;
             }
