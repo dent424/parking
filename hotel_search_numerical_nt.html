@@ -67,10 +67,10 @@
         { id: "X", name: "Hotel Timberline", room: 9.4, amenities: 6.5, location: 8.2, view: 8.0, price: 2.4 },
         { id: "Y", name: "Hotel Clearwater", room: 8.8, amenities: 7.7, location: 8.9, view: 7.7, price: 1.0 },
         { id: "Z", name: "Hotel Bluestone", room: 6.6, amenities: 5.1, location: 9.6, view: 9.4, price: 8.5 },
-        { id: "AA", name: "Hotel Sunridge", room: 6.5, amenities: 5.3, location: 9.4, view: 9.7, price: 1.8 },
-        { id: "BB", name: "Hotel Sandstone", room: 7.4, amenities: 5.3, location: 8.8, view: 8.8, price: 2.2 },
-        { id: "CC", name: "Hotel Windsong", room: 7.4, amenities: 7.7, location: 6.3, view: 9.4, price: 4.8 },
-        { id: "DD", name: "Hotel Silverlake", room: 6.1, amenities: 7.7, location: 8.6, view: 6.0, price: 3.8 },
+        { id: "a", name: "Hotel Sunridge", room: 6.5, amenities: 5.3, location: 9.4, view: 9.7, price: 1.8 },
+        { id: "b", name: "Hotel Sandstone", room: 7.4, amenities: 5.3, location: 8.8, view: 8.8, price: 2.2 },
+        { id: "c", name: "Hotel Windsong", room: 7.4, amenities: 7.7, location: 6.3, view: 9.4, price: 4.8 },
+        { id: "d", name: "Hotel Silverlake", room: 6.1, amenities: 7.7, location: 8.6, view: 6.0, price: 3.8 },
     ];
 
 
@@ -83,7 +83,7 @@
     let timeSpentOnTabs = "";
     let currentPageStartTime = Date.now();
     let currentPageId = "*";
-    const hotelVerticalPositions = {};
+    const hotelVerticalPositions = "";
 
     const urlParams = new URLSearchParams(window.location.search);
     var returnUrl = urlParams.get('returnUrl');
@@ -111,7 +111,8 @@
         shuffledHotels = shuffleHotels([...hotels]);
         
         shuffledHotels.forEach((hotel, index) => {
-            hotelVerticalPositions[hotel.id] = index;
+            //hotelVerticalPositions[hotel.id] = index;
+            hotelVerticalPositions += `${hotel.id}${index}`;
             const li = document.createElement('li');
 
             const radio = document.createElement('input');
@@ -218,7 +219,8 @@
                 redirectTo += `&TotalClicks=${encodeURIComponent(totalClicks)}`;
                 redirectTo += `&UniqueClicks=${encodeURIComponent(uniqueClicks.size)}`;
                 redirectTo += `&TaskDuration=${encodeURIComponent(durationSeconds)}`;
-                redirectTo += `&hotelVerticalPositions=${encodeURIComponent(JSON.stringify(hotelVerticalPositions))}`;
+                //redirectTo += `&hotelVerticalPositions=${encodeURIComponent(JSON.stringify(hotelVerticalPositions))}`;
+                redirectTo += `&hotelVerticalPositions=${encodeURIComponent(hotelVerticalPositions)}`;
                 redirectTo += `&timeSpentOnTabs=${encodeURIComponent(timeSpentOnTabs)}`;
                 redirectTo += `&clickedHotelsOrder=${encodeURIComponent(clickedHotelsOrder.join('~'))}`;
                 
