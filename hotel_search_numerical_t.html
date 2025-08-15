@@ -71,10 +71,10 @@
             { id: "X", name: "Hotel Timberline", room: 9.4, amenities: 6.5, location: 8.2, view: 8.0, price: 2.4 },
             { id: "Y", name: "Hotel Clearwater", room: 8.8, amenities: 7.7, location: 8.9, view: 7.7, price: 1.0 },
             { id: "Z", name: "Hotel Bluestone", room: 6.6, amenities: 5.1, location: 9.6, view: 9.4, price: 8.5 },
-            { id: "1", name: "Hotel Sunridge", room: 6.5, amenities: 5.3, location: 9.4, view: 9.7, price: 1.8 },
-            { id: "2", name: "Hotel Sandstone", room: 7.4, amenities: 5.3, location: 8.8, view: 8.8, price: 2.2 },
-            { id: "3", name: "Hotel Windsong", room: 7.4, amenities: 7.7, location: 6.3, view: 9.4, price: 4.8 },
-            { id: "4", name: "Hotel Silverlake", room: 6.1, amenities: 7.7, location: 8.6, view: 6.0, price: 3.8 },
+            { id: "AA", name: "Hotel Sunridge", room: 6.5, amenities: 5.3, location: 9.4, view: 9.7, price: 1.8 },
+            { id: "BB", name: "Hotel Sandstone", room: 7.4, amenities: 5.3, location: 8.8, view: 8.8, price: 2.2 },
+            { id: "CC", name: "Hotel Windsong", room: 7.4, amenities: 7.7, location: 6.3, view: 9.4, price: 4.8 },
+            { id: "DD", name: "Hotel Silverlake", room: 6.1, amenities: 7.7, location: 8.6, view: 6.0, price: 3.8 },
         ];
 
         let selectedHotel = null;
@@ -262,7 +262,7 @@
             const currentTime = Date.now();
             const timeSpent = (currentTime - tabVisitStartTime).toFixed(0);
             
-            let currentTabName = '0';
+            let currentTabName = '*';
             if (activeTabId.startsWith('hotel-tab-')) {
                 const index = parseInt(activeTabId.replace('hotel-tab-', ''));
                 if (!isNaN(index) && hotels[index]) {
@@ -271,7 +271,7 @@
             }
 
             if (timeSpent > 0) {
-                timeSpentOnTabs.push(`${currentTabName}:${timeSpent}`);
+                timeSpentOnTabs.push(`${currentTabName}${timeSpent}`);
             }
 
             tabVisitStartTime = currentTime;
@@ -303,7 +303,7 @@
             const currentTime = Date.now();
             const timeSpent = parseFloat(((currentTime - tabVisitStartTime) / 1000).toFixed(1));
             
-            let currentTabName = '0';
+            let currentTabName = '*';
             if (activeTabId.startsWith('hotel-tab-')) {
                 const index = parseInt(activeTabId.replace('hotel-tab-', ''), 10);
                 if (!isNaN(index) && hotels[index]) {
@@ -312,7 +312,7 @@
             }
 
             if (timeSpent > 0) {
-                timeSpentOnTabs.push(`${currentTabName}:${timeSpent}s`);
+                timeSpentOnTabs.push(`${currentTabName}${timeSpent}`);
             }
             
             tabVisitStartTime = currentTime;
@@ -400,8 +400,8 @@
                     redirectTo += `&TaskDuration=${encodeURIComponent(durationSeconds)}`;
                     redirectTo += `&MaxTabsOpen=${encodeURIComponent(maxTabsOpen)}`;
                     redirectTo += `&hotelVerticalPositions=${encodeURIComponent(JSON.stringify(hotelVerticalPositions))}`;
-                    redirectTo += `&timeSpentOnTabs=${encodeURIComponent(timeSpentOnTabs.join('>'))}`;
-                    redirectTo += `&clickedHotelsOrder=${encodeURIComponent(clickedHotelsOrderList.join('>'))}`;
+                    redirectTo += `&timeSpentOnTabs=${encodeURIComponent(timeSpentOnTabs.join('+'))}`;
+                    redirectTo += `&clickedHotelsOrder=${encodeURIComponent(clickedHotelsOrderList.join('+'))}`;
 
                     if (redirectTo.length > 2000) {
                         // Truncate the URL if it exceeds 2000 characters
