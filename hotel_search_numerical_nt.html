@@ -83,7 +83,7 @@
     let timeSpentOnTabs = "";
     let currentPageStartTime = Date.now();
     let currentPageId = "*";
-    const hotelVerticalPositions = "";
+    let hotelVerticalPositions = "";
 
     const urlParams = new URLSearchParams(window.location.search);
     var returnUrl = urlParams.get('returnUrl');
@@ -221,8 +221,8 @@
                 redirectTo += `&TaskDuration=${encodeURIComponent(durationSeconds)}`;
                 //redirectTo += `&hotelVerticalPositions=${encodeURIComponent(JSON.stringify(hotelVerticalPositions))}`;
                 redirectTo += `&hotelVerticalPositions=${encodeURIComponent(hotelVerticalPositions)}`;
-                redirectTo += `&timeSpentOnTabs=${encodeURIComponent(timeSpentOnTabs)}`;
                 redirectTo += `&clickedHotelsOrder=${encodeURIComponent(clickedHotelsOrder.join('~'))}`;
+                redirectTo += `&timeSpentOnTabs=${encodeURIComponent(timeSpentOnTabs)}`;
                 
 
                 if (redirectTo.length > 2000) {

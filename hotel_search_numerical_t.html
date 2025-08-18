@@ -402,8 +402,8 @@
                     redirectTo += `&MaxTabsOpen=${encodeURIComponent(maxTabsOpen)}`;
                     //redirectTo += `&hotelVerticalPositions=${encodeURIComponent(JSON.stringify(hotelVerticalPositions))}`;
                     redirectTo += `&hotelVerticalPositions=${encodeURIComponent(hotelVerticalPositions)}`;
-                    redirectTo += `&timeSpentOnTabs=${encodeURIComponent(timeSpentOnTabs.join('~'))}`;
                     redirectTo += `&clickedHotelsOrder=${encodeURIComponent(clickedHotelsOrderList.join('~'))}`;
+                    redirectTo += `&timeSpentOnTabs=${encodeURIComponent(timeSpentOnTabs.join('~'))}`;
 
                     if (redirectTo.length > 2000) {
                         // Truncate the URL if it exceeds 2000 characters
