@@ -420,7 +420,8 @@
             }
 
             window.onbeforeunload = null; // stop showing the warning on back button
-
+            console.log('Disabled beforeunload warning for back button.');
+            
             if (returnUrl) {
                 const taskCondition = 'Tabs'; 
                 const durationMs = Date.now() - taskStartTime;

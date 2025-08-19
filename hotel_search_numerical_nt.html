@@ -239,7 +239,9 @@
                 returnUrl = 'https://echo.free.beeceptor.com'; // Fallback URL for debug mode
                 isDebug = true;
             }
+
             window.onbeforeunload = null; // stop showing the warning on back button
+            console.log('Disabled beforeunload warning for back button.');
 
             if (returnUrl) {
                 const taskCondition = 'NoTabs';
