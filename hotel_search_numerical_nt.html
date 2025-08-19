@@ -240,7 +240,7 @@
                 isDebug = true;
             }
 
-            window.onbeforeunload = null; // stop showing the warning on back button
+            disableWarnBeforeUnload(); // stop showing the warning on back button
             console.log('Disabled beforeunload warning for back button.');
 
             if (returnUrl) {
