@@ -115,6 +115,32 @@
         return array;
     }
 
+    function disableBeforeUnload() {
+        window.removeEventListener('beforeunload', function (e) {
+            e.preventDefault();
+            e.returnValue = '';
+        });
+    }
+
+    function startTimer(seconds) {
+        let timer = seconds;
+        const timerElement = document.getElementById('timer');
+        const timerInterval = setInterval(function () {
+            timer--;
+            const minutes = Math.floor(timer / 60);
+            const secs = timer % 60;
+            timerElement.textContent = `Time remaining: ${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+
+            if (timer <= 0) {
+                clearInterval(timerInterval);
+                browsingEnded = true;
+                timerElement.textContent = 'Browsing period ended. You can choose now in the Hotels List Page after clicking `Choose Now` or keep browsing.';
+                chooseButton.disabled = false; 
+            }
+        }, 1000);
+    }
+
+
     function displayHotels() {
         const hotelList = document.getElementById('hotel-list');
         shuffledHotels = shuffleHotels([...hotels]);
@@ -214,6 +240,8 @@
                 returnUrl = 'https://echo.free.beeceptor.com'; // Fallback URL for debug mode
                 isDebug = true;
             }
+            disableBeforeUnload(); // stop showing the warning on back button
+            
             if (returnUrl) {
                 const taskCondition = 'NoTabs';
                 const durationMs = Date.now() - taskStartTime;
@@ -282,23 +310,6 @@
         currentPageStartTime = currentTime;
     }
 
-    function startTimer(seconds) {
-        let timer = seconds;
-        const timerElement = document.getElementById('timer');
-        const timerInterval = setInterval(() => {
-            timer--;
-            const minutes = Math.floor(timer / 60);
-            const secs = timer % 60;
-            timerElement.textContent = `Time remaining: ${minutes}:${secs < 10 ? '0' : ''}${secs}`;
-
-            if (timer <= 0) {
-                clearInterval(timerInterval);
-                browsingEnded = true;
-                timerElement.textContent = 'Browsing period ended. You can choose now in the Hotels List Page after clicking `Choose Now` or keep browsing.';
-                chooseButton.disabled = false; 
-            }
-        }, 1000);
-    }
 
     window.addEventListener('DOMContentLoaded', (event) => {
         startTimer(180);

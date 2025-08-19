@@ -51,7 +51,7 @@
         // You can set a custom message, although modern browsers may not display it
         // e.returnValue = 'Are you sure you want to leave? Your changes may not be saved.';
     });
-    
+
     const hotels = [
         { id: "A", name: "Hotel Horizon", room: 8.2, amenities: 5.1, location: 6.4, view: 6.1, price: 7.6 },
         { id: "B", name: "Hotel Skyline", room: 8.4, amenities: 9.5, location: 5.4, view: 7.1, price: 1.3 },
@@ -115,24 +115,50 @@
         return array;
     }
 
-    function startTimer(duration) {
-        let timer = duration, seconds;
-        const timerElement = document.getElementById('timer');
-        const interval = setInterval(function () {
-            seconds = parseInt(timer, 10);
-            const minutes = Math.floor(seconds / 60);
-            const displaySeconds = seconds % 60;
-            timerElement.textContent = `Time Remaining: ${minutes}:${displaySeconds < 10 ? '0' : ''}${displaySeconds}`;
+    function disableBeforeUnload() {
+        window.removeEventListener('beforeunload', function (e) {
+            e.preventDefault();
+            e.returnValue = '';
+        });
+    }
 
-            if (--timer < 0) {
-                clearInterval(interval);
+    function startTimer(seconds) {
+        let timer = seconds;
+        const timerElement = document.getElementById('timer');
+        const timerInterval = setInterval(function () {
+            timer--;
+            const minutes = Math.floor(timer / 60);
+            const secs = timer % 60;
+            timerElement.textContent = `Time remaining: ${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+
+            if (timer <= 0) {
+                clearInterval(timerInterval);
                 browsingEnded = true;
-                timerElement.textContent = "Browsing period ended. You can now click 'Choose Now' or keep browsing.";
-                // Enable the Choose Now button once time is up
-                chooseButton.disabled = false;
+                timerElement.textContent = 'Browsing period ended. You can choose now in the Hotels List Page after clicking `Choose Now` or keep browsing.';
+                chooseButton.disabled = false; 
             }
         }, 1000);
     }
+
+//    function startTimer(duration) {
+//        let timer = duration, seconds;
+//        let timer = duration, seconds;
+//        const timerElement = document.getElementById('timer');
+//        const interval = setInterval(function () {
+//            seconds = parseInt(timer, 10);
+//            const minutes = Math.floor(seconds / 60);
+//            const displaySeconds = seconds % 60;
+//            timerElement.textContent = `Time Remaining: ${minutes}:${displaySeconds < 10 ? '0' : ''}${displaySeconds}`;
+//
+//            if (--timer < 0) {
+//                clearInterval(interval);
+//                browsingEnded = true;
+//                timerElement.textContent = "Browsing period ended. You can now click 'Choose Now' or keep browsing.";
+//                // Enable the Choose Now button once time is up
+//                chooseButton.disabled = false;
+//            }
+//        }, 1000);
+//    }
 
     function updateConfirmButtonState() {
         // Confirm button should be enabled only if in choosing phase and a hotel is selected
@@ -393,6 +419,9 @@
                 returnUrl = 'https://echo.free.beeceptor.com'; // Fallback URL for debug mode
                 isDebug = true;
             }
+
+            disableBeforeUnload(); // stop showing the warning on back button
+            
             if (returnUrl) {
                 const taskCondition = 'Tabs'; 
                 const durationMs = Date.now() - taskStartTime;
