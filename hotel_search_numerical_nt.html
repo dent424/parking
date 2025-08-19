@@ -240,8 +240,8 @@
                 returnUrl = 'https://echo.free.beeceptor.com'; // Fallback URL for debug mode
                 isDebug = true;
             }
-            disableBeforeUnload(); // stop showing the warning on back button
-            
+            window.onbeforeunload = null; // stop showing the warning on back button
+
             if (returnUrl) {
                 const taskCondition = 'NoTabs';
                 const durationMs = Date.now() - taskStartTime;
