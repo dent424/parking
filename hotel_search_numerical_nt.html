@@ -40,6 +40,15 @@
 
     <script>
 
+    window.addEventListener('beforeunload', function (e) {
+        // Cancel the event to trigger the browser's confirmation prompt
+        e.preventDefault(); 
+        // Chrome requires returnValue to be set
+        e.returnValue = ''; 
+        // You can set a custom message, although modern browsers may not display it
+        // e.returnValue = 'Are you sure you want to leave? Your changes may not be saved.';
+    });
+    
     const hotels = [
         { id: "A", name: "Hotel Horizon", room: 8.2, amenities: 5.1, location: 6.4, view: 6.1, price: 7.6 },
         { id: "B", name: "Hotel Skyline", room: 8.4, amenities: 9.5, location: 5.4, view: 7.1, price: 1.3 },
@@ -291,11 +300,10 @@
         }, 1000);
     }
 
-    window.onload = () => {
-        const browsingDuration = 180; 
-        startTimer(browsingDuration);
+    window.addEventListener('DOMContentLoaded', (event) => {
+        startTimer(180);
         displayHotels();
-    };
+    });
     </script>
 </body>
 </html>

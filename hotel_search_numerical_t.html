@@ -43,433 +43,439 @@
     
     <script>
 
-    (function() {
-        const hotels = [
-            { id: "A", name: "Hotel Horizon", room: 8.2, amenities: 5.1, location: 6.4, view: 6.1, price: 7.6 },
-            { id: "B", name: "Hotel Skyline", room: 8.4, amenities: 9.5, location: 5.4, view: 7.1, price: 1.3 },
-            { id: "C", name: "Hotel Ocean Breeze", room: 6.1, amenities: 7.5, location: 5.1, view: 6.0, price: 6.8 },
-            { id: "D", name: "Hotel Serenity", room: 7.7, amenities: 6.1, location: 7.9, view: 9.0, price: 1.1 },
-            { id: "E", name: "Hotel Cascade", room: 9.0, amenities: 8.5, location: 6.7, view: 5.8, price: 9.6 },
-            { id: "F", name: "Hotel Summit", room: 6.7, amenities: 5.5, location: 5.5, view: 9.2, price: 6.4 },
-            { id: "G", name: "Hotel Alpine", room: 9.0, amenities: 8.6, location: 7.7, view: 9.9, price: 4.4 },
-            { id: "H", name: "Hotel Crystal Bay", room: 7.8, amenities: 9.1, location: 8.1, view: 9.3, price: 6.2 },
-            { id: "I", name: "Hotel Crystal Cove", room: 8.5, amenities: 5.2, location: 6.1, view: 6.4, price: 1.7 },
-            { id: "J", name: "Hotel Sunset", room: 6.2, amenities: 5.5, location: 6.4, view: 8.2, price: 4.3 },
-            { id: "K", name: "Hotel Sunset Ridge", room: 6.9, amenities: 6.0, location: 6.3, view: 9.7, price: 6.8 },
-            { id: "L", name: "Hotel Sapphire", room: 8.0, amenities: 5.9, location: 8.6, view: 5.8, price: 4.4 },
-            { id: "M", name: "Hotel Coral", room: 9.9, amenities: 8.2, location: 7.8, view: 8.4, price: 8.6 },
-            { id: "N", name: "Hotel Amber", room: 8.9, amenities: 6.1, location: 5.2, view: 6.6, price: 3.4 },
-            { id: "O", name: "Hotel Starlight", room: 6.1, amenities: 9.7, location: 9.4, view: 6.6, price: 6.9 },
-            { id: "P", name: "Hotel Riverview", room: 7.0, amenities: 9.6, location: 7.3, view: 6.3, price: 3.2 },
-            { id: "Q", name: "Hotel Seabreeze", room: 7.8, amenities: 6.3, location: 7.9, view: 9.5, price: 4.6 },
-            { id: "R", name: "Hotel Evergreen", room: 6.1, amenities: 10.0, location: 7.5, view: 5.5, price: 1.4 },
-            { id: "S", name: "Hotel Urbania", room: 5.5, amenities: 8.1, location: 9.0, view: 7.1, price: 1.6 },
-            { id: "T", name: "Hotel Bayfront", room: 6.9, amenities: 10.0, location: 7.6, view: 9.9, price: 8.7 },
-            { id: "U", name: "Hotel Harborview", room: 5.1, amenities: 8.6, location: 8.4, view: 7.7, price: 3.4 },
-            { id: "V", name: "Hotel Meadowbrook", room: 8.2, amenities: 5.6, location: 7.2, view: 7.3, price: 9.6 },
-            { id: "W", name: "Hotel Woodland", room: 9.4, amenities: 6.3, location: 7.5, view: 5.9, price: 9.2 },
-            { id: "X", name: "Hotel Timberline", room: 9.4, amenities: 6.5, location: 8.2, view: 8.0, price: 2.4 },
-            { id: "Y", name: "Hotel Clearwater", room: 8.8, amenities: 7.7, location: 8.9, view: 7.7, price: 1.0 },
-            { id: "Z", name: "Hotel Bluestone", room: 6.6, amenities: 5.1, location: 9.6, view: 9.4, price: 8.5 },
-            { id: "AA", name: "Hotel Sunridge", room: 6.5, amenities: 5.3, location: 9.4, view: 9.7, price: 1.8 },
-            { id: "BB", name: "Hotel Sandstone", room: 7.4, amenities: 5.3, location: 8.8, view: 8.8, price: 2.2 },
-            { id: "CC", name: "Hotel Windsong", room: 7.4, amenities: 7.7, location: 6.3, view: 9.4, price: 4.8 },
-            { id: "DD", name: "Hotel Silverlake", room: 6.1, amenities: 7.7, location: 8.6, view: 6.0, price: 3.8 },
-        ];
+    window.addEventListener('beforeunload', function (e) {
+        // Cancel the event to trigger the browser's confirmation prompt
+        e.preventDefault(); 
+        // Chrome requires returnValue to be set
+        e.returnValue = ''; 
+        // You can set a custom message, although modern browsers may not display it
+        // e.returnValue = 'Are you sure you want to leave? Your changes may not be saved.';
+    });
+    
+    const hotels = [
+        { id: "A", name: "Hotel Horizon", room: 8.2, amenities: 5.1, location: 6.4, view: 6.1, price: 7.6 },
+        { id: "B", name: "Hotel Skyline", room: 8.4, amenities: 9.5, location: 5.4, view: 7.1, price: 1.3 },
+        { id: "C", name: "Hotel Ocean Breeze", room: 6.1, amenities: 7.5, location: 5.1, view: 6.0, price: 6.8 },
+        { id: "D", name: "Hotel Serenity", room: 7.7, amenities: 6.1, location: 7.9, view: 9.0, price: 1.1 },
+        { id: "E", name: "Hotel Cascade", room: 9.0, amenities: 8.5, location: 6.7, view: 5.8, price: 9.6 },
+        { id: "F", name: "Hotel Summit", room: 6.7, amenities: 5.5, location: 5.5, view: 9.2, price: 6.4 },
+        { id: "G", name: "Hotel Alpine", room: 9.0, amenities: 8.6, location: 7.7, view: 9.9, price: 4.4 },
+        { id: "H", name: "Hotel Crystal Bay", room: 7.8, amenities: 9.1, location: 8.1, view: 9.3, price: 6.2 },
+        { id: "I", name: "Hotel Crystal Cove", room: 8.5, amenities: 5.2, location: 6.1, view: 6.4, price: 1.7 },
+        { id: "J", name: "Hotel Sunset", room: 6.2, amenities: 5.5, location: 6.4, view: 8.2, price: 4.3 },
+        { id: "K", name: "Hotel Sunset Ridge", room: 6.9, amenities: 6.0, location: 6.3, view: 9.7, price: 6.8 },
+        { id: "L", name: "Hotel Sapphire", room: 8.0, amenities: 5.9, location: 8.6, view: 5.8, price: 4.4 },
+        { id: "M", name: "Hotel Coral", room: 9.9, amenities: 8.2, location: 7.8, view: 8.4, price: 8.6 },
+        { id: "N", name: "Hotel Amber", room: 8.9, amenities: 6.1, location: 5.2, view: 6.6, price: 3.4 },
+        { id: "O", name: "Hotel Starlight", room: 6.1, amenities: 9.7, location: 9.4, view: 6.6, price: 6.9 },
+        { id: "P", name: "Hotel Riverview", room: 7.0, amenities: 9.6, location: 7.3, view: 6.3, price: 3.2 },
+        { id: "Q", name: "Hotel Seabreeze", room: 7.8, amenities: 6.3, location: 7.9, view: 9.5, price: 4.6 },
+        { id: "R", name: "Hotel Evergreen", room: 6.1, amenities: 10.0, location: 7.5, view: 5.5, price: 1.4 },
+        { id: "S", name: "Hotel Urbania", room: 5.5, amenities: 8.1, location: 9.0, view: 7.1, price: 1.6 },
+        { id: "T", name: "Hotel Bayfront", room: 6.9, amenities: 10.0, location: 7.6, view: 9.9, price: 8.7 },
+        { id: "U", name: "Hotel Harborview", room: 5.1, amenities: 8.6, location: 8.4, view: 7.7, price: 3.4 },
+        { id: "V", name: "Hotel Meadowbrook", room: 8.2, amenities: 5.6, location: 7.2, view: 7.3, price: 9.6 },
+        { id: "W", name: "Hotel Woodland", room: 9.4, amenities: 6.3, location: 7.5, view: 5.9, price: 9.2 },
+        { id: "X", name: "Hotel Timberline", room: 9.4, amenities: 6.5, location: 8.2, view: 8.0, price: 2.4 },
+        { id: "Y", name: "Hotel Clearwater", room: 8.8, amenities: 7.7, location: 8.9, view: 7.7, price: 1.0 },
+        { id: "Z", name: "Hotel Bluestone", room: 6.6, amenities: 5.1, location: 9.6, view: 9.4, price: 8.5 },
+        { id: "AA", name: "Hotel Sunridge", room: 6.5, amenities: 5.3, location: 9.4, view: 9.7, price: 1.8 },
+        { id: "BB", name: "Hotel Sandstone", room: 7.4, amenities: 5.3, location: 8.8, view: 8.8, price: 2.2 },
+        { id: "CC", name: "Hotel Windsong", room: 7.4, amenities: 7.7, location: 6.3, view: 9.4, price: 4.8 },
+        { id: "DD", name: "Hotel Silverlake", room: 6.1, amenities: 7.7, location: 8.6, view: 6.0, price: 3.8 },
+    ];
 
-        let selectedHotel = null;
-        let openTabs = ['main-page'];
-        let browsingEnded = false;   
-        let choosingPhase = false;   
-        let totalClicks = 0;
-        const uniqueClicks = new Set();
-        let maxTabsOpen = 0;
-        const taskStartTime = Date.now();
-        let clickedHotelsOrderList = [];
-        let tabVisitStartTime = Date.now();
-        let timeSpentOnTabs = [];
-        let hotelVerticalPositions = "";
-        let activeTabId = 'main-page';
+    let selectedHotel = null;
+    let openTabs = ['main-page'];
+    let browsingEnded = false;   
+    let choosingPhase = false;   
+    let totalClicks = 0;
+    const uniqueClicks = new Set();
+    let maxTabsOpen = 0;
+    const taskStartTime = Date.now();
+    let clickedHotelsOrderList = [];
+    let tabVisitStartTime = Date.now();
+    let timeSpentOnTabs = [];
+    let hotelVerticalPositions = "";
+    let activeTabId = 'main-page';
 
-        let stopRecordingTime = false;
+    let stopRecordingTime = false;
 
-        const urlParams = new URLSearchParams(window.location.search);
-        var returnUrl = urlParams.get('returnUrl');
+    const urlParams = new URLSearchParams(window.location.search);
+    var returnUrl = urlParams.get('returnUrl');
 
-        const chooseButton = document.getElementById('choose-button');
-        const confirmButton = document.getElementById('confirm-selection');
+    const chooseButton = document.getElementById('choose-button');
+    const confirmButton = document.getElementById('confirm-selection');
 
-        function shuffleHotels(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
+    function shuffleHotels(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    function startTimer(duration) {
+        let timer = duration, seconds;
+        const timerElement = document.getElementById('timer');
+        const interval = setInterval(function () {
+            seconds = parseInt(timer, 10);
+            const minutes = Math.floor(seconds / 60);
+            const displaySeconds = seconds % 60;
+            timerElement.textContent = `Time Remaining: ${minutes}:${displaySeconds < 10 ? '0' : ''}${displaySeconds}`;
+
+            if (--timer < 0) {
+                clearInterval(interval);
+                browsingEnded = true;
+                timerElement.textContent = "Browsing period ended. You can now click 'Choose Now' or keep browsing.";
+                // Enable the Choose Now button once time is up
+                chooseButton.disabled = false;
             }
-            return array;
-        }
+        }, 1000);
+    }
 
-        function startTimer(duration) {
-            let timer = duration, seconds;
-            const timerElement = document.getElementById('timer');
-            const interval = setInterval(function () {
-                seconds = parseInt(timer, 10);
-                const minutes = Math.floor(seconds / 60);
-		        const displaySeconds = seconds % 60;
-		        timerElement.textContent = `Time Remaining: ${minutes}:${displaySeconds < 10 ? '0' : ''}${displaySeconds}`;
+    function updateConfirmButtonState() {
+        // Confirm button should be enabled only if in choosing phase and a hotel is selected
+        confirmButton.disabled = !(choosingPhase && selectedHotel !== null);
+    }
 
-                if (--timer < 0) {
-                    clearInterval(interval);
-                    browsingEnded = true;
-                    timerElement.textContent = "Browsing period ended. You can now click 'Choose Now' or keep browsing.";
-                    // Enable the Choose Now button once time is up
-                    chooseButton.disabled = false;
-                }
-            }, 1000);
-        }
-
-        function updateConfirmButtonState() {
-            // Confirm button should be enabled only if in choosing phase and a hotel is selected
-            confirmButton.disabled = !(choosingPhase && selectedHotel !== null);
-        }
-
-        function displayHotels() {
-            const hotelList = document.getElementById('hotel-list');
-            const shuffledHotels = shuffleHotels([...hotels]);
-        
-            shuffledHotels.forEach((hotel, shuffledIndex) => {
-                const originalIndex = hotels.indexOf(hotel);
-                const li = document.createElement('li');
-                
-                const radio = document.createElement('input');
-                radio.type = 'radio';
-                radio.name = 'hotel';
-                radio.value = originalIndex;
-                radio.id = `hotel-${originalIndex}`;
-                radio.className = 'hotel-radio';
-                radio.onchange = () => {
-                    selectHotel(originalIndex);
-                };
-                
-                const label = document.createElement('label');
-                label.htmlFor = `hotel-${originalIndex}`;
-                label.innerHTML = `<b>${hotel.name}</b>`;
-                
-                const moreDetailsLink = document.createElement('a');
-                moreDetailsLink.textContent = "More Details";
-                moreDetailsLink.className = "more-details";
-                moreDetailsLink.href = "#";
-                moreDetailsLink.onclick = (e) => {
-                    e.preventDefault();
-                    
-                    if (!choosingPhase) { 
-                        if (!browsingEnded || (browsingEnded && !choosingPhase)) {
-                            totalClicks++;
-                            uniqueClicks.add(originalIndex);
-                            openHotelDetails(originalIndex);
-                        }
-                    } else {
-                        alert('You are now choosing. You can no longer open new hotel details.');
-                    }
-                };
-                
-                li.appendChild(radio);
-                li.appendChild(label);
-                li.appendChild(moreDetailsLink);
-                hotelList.appendChild(li);
-        
-                //hotelVerticalPositions[hotel.id] = shuffledIndex;
-                hotelVerticalPositions += `${hotel.id}${shuffledIndex}`;
-            });
-        
-            // Disable all radio buttons until choose phase
-            document.querySelectorAll('.hotel-radio').forEach(radio => {
-                radio.disabled = true;
-            });
-        }
-
-        function selectHotel(index) {
-            selectedHotel = hotels[index];
-            updateConfirmButtonState();
-        }
-
-        function openHotelDetails(index) {
-            const tabId = `hotel-tab-${index}`;
-            const existingTab = document.getElementById(tabId);
-
-            if (existingTab) {
-                updateTabContent(tabId, hotels[index]);
-                switchTab(tabId);
-            } else {
-                createNewTab(hotels[index], index);
-            }
-        }
-
-        function createNewTab(hotel, index) {
-            const tabId = `hotel-tab-${index}`;
-            const tabContent = document.createElement('div');
-            tabContent.id = tabId;
-            tabContent.className = 'tab';
-            document.body.appendChild(tabContent);
+    function displayHotels() {
+        const hotelList = document.getElementById('hotel-list');
+        const shuffledHotels = shuffleHotels([...hotels]);
+    
+        shuffledHotels.forEach((hotel, shuffledIndex) => {
+            const originalIndex = hotels.indexOf(hotel);
+            const li = document.createElement('li');
             
-            updateTabContent(tabId, hotel);
-            
-            const tabButton = document.createElement('div');
-            tabButton.className = 'tab-button';
-            tabButton.innerHTML = `${hotel.name}<span class="close-tab" data-tab="${tabId}">&times;</span>`;
-            tabButton.dataset.tab = tabId;
-            document.getElementById('tab-bar').appendChild(tabButton);
-            
-            tabButton.addEventListener('click', (e) => {
-                if (!e.target.classList.contains('close-tab')) {
-                    switchTab(tabId);
-                }
-            });
-            
-            const closeButton = tabButton.querySelector('.close-tab');
-            closeButton.onclick = (e) => {
-                e.stopPropagation();
-                closeTab(tabId);
+            const radio = document.createElement('input');
+            radio.type = 'radio';
+            radio.name = 'hotel';
+            radio.value = originalIndex;
+            radio.id = `hotel-${originalIndex}`;
+            radio.className = 'hotel-radio';
+            radio.onchange = () => {
+                selectHotel(originalIndex);
             };
             
-            if (!openTabs.includes(tabId)) {
-                openTabs.push(tabId);
-                if (openTabs.length - 1 > maxTabsOpen) {
-                    maxTabsOpen = openTabs.length - 1;
-                }
-            }
-            switchTab(tabId);
-        }
-
-        function updateTabContent(tabId, hotel) {
-            const tabContent = document.getElementById(tabId);
-            if (tabContent) {
-                tabContent.innerHTML = `
-                    <a class="back-link" href="#" data-tab="main-page">Back to Main Page</a>
-                    <h2>${hotel.name}</h2>
-                    <p><b>Room Quality:</b> ${hotel.room}</p>
-                    <p><b>Amenities:</b> ${hotel.amenities}</p>
-                    <p><b>Location:</b> ${hotel.location}</p>
-                    <p><b>View:</b> ${hotel.view}</p>
-                    <p><b>Price:</b> ${hotel.price}</p>
-                `;
-                const backLink = tabContent.querySelector('.back-link');
-                backLink.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    switchTab('main-page');
-                });
-            }
-        }
-
-        function recordTimeOnCurrentTab() {
-            const currentTime = Date.now();
-            const timeSpent = (currentTime - tabVisitStartTime).toFixed(0);
+            const label = document.createElement('label');
+            label.htmlFor = `hotel-${originalIndex}`;
+            label.innerHTML = `<b>${hotel.name}</b>`;
             
-            let currentTabName = '*';
-            if (activeTabId.startsWith('hotel-tab-')) {
-                const index = parseInt(activeTabId.replace('hotel-tab-', ''));
-                if (!isNaN(index) && hotels[index]) {
-                    currentTabName = hotels[index].id;
-                }
-            }
-
-            if (timeSpent > 0) {
-                timeSpentOnTabs.push(`${currentTabName}${timeSpent}`);
-            }
-
-            tabVisitStartTime = currentTime;
-        }
-
-        function switchTab(tabId) {
-            if (stopRecordingTime) {
-                const currentTab = document.getElementById(activeTabId);
-                const currentButton = document.querySelector(`.tab-button[data-tab="${activeTabId}"]`);
-                if (currentTab) currentTab.classList.remove('tab-active');
-                if (currentButton) currentButton.classList.remove('tab-button-active');
-
-                const newActiveTab = document.getElementById(tabId);
-                const newActiveButton = document.querySelector(`.tab-button[data-tab="${tabId}"]`);
-                if (newActiveTab) newActiveTab.classList.add('tab-active');
-                if (newActiveButton) newActiveButton.classList.add('tab-button-active');
-
-                activeTabId = tabId;
-
-                if (tabId.startsWith('hotel-tab-')) {
-                    const index = parseInt(tabId.replace('hotel-tab-', ''), 10);
-                    if (!isNaN(index) && hotels[index]) {
-                        clickedHotelsOrderList.push(hotels[index].id);
+            const moreDetailsLink = document.createElement('a');
+            moreDetailsLink.textContent = "More Details";
+            moreDetailsLink.className = "more-details";
+            moreDetailsLink.href = "#";
+            moreDetailsLink.onclick = (e) => {
+                e.preventDefault();
+                
+                if (!choosingPhase) { 
+                    if (!browsingEnded || (browsingEnded && !choosingPhase)) {
+                        totalClicks++;
+                        uniqueClicks.add(originalIndex);
+                        openHotelDetails(originalIndex);
                     }
+                } else {
+                    alert('You are now choosing. You can no longer open new hotel details.');
                 }
-                return;
-            }
+            };
+            
+            li.appendChild(radio);
+            li.appendChild(label);
+            li.appendChild(moreDetailsLink);
+            hotelList.appendChild(li);
+    
+            //hotelVerticalPositions[hotel.id] = shuffledIndex;
+            hotelVerticalPositions += `${hotel.id}${shuffledIndex}`;
+        });
+    
+        // Disable all radio buttons until choose phase
+        document.querySelectorAll('.hotel-radio').forEach(radio => {
+            radio.disabled = true;
+        });
+    }
 
-            const currentTime = Date.now();
-            const timeSpent = (currentTime - tabVisitStartTime).toFixed(0);
-            
-            let currentTabName = '*';
-            if (activeTabId.startsWith('hotel-tab-')) {
-                const index = parseInt(activeTabId.replace('hotel-tab-', ''), 10);
-                if (!isNaN(index) && hotels[index]) {
-                    currentTabName = hotels[index].id;
-                }
-            }
+    function selectHotel(index) {
+        selectedHotel = hotels[index];
+        updateConfirmButtonState();
+    }
 
-            if (timeSpent > 0) {
-                timeSpentOnTabs.push(`${currentTabName}${timeSpent}`);
+    function openHotelDetails(index) {
+        const tabId = `hotel-tab-${index}`;
+        const existingTab = document.getElementById(tabId);
+
+        if (existingTab) {
+            updateTabContent(tabId, hotels[index]);
+            switchTab(tabId);
+        } else {
+            createNewTab(hotels[index], index);
+        }
+    }
+
+    function createNewTab(hotel, index) {
+        const tabId = `hotel-tab-${index}`;
+        const tabContent = document.createElement('div');
+        tabContent.id = tabId;
+        tabContent.className = 'tab';
+        document.body.appendChild(tabContent);
+        
+        updateTabContent(tabId, hotel);
+        
+        const tabButton = document.createElement('div');
+        tabButton.className = 'tab-button';
+        tabButton.innerHTML = `${hotel.name}<span class="close-tab" data-tab="${tabId}">&times;</span>`;
+        tabButton.dataset.tab = tabId;
+        document.getElementById('tab-bar').appendChild(tabButton);
+        
+        tabButton.addEventListener('click', (e) => {
+            if (!e.target.classList.contains('close-tab')) {
+                switchTab(tabId);
             }
-            
-            tabVisitStartTime = currentTime;
-            
-            if (activeTabId) {
-                const currentTab = document.getElementById(activeTabId);
-                const currentButton = document.querySelector(`.tab-button[data-tab="${activeTabId}"]`);
-                if (currentTab) currentTab.classList.remove('tab-active');
-                if (currentButton) currentButton.classList.remove('tab-button-active');
+        });
+        
+        const closeButton = tabButton.querySelector('.close-tab');
+        closeButton.onclick = (e) => {
+            e.stopPropagation();
+            closeTab(tabId);
+        };
+        
+        if (!openTabs.includes(tabId)) {
+            openTabs.push(tabId);
+            if (openTabs.length - 1 > maxTabsOpen) {
+                maxTabsOpen = openTabs.length - 1;
             }
-            
+        }
+        switchTab(tabId);
+    }
+
+    function updateTabContent(tabId, hotel) {
+        const tabContent = document.getElementById(tabId);
+        if (tabContent) {
+            tabContent.innerHTML = `
+                <a class="back-link" href="#" data-tab="main-page">Back to Main Page</a>
+                <h2>${hotel.name}</h2>
+                <p><b>Room Quality:</b> ${hotel.room}</p>
+                <p><b>Amenities:</b> ${hotel.amenities}</p>
+                <p><b>Location:</b> ${hotel.location}</p>
+                <p><b>View:</b> ${hotel.view}</p>
+                <p><b>Price:</b> ${hotel.price}</p>
+            `;
+            const backLink = tabContent.querySelector('.back-link');
+            backLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                switchTab('main-page');
+            });
+        }
+    }
+
+    function recordTimeOnCurrentTab() {
+        const currentTime = Date.now();
+        const timeSpent = (currentTime - tabVisitStartTime).toFixed(0);
+        
+        let currentTabName = '*';
+        if (activeTabId.startsWith('hotel-tab-')) {
+            const index = parseInt(activeTabId.replace('hotel-tab-', ''));
+            if (!isNaN(index) && hotels[index]) {
+                currentTabName = hotels[index].id;
+            }
+        }
+
+        if (timeSpent > 0) {
+            timeSpentOnTabs.push(`${currentTabName}${timeSpent}`);
+        }
+
+        tabVisitStartTime = currentTime;
+    }
+
+    function switchTab(tabId) {
+        if (stopRecordingTime) {
+            const currentTab = document.getElementById(activeTabId);
+            const currentButton = document.querySelector(`.tab-button[data-tab="${activeTabId}"]`);
+            if (currentTab) currentTab.classList.remove('tab-active');
+            if (currentButton) currentButton.classList.remove('tab-button-active');
+
             const newActiveTab = document.getElementById(tabId);
             const newActiveButton = document.querySelector(`.tab-button[data-tab="${tabId}"]`);
             if (newActiveTab) newActiveTab.classList.add('tab-active');
             if (newActiveButton) newActiveButton.classList.add('tab-button-active');
-            
+
             activeTabId = tabId;
-            
+
             if (tabId.startsWith('hotel-tab-')) {
                 const index = parseInt(tabId.replace('hotel-tab-', ''), 10);
                 if (!isNaN(index) && hotels[index]) {
                     clickedHotelsOrderList.push(hotels[index].id);
                 }
             }
+            return;
         }
 
-        function closeTab(tabId) {
-            const tabContent = document.getElementById(tabId);
-            const tabButton = document.querySelector(`.tab-button[data-tab="${tabId}"]`);
-            
-            if (tabContent && tabButton) {
-                const isActive = (tabId === activeTabId);
-                
-                tabContent.remove();
-                tabButton.remove();
-                
-                openTabs = openTabs.filter(id => id !== tabId);
-                
-                if (isActive) {
-                    switchTab('main-page');
-                }
-            }
-        }
-
-        function closeAllTabsExceptMain() {
-            const tabsToClose = [...openTabs];
-            tabsToClose.forEach((tabId) => {
-                if (tabId !== 'main-page') {
-                    closeTab(tabId);
-                }
-            });
-            switchTab('main-page');
-        }
-
-        function disableMoreDetailsLinks() {
-            document.querySelectorAll('.more-details').forEach(link => {
-                link.onclick = (e) => {
-                    e.preventDefault();
-                    alert('You are now choosing. No more hotel details can be viewed.');
-                };
-            });
-        }
-
-        confirmButton.addEventListener('click', () => {
-            if (choosingPhase && selectedHotel) {
-                var isDebug = false;
-                if (!returnUrl) {
-                    alert('Return URL is not defined. Proceeding in debug mode.');
-                    returnUrl = 'https://echo.free.beeceptor.com'; // Fallback URL for debug mode
-                    isDebug = true;
-                }
-                if (returnUrl) {
-                    const taskCondition = 'Tabs'; 
-                    const durationMs = Date.now() - taskStartTime;
-                    const durationSeconds = Math.round(durationMs / 1000);
-                    const separator = returnUrl.includes('?') ? '&' : '?';
-
-                    let redirectTo = `${returnUrl}${separator}`;
-                    redirectTo += `truncated=${encodeURIComponent("xxnotxxtruncatedxx")}`; // first one doesn't have the ampersand
-                    redirectTo += `&selectedHotel=${encodeURIComponent(selectedHotel.name)}`;
-                    redirectTo += `&selectedHotelId=${encodeURIComponent(selectedHotel.id)}`;
-                    redirectTo += `&TaskCondition=${encodeURIComponent(taskCondition)}`;
-                    redirectTo += `&TotalClicks=${encodeURIComponent(totalClicks)}`;
-                    redirectTo += `&UniqueClicks=${encodeURIComponent(uniqueClicks.size)}`;
-                    redirectTo += `&TaskDuration=${encodeURIComponent(durationSeconds)}`;
-                    redirectTo += `&MaxTabsOpen=${encodeURIComponent(maxTabsOpen)}`;
-                    //redirectTo += `&hotelVerticalPositions=${encodeURIComponent(JSON.stringify(hotelVerticalPositions))}`;
-                    redirectTo += `&hotelVerticalPositions=${encodeURIComponent(hotelVerticalPositions)}`;
-                    redirectTo += `&clickedHotelsOrder=${encodeURIComponent(clickedHotelsOrderList.join('~'))}`;
-                    redirectTo += `&timeSpentOnTabs=${encodeURIComponent(timeSpentOnTabs.join('~'))}`;
-
-                    if (redirectTo.length > 2000) {
-                        // Truncate the URL if it exceeds 2000 characters
-                        let origLen = redirectTo.length;    
-                        console.warn('Redirect URL exceeds 2000 characters, truncating...');
-                        console.warn(`Original URL length: ${origLen}`);
-                        console.warn(`Original URL: ${redirectTo}`);
-                        redirectTo = redirectTo.substring(0, 2000);
-                        console.warn(`Truncated URL: ${redirectTo}`);
-                        // also make sure it's cut off at a safe point
-                        const lastAmpersand = redirectTo.lastIndexOf('&');
-                        if (lastAmpersand !== -1) {
-                            redirectTo = redirectTo.substring(0, lastAmpersand);
-                        }
-                        // string substitute to show we truncated
-                        truncString = `${origLen}`;
-                        redirectTo = redirectTo.replace("xxnotxxtruncatedxx", truncString);
-                    }
-                    if (isDebug) {
-                        console.log('Debug Mode: Redirecting to');
-                        console.log(redirectTo);
-                        alert(redirectTo)
-                    }
-
-
-                    window.location.href = redirectTo;
-                    
-                } else {
-                    alert('Return URL is not defined.');
-                }
-            } else {
-                alert('You must be in choosing phase and have selected a hotel to confirm.');
-            }
-        });
-
-        chooseButton.addEventListener('click', () => {
-            if (!stopRecordingTime) {
-                recordTimeOnCurrentTab();
-            }
-            stopRecordingTime = true; 
-            choosingPhase = true;
-            closeAllTabsExceptMain();
-            disableMoreDetailsLinks();
-            updateConfirmButtonState();
-
-            // The Confirm Selection button should now appear but remain disabled until a hotel is chosen
-            confirmButton.style.display = 'inline-block';
-            updateConfirmButtonState();
-
-            // Disable the choose button now that it's been clicked
-            chooseButton.disabled = true;
-
-            // Enable all radio buttons now that user is choosing
-            document.querySelectorAll('.hotel-radio').forEach(radio => {
-                radio.disabled = false;
-            });
-        });
+        const currentTime = Date.now();
+        const timeSpent = (currentTime - tabVisitStartTime).toFixed(0);
         
-        document.querySelector('.tab-button[data-tab="main-page"]').addEventListener('click', () => switchTab('main-page'));
+        let currentTabName = '*';
+        if (activeTabId.startsWith('hotel-tab-')) {
+            const index = parseInt(activeTabId.replace('hotel-tab-', ''), 10);
+            if (!isNaN(index) && hotels[index]) {
+                currentTabName = hotels[index].id;
+            }
+        }
 
-        window.addEventListener('DOMContentLoaded', (event) => {
-            startTimer(180);
-            displayHotels();
+        if (timeSpent > 0) {
+            timeSpentOnTabs.push(`${currentTabName}${timeSpent}`);
+        }
+        
+        tabVisitStartTime = currentTime;
+        
+        if (activeTabId) {
+            const currentTab = document.getElementById(activeTabId);
+            const currentButton = document.querySelector(`.tab-button[data-tab="${activeTabId}"]`);
+            if (currentTab) currentTab.classList.remove('tab-active');
+            if (currentButton) currentButton.classList.remove('tab-button-active');
+        }
+        
+        const newActiveTab = document.getElementById(tabId);
+        const newActiveButton = document.querySelector(`.tab-button[data-tab="${tabId}"]`);
+        if (newActiveTab) newActiveTab.classList.add('tab-active');
+        if (newActiveButton) newActiveButton.classList.add('tab-button-active');
+        
+        activeTabId = tabId;
+        
+        if (tabId.startsWith('hotel-tab-')) {
+            const index = parseInt(tabId.replace('hotel-tab-', ''), 10);
+            if (!isNaN(index) && hotels[index]) {
+                clickedHotelsOrderList.push(hotels[index].id);
+            }
+        }
+    }
+
+    function closeTab(tabId) {
+        const tabContent = document.getElementById(tabId);
+        const tabButton = document.querySelector(`.tab-button[data-tab="${tabId}"]`);
+        
+        if (tabContent && tabButton) {
+            const isActive = (tabId === activeTabId);
+            
+            tabContent.remove();
+            tabButton.remove();
+            
+            openTabs = openTabs.filter(id => id !== tabId);
+            
+            if (isActive) {
+                switchTab('main-page');
+            }
+        }
+    }
+
+    function closeAllTabsExceptMain() {
+        const tabsToClose = [...openTabs];
+        tabsToClose.forEach((tabId) => {
+            if (tabId !== 'main-page') {
+                closeTab(tabId);
+            }
         });
+        switchTab('main-page');
+    }
 
-    })();
+    function disableMoreDetailsLinks() {
+        document.querySelectorAll('.more-details').forEach(link => {
+            link.onclick = (e) => {
+                e.preventDefault();
+                alert('You are now choosing. No more hotel details can be viewed.');
+            };
+        });
+    }
+
+    confirmButton.addEventListener('click', () => {
+        if (choosingPhase && selectedHotel) {
+            var isDebug = false;
+            if (!returnUrl) {
+                alert('Return URL is not defined. Proceeding in debug mode.');
+                returnUrl = 'https://echo.free.beeceptor.com'; // Fallback URL for debug mode
+                isDebug = true;
+            }
+            if (returnUrl) {
+                const taskCondition = 'Tabs'; 
+                const durationMs = Date.now() - taskStartTime;
+                const durationSeconds = Math.round(durationMs / 1000);
+                const separator = returnUrl.includes('?') ? '&' : '?';
+
+                let redirectTo = `${returnUrl}${separator}`;
+                redirectTo += `truncated=${encodeURIComponent("xxnotxxtruncatedxx")}`; // first one doesn't have the ampersand
+                redirectTo += `&selectedHotel=${encodeURIComponent(selectedHotel.name)}`;
+                redirectTo += `&selectedHotelId=${encodeURIComponent(selectedHotel.id)}`;
+                redirectTo += `&TaskCondition=${encodeURIComponent(taskCondition)}`;
+                redirectTo += `&TotalClicks=${encodeURIComponent(totalClicks)}`;
+                redirectTo += `&UniqueClicks=${encodeURIComponent(uniqueClicks.size)}`;
+                redirectTo += `&TaskDuration=${encodeURIComponent(durationSeconds)}`;
+                redirectTo += `&MaxTabsOpen=${encodeURIComponent(maxTabsOpen)}`;
+                //redirectTo += `&hotelVerticalPositions=${encodeURIComponent(JSON.stringify(hotelVerticalPositions))}`;
+                redirectTo += `&hotelVerticalPositions=${encodeURIComponent(hotelVerticalPositions)}`;
+                redirectTo += `&clickedHotelsOrder=${encodeURIComponent(clickedHotelsOrderList.join('~'))}`;
+                redirectTo += `&timeSpentOnTabs=${encodeURIComponent(timeSpentOnTabs.join('~'))}`;
+
+                if (redirectTo.length > 2000) {
+                    // Truncate the URL if it exceeds 2000 characters
+                    let origLen = redirectTo.length;    
+                    console.warn('Redirect URL exceeds 2000 characters, truncating...');
+                    console.warn(`Original URL length: ${origLen}`);
+                    console.warn(`Original URL: ${redirectTo}`);
+                    redirectTo = redirectTo.substring(0, 2000);
+                    console.warn(`Truncated URL: ${redirectTo}`);
+                    // also make sure it's cut off at a safe point
+                    const lastAmpersand = redirectTo.lastIndexOf('&');
+                    if (lastAmpersand !== -1) {
+                        redirectTo = redirectTo.substring(0, lastAmpersand);
+                    }
+                    // string substitute to show we truncated
+                    truncString = `${origLen}`;
+                    redirectTo = redirectTo.replace("xxnotxxtruncatedxx", truncString);
+                }
+                if (isDebug) {
+                    console.log('Debug Mode: Redirecting to');
+                    console.log(redirectTo);
+                    alert(redirectTo)
+                }
+
+
+                window.location.href = redirectTo;
+                
+            } else {
+                alert('Return URL is not defined.');
+            }
+        } else {
+            alert('You must be in choosing phase and have selected a hotel to confirm.');
+        }
+    });
+
+    chooseButton.addEventListener('click', () => {
+        if (!stopRecordingTime) {
+            recordTimeOnCurrentTab();
+        }
+        stopRecordingTime = true; 
+        choosingPhase = true;
+        closeAllTabsExceptMain();
+        disableMoreDetailsLinks();
+        updateConfirmButtonState();
+
+        // The Confirm Selection button should now appear but remain disabled until a hotel is chosen
+        confirmButton.style.display = 'inline-block';
+        updateConfirmButtonState();
+
+        // Disable the choose button now that it's been clicked
+        chooseButton.disabled = true;
+
+        // Enable all radio buttons now that user is choosing
+        document.querySelectorAll('.hotel-radio').forEach(radio => {
+            radio.disabled = false;
+        });
+    });
+    
+    document.querySelector('.tab-button[data-tab="main-page"]').addEventListener('click', () => switchTab('main-page'));
+
+    window.addEventListener('DOMContentLoaded', (event) => {
+        startTimer(180);
+        displayHotels();
+    });
     </script>
 </body>
 </html>
